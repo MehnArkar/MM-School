@@ -3,7 +3,10 @@ import 'package:get/get.dart';
 import 'package:mm_school/controller/data_controller.dart';
 import 'package:mm_school/data/api/api_client.dart';
 import 'package:mm_school/data/repository/data_repository.dart';
-import 'package:mm_school/page/home_screen.dart';
+import 'package:mm_school/page/grade/grade_screen.dart';
+import 'package:mm_school/page/home/home_screen.dart';
+import 'package:mm_school/page/level/level_screen.dart';
+import 'package:mm_school/page/subject/subject_screen.dart';
 import 'package:mm_school/utils/constant.dart';
 
 Future<void> main() async {
@@ -25,6 +28,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const HomeScreen(),
+      initialRoute: HomeScreen.routeName,
+      getPages: [
+        GetPage(name: HomeScreen.routeName, page: () => HomeScreen()),
+        GetPage(name: LevelScreen.routeName, page: () => LevelScreen()),
+        GetPage(name: GradeScreen.routeName, page: () => GradeScreen()),
+        GetPage(name: SubjectScreen.routeName, page: () => SubjectScreen()),
+      ],
     );
   }
 }
