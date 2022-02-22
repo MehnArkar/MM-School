@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mm_school/main.dart';
 import 'package:mm_school/model/data_model.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/page/subject/subject_screen.dart';
@@ -27,6 +28,7 @@ class GradeScreen extends StatelessWidget {
                   itemBuilder: ((context, index) {
                     return GestureDetector(
                       onTap: () {
+                        showAds();
                         Get.toNamed(SubjectScreen.routeName,
                             arguments: gradeList[index].sub);
                       },
@@ -35,6 +37,7 @@ class GradeScreen extends StatelessWidget {
                         width: double.maxFinite,
                         height: 50,
                         decoration: BoxDecoration(
+                            color: Colors.redAccent,
                             border:
                                 Border.all(color: Colors.redAccent, width: 1.5),
                             borderRadius: BorderRadius.only(
@@ -44,7 +47,7 @@ class GradeScreen extends StatelessWidget {
                           child: Text(
                             gradeList[index].gradeName.toString(),
                             style: TextStyle(
-                                color: Colors.redAccent,
+                                color: Colors.white,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500),
                           ),

@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/controller/data_controller.dart';
@@ -8,10 +9,75 @@ import 'package:mm_school/page/home/home_screen.dart';
 import 'package:mm_school/page/level/level_screen.dart';
 import 'package:mm_school/page/subject/subject_screen.dart';
 import 'package:mm_school/utils/constant.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
+InterstitialAd? interstitialAd;
+bool isInternet = false;
+
+Future<void> _checkConnectivityState() async {
+  final ConnectivityResult result = await Connectivity().checkConnectivity();
+
+  if (result == ConnectivityResult.wifi) {
+    print('Connected to a Wi-Fi network');
+    isInternet = true;
+  } else if (result == ConnectivityResult.mobile) {
+    print('Connected to a mobile network');
+    isInternet = true;
+  } else {
+    print('Not connected to any network');
+    isInternet = false;
+  }
+}
+
+Future<void> loadAd() async {
+  await InterstitialAd.load(
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+      request: AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          print('Ads loaded successful');
+          interstitialAd = ad;
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          print('InterstitialAd failed to load: $error');
+        },
+      ));
+}
+
+void showAds() {
+  if (interstitialAd == null) {
+    print('ads is not load yet');
+    loadAd();
+    return;
+  }
+
+  interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+    onAdShowedFullScreenContent: (InterstitialAd ad) =>
+        print('%ad onAdShowedFullScreenContent.'),
+    onAdDismissedFullScreenContent: (InterstitialAd ad) {
+      print('$ad onAdDismissedFullScreenContent.');
+      ad.dispose();
+      interstitialAd = null;
+      loadAd();
+    },
+    onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+      print('$ad onAdFailedToShowFullScreenContent: $error');
+      ad.dispose();
+      interstitialAd = null;
+      loadAd();
+    },
+    onAdImpression: (InterstitialAd ad) => print('$ad impression occurred.'),
+  );
+
+  interstitialAd!.show();
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   await init();
+  await _checkConnectivityState();
+  await loadAd();
   runApp(const MyApp());
 }
 
@@ -27,7 +93,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(),
+      home: HomeScreen(),
       initialRoute: HomeScreen.routeName,
       getPages: [
         GetPage(name: HomeScreen.routeName, page: () => HomeScreen()),

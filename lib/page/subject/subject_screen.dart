@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mm_school/main.dart';
 import 'package:mm_school/model/data_model.dart';
 import 'package:mm_school/page/widgets/app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,6 +29,7 @@ class SubjectScreen extends StatelessWidget {
                     return GestureDetector(
                       onTap: () async {
                         if (subList[index].link != "") {
+                          showAds();
                           await launch(subList[index].link.toString());
                         } else {
                           Get.snackbar('No data', 'No data for this subject',
@@ -40,6 +42,7 @@ class SubjectScreen extends StatelessWidget {
                         width: double.maxFinite,
                         height: 50,
                         decoration: BoxDecoration(
+                            color: Colors.redAccent,
                             border:
                                 Border.all(color: Colors.redAccent, width: 1.5),
                             borderRadius: BorderRadius.only(
@@ -49,7 +52,7 @@ class SubjectScreen extends StatelessWidget {
                           child: Text(
                             subList[index].subName.toString(),
                             style: TextStyle(
-                                color: Colors.redAccent,
+                                color: Colors.white,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500),
                           ),

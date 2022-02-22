@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mm_school/main.dart';
 import 'package:mm_school/model/data_model.dart';
 import 'package:mm_school/page/grade/grade_screen.dart';
 import 'package:mm_school/page/widgets/app_bar.dart';
@@ -28,6 +29,7 @@ class LevelScreen extends StatelessWidget {
                 children: List.generate(level.length, (index) {
                   return GestureDetector(
                     onTap: () {
+                      showAds();
                       Get.toNamed(GradeScreen.routeName,
                           arguments: level[index].grade);
                     },
@@ -36,6 +38,7 @@ class LevelScreen extends StatelessWidget {
                       width: double.maxFinite,
                       height: 50,
                       decoration: BoxDecoration(
+                          color: Colors.redAccent,
                           border:
                               Border.all(color: Colors.redAccent, width: 1.5),
                           borderRadius: BorderRadius.only(
@@ -45,7 +48,7 @@ class LevelScreen extends StatelessWidget {
                         child: Text(
                           level[index].levelName.toString(),
                           style: TextStyle(
-                              color: Colors.redAccent,
+                              color: Colors.white,
                               fontSize: 16,
                               fontWeight: FontWeight.w500),
                         ),

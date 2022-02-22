@@ -6,7 +6,7 @@ class AppBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: Colors.red,
       width: double.maxFinite,
       height: 60,
       padding: EdgeInsets.only(left: 20, right: 20),
@@ -18,7 +18,7 @@ class AppBarWidget extends StatelessWidget {
               'MM School',
               style: TextStyle(
                 fontStyle: FontStyle.italic,
-                color: Colors.redAccent,
+                color: Colors.white,
                 fontSize: 26,
               ),
             ),
@@ -26,8 +26,7 @@ class AppBarWidget extends StatelessWidget {
               height: 35,
               width: 35,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.grey[300]),
+                  borderRadius: BorderRadius.circular(15), color: Colors.white),
               child: Center(
                 child: Text(
                   'M',
