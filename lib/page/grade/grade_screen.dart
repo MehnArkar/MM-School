@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/main.dart';
 import 'package:mm_school/model/data_model.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/page/subject/subject_screen.dart';
 import 'package:mm_school/page/widgets/app_bar.dart';
+import 'package:mm_school/page/widgets/timer_dialog.dart';
 
 class GradeScreen extends StatelessWidget {
   static const routeName = '/gradeScreen';
@@ -11,6 +13,7 @@ class GradeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DialogController dialogController = Get.find();
     double statusbar_height = MediaQuery.of(context).padding.top;
     List<Grade> gradeList = Get.arguments;
     return Scaffold(
@@ -27,9 +30,21 @@ class GradeScreen extends StatelessWidget {
                   itemCount: gradeList.length,
                   itemBuilder: ((context, index) {
                     return GestureDetector(
-                      onTap: () {
-                        showAds();
-                        Get.toNamed(SubjectScreen.routeName,
+                      onTap: () async {
+                        dialogController.startTimer();
+                        await showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: TimerDialog(),
+                              );
+                            });
+
+                        await showAds(null);
+                        await Get.toNamed(SubjectScreen.routeName,
                             arguments: gradeList[index].sub);
                       },
                       child: Container(

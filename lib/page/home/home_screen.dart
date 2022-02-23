@@ -4,9 +4,11 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/controller/data_controller.dart';
+import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/main.dart';
 import 'package:mm_school/page/level/level_screen.dart';
 import 'package:mm_school/page/widgets/app_bar.dart';
+import 'package:mm_school/utils/colors.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/';
@@ -61,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
     print(Get.context!.height);
     print('internet is ' + isInternet.toString());
     return Scaffold(
-        backgroundColor: Colors.grey[100],
+        backgroundColor: AppColors.backgroundColor,
         body: isInternet
             ? GetBuilder<DataController>(builder: (dataController) {
                 return Container(
@@ -92,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     endIndent: 20,
                                     indent: 20,
                                     color: Colors.redAccent,
+                                    thickness: 1.5,
                                   ),
 
                                   //Grid View
@@ -102,16 +105,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                         primary: false,
                                         crossAxisSpacing: 10,
                                         mainAxisSpacing: 10,
-                                        padding: EdgeInsets.only(
-                                            left: 5, right: 5, bottom: 5),
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10, bottom: 5),
                                         crossAxisCount: 2,
                                         children: List.generate(
                                             dataController.datamodel.state!
                                                 .length, (index) {
                                           return GestureDetector(
-                                            onTap: () {
-                                              showAds();
-                                              Get.toNamed(LevelScreen.routeName,
+                                            onTap: () async {
+                                              await showAds(null);
+                                              await Get.toNamed(
+                                                  LevelScreen.routeName,
                                                   arguments: dataController
                                                       .datamodel.level);
                                             },
@@ -119,28 +123,48 @@ class _HomeScreenState extends State<HomeScreen> {
                                               width: double.maxFinite,
                                               height: 50,
                                               decoration: BoxDecoration(
-                                                  color: Colors.redAccent,
-                                                  border: Border.all(
-                                                      color: Colors.redAccent,
-                                                      width: 1.5),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  15),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  15))),
-                                              child: Center(
-                                                child: Text(
-                                                  dataController
-                                                      .datamodel.state![index]
-                                                      .toString(),
-                                                  style: TextStyle(
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.7),
+                                                    offset: Offset(0, 5),
+                                                    blurRadius: 3,
+                                                  ),
+                                                ],
+                                                color: AppColors.primaryColor,
+                                                border: Border.all(
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                    width: 1.5),
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              child: Container(
+                                                padding:
+                                                    EdgeInsets.only(left: 5),
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.location_on_sharp,
                                                       color: Colors.white,
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w500),
+                                                    ),
+                                                    Expanded(
+                                                      child: Text(
+                                                        dataController.datamodel
+                                                            .state![index]
+                                                            .toString(),
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),

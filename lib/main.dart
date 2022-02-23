@@ -1,15 +1,19 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/controller/data_controller.dart';
+import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/data/api/api_client.dart';
 import 'package:mm_school/data/repository/data_repository.dart';
 import 'package:mm_school/page/grade/grade_screen.dart';
 import 'package:mm_school/page/home/home_screen.dart';
 import 'package:mm_school/page/level/level_screen.dart';
 import 'package:mm_school/page/subject/subject_screen.dart';
+import 'package:mm_school/utils/colors.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 InterstitialAd? interstitialAd;
 bool isInternet = false;
@@ -44,7 +48,7 @@ Future<void> loadAd() async {
       ));
 }
 
-void showAds() {
+Future<void> showAds(String? url) async {
   if (interstitialAd == null) {
     print('ads is not load yet');
     loadAd();
@@ -54,7 +58,10 @@ void showAds() {
   interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
     onAdShowedFullScreenContent: (InterstitialAd ad) =>
         print('%ad onAdShowedFullScreenContent.'),
-    onAdDismissedFullScreenContent: (InterstitialAd ad) {
+    onAdDismissedFullScreenContent: (InterstitialAd ad) async {
+      if (url != null) {
+        await launch(url);
+      }
       print('$ad onAdDismissedFullScreenContent.');
       ad.dispose();
       interstitialAd = null;
@@ -86,6 +93,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(AppColors.primaryDark);
     Get.find<DataController>().getData();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
@@ -114,4 +122,5 @@ Future<void> init() async {
 
   //Put Controller
   Get.lazyPut(() => DataController(dataRepo: Get.find()));
+  Get.put(DialogController());
 }

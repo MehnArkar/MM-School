@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/main.dart';
 import 'package:mm_school/model/data_model.dart';
 import 'package:mm_school/page/widgets/app_bar.dart';
+import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SubjectScreen extends StatelessWidget {
@@ -11,6 +13,7 @@ class SubjectScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DialogController dialogController = Get.find();
     double statusbar_height = MediaQuery.of(context).padding.top;
     List<Sub> subList = Get.arguments;
     return Scaffold(
@@ -29,8 +32,19 @@ class SubjectScreen extends StatelessWidget {
                     return GestureDetector(
                       onTap: () async {
                         if (subList[index].link != "") {
-                          showAds();
-                          await launch(subList[index].link.toString());
+                          dialogController.startTimer();
+                          await showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (context) {
+                                return Dialog(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: TimerDialog(),
+                                );
+                              });
+
+                          await showAds(subList[index].link.toString());
                         } else {
                           Get.snackbar('No data', 'No data for this subject',
                               backgroundColor: Colors.redAccent,

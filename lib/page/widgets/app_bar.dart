@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mm_school/utils/colors.dart';
 
 class AppBarWidget extends StatelessWidget {
   const AppBarWidget({Key? key}) : super(key: key);
@@ -6,7 +7,7 @@ class AppBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.red,
+      color: AppColors.primaryColor,
       width: double.maxFinite,
       height: 60,
       padding: EdgeInsets.only(left: 20, right: 20),
@@ -31,7 +32,7 @@ class AppBarWidget extends StatelessWidget {
                 child: Text(
                   'M',
                   style: TextStyle(
-                      color: Colors.redAccent,
+                      color: AppColors.primaryColor,
                       fontSize: 26,
                       fontWeight: FontWeight.bold),
                 ),
