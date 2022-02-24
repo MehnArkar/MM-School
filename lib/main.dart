@@ -1,6 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/controller/data_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
@@ -9,6 +8,7 @@ import 'package:mm_school/data/repository/data_repository.dart';
 import 'package:mm_school/page/grade/grade_screen.dart';
 import 'package:mm_school/page/home/home_screen.dart';
 import 'package:mm_school/page/level/level_screen.dart';
+import 'package:mm_school/page/splash_screen.dart';
 import 'package:mm_school/page/subject/subject_screen.dart';
 import 'package:mm_school/utils/colors.dart';
 import 'package:mm_school/utils/constant.dart';
@@ -16,6 +16,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 InterstitialAd? interstitialAd;
+RewardedAd? rewardedAd;
 bool isInternet = false;
 
 Future<void> _checkConnectivityState() async {
@@ -34,49 +35,51 @@ Future<void> _checkConnectivityState() async {
 }
 
 Future<void> loadAd() async {
-  await InterstitialAd.load(
-      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+  await RewardedAd.load(
+      adUnitId: 'ca-app-pub-3940256099942544/5224354917',
       request: AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (InterstitialAd ad) {
-          print('Ads loaded successful');
-          interstitialAd = ad;
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (RewardedAd ad) {
+          print('$ad loaded.');
+          // Keep a reference to the ad so you can show it later.
+          rewardedAd = ad;
         },
         onAdFailedToLoad: (LoadAdError error) {
-          print('InterstitialAd failed to load: $error');
+          print('RewardedAd failed to load: $error');
         },
       ));
 }
 
 Future<void> showAds(String? url) async {
-  if (interstitialAd == null) {
+  if (rewardedAd == null) {
     print('ads is not load yet');
     loadAd();
     return;
   }
 
-  interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-    onAdShowedFullScreenContent: (InterstitialAd ad) =>
-        print('%ad onAdShowedFullScreenContent.'),
-    onAdDismissedFullScreenContent: (InterstitialAd ad) async {
-      if (url != null) {
-        await launch(url);
-      }
+  rewardedAd?.fullScreenContentCallback = FullScreenContentCallback(
+    onAdShowedFullScreenContent: (RewardedAd ad) =>
+        print('$ad onAdShowedFullScreenContent.'),
+    onAdDismissedFullScreenContent: (RewardedAd ad) {
       print('$ad onAdDismissedFullScreenContent.');
+      if (url != null) {
+        launch(url);
+      }
       ad.dispose();
-      interstitialAd = null;
+      rewardedAd = null;
       loadAd();
     },
-    onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+    onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
       print('$ad onAdFailedToShowFullScreenContent: $error');
       ad.dispose();
-      interstitialAd = null;
+      rewardedAd = null;
       loadAd();
     },
-    onAdImpression: (InterstitialAd ad) => print('$ad impression occurred.'),
+    onAdImpression: (RewardedAd ad) => print('$ad impression occurred.'),
   );
 
-  interstitialAd!.show();
+  rewardedAd!
+      .show(onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {});
 }
 
 Future<void> main() async {
@@ -93,21 +96,38 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(AppColors.primaryDark);
     Get.find<DataController>().getData();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Raleway',
       ),
       home: HomeScreen(),
-      initialRoute: HomeScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       getPages: [
-        GetPage(name: HomeScreen.routeName, page: () => HomeScreen()),
-        GetPage(name: LevelScreen.routeName, page: () => LevelScreen()),
-        GetPage(name: GradeScreen.routeName, page: () => GradeScreen()),
-        GetPage(name: SubjectScreen.routeName, page: () => SubjectScreen()),
+        GetPage(name: SplashScreen.routeName, page: () => SplashScreen()),
+        GetPage(
+          name: HomeScreen.routeName,
+          page: () => HomeScreen(),
+          transition: Transition.fade,
+        ),
+        GetPage(
+          name: LevelScreen.routeName,
+          page: () => LevelScreen(),
+          transition: Transition.fade,
+        ),
+        GetPage(
+          name: GradeScreen.routeName,
+          page: () => GradeScreen(),
+          transition: Transition.fade,
+        ),
+        GetPage(
+          name: SubjectScreen.routeName,
+          page: () => SubjectScreen(),
+          transition: Transition.fade,
+        ),
       ],
     );
   }

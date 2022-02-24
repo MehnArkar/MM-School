@@ -7,8 +7,8 @@ class DataController extends GetxController {
   DataController({required this.dataRepo});
   Datamodel datamodel = Datamodel();
 
-  bool _isLoaded = false;
-  bool get isLoaded => _isLoaded;
+  RxBool _isLoaded = false.obs;
+  RxBool get isLoaded => _isLoaded;
 
   Future<void> getData() async {
     Response response = await dataRepo.getData();
@@ -16,7 +16,7 @@ class DataController extends GetxController {
     if (response.statusCode == 200) {
       print('Got data');
       datamodel = Datamodel.fromJson(response.body);
-      _isLoaded = true;
+      _isLoaded.value = true;
       update();
     } else {}
   }

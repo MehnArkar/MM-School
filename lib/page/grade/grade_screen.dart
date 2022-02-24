@@ -4,8 +4,8 @@ import 'package:mm_school/main.dart';
 import 'package:mm_school/model/data_model.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/page/subject/subject_screen.dart';
-import 'package:mm_school/page/widgets/app_bar.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
+import 'package:mm_school/utils/dimension.dart';
 
 class GradeScreen extends StatelessWidget {
   static const routeName = '/gradeScreen';
@@ -17,61 +17,102 @@ class GradeScreen extends StatelessWidget {
     double statusbar_height = MediaQuery.of(context).padding.top;
     List<Grade> gradeList = Get.arguments;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue[400],
+        title: Text('Grades', style: TextStyle(fontWeight: FontWeight.bold)),
+      ),
       body: Container(
         width: double.maxFinite,
         height: double.maxFinite,
-        margin: EdgeInsets.only(top: statusbar_height),
-        child: Column(
-          children: [
-            AppBarWidget(),
-            Expanded(
-                child: Container(
-              child: ListView.builder(
-                  itemCount: gradeList.length,
-                  itemBuilder: ((context, index) {
-                    return GestureDetector(
-                      onTap: () async {
-                        dialogController.startTimer();
-                        await showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (context) {
-                              return Dialog(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: TimerDialog(),
-                              );
-                            });
+        child: GridView.count(
+          childAspectRatio: 1,
+          primary: false,
+          crossAxisSpacing: Dimension.height20,
+          mainAxisSpacing: Dimension.height20,
+          padding: EdgeInsets.only(
+            left: Dimension.height20,
+            right: Dimension.height20,
+            bottom: Dimension.height20,
+            top: Dimension.height20,
+          ),
+          crossAxisCount: 2,
+          children: List.generate(gradeList.length, (index) {
+            return GestureDetector(
+              onTap: () async {
+                dialogController.startTimer();
+                await showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(Dimension.height20)),
+                        child: TimerDialog(),
+                      );
+                    });
 
-                        await showAds(null);
-                        await Get.toNamed(SubjectScreen.routeName,
-                            arguments: gradeList[index].sub);
-                      },
-                      child: Container(
-                        margin: EdgeInsets.all(10),
-                        width: double.maxFinite,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.redAccent,
-                            border:
-                                Border.all(color: Colors.redAccent, width: 1.5),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(15),
-                                bottomRight: Radius.circular(15))),
-                        child: Center(
-                          child: Text(
-                            gradeList[index].gradeName.toString(),
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                          ),
+                await showAds(null);
+                await Get.toNamed(SubjectScreen.routeName,
+                    arguments: gradeList[index].sub);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  // gradient: LinearGradient(
+                  //   begin: Alignment.topLeft,
+                  //   end: Alignment.bottomRight,
+                  //   colors: [
+                  //     Colors.lightBlueAccent.withOpacity(0.7),
+                  //     Colors.lightBlueAccent
+                  //   ],
+                  // ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.7),
+                      offset: Offset(0, 5),
+                      blurRadius: 3,
+                    ),
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.7),
+                      offset: Offset(0, 1),
+                      blurRadius: 3,
+                    ),
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(Dimension.height15),
+                ),
+                child: Center(
+                  child: Container(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: Dimension.height50,
+                          height: Dimension.height50,
+                          child: Image.asset('assets/img/education.png',
+                              fit: BoxFit.cover),
                         ),
-                      ),
-                    );
-                  })),
-            ))
-          ],
+                        SizedBox(
+                          height: Dimension.height10,
+                        ),
+                        Text(
+                          gradeList[index].gradeName.toString(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: Dimension.fontSize20,
+                              fontFamily: 'RobotoCondensed',
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }),
         ),
       ),
     );

@@ -4,9 +4,9 @@ import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/main.dart';
 import 'package:mm_school/model/data_model.dart';
 import 'package:mm_school/page/grade/grade_screen.dart';
-import 'package:mm_school/page/widgets/app_bar.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/colors.dart';
+import 'package:mm_school/utils/dimension.dart';
 
 class LevelScreen extends StatefulWidget {
   static const routeName = '/levelScreen';
@@ -24,17 +24,15 @@ class _LevelScreenState extends State<LevelScreen> {
     double statusbar_height = MediaQuery.of(context).padding.top;
     List<Level> level = Get.arguments;
     return Scaffold(
-      body: Container(
-        margin: EdgeInsets.only(top: statusbar_height),
-        width: double.maxFinite,
-        height: double.maxFinite,
-        child: Column(
-          children: [
-            AppBarWidget(),
-            Expanded(
-              child: Container(
-                  child: Center(
-                      child: Column(
+        appBar: AppBar(
+          backgroundColor: Colors.blue[400],
+          title: Text('Levels', style: TextStyle(fontWeight: FontWeight.bold)),
+        ),
+        body: Container(
+            width: double.maxFinite,
+            height: double.maxFinite,
+            child: Center(
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: List.generate(level.length, (index) {
                   return GestureDetector(
@@ -46,7 +44,8 @@ class _LevelScreenState extends State<LevelScreen> {
                           builder: (context) {
                             return Dialog(
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
+                                  borderRadius: BorderRadius.circular(
+                                      Dimension.height20)),
                               child: TimerDialog(),
                             );
                           });
@@ -56,33 +55,65 @@ class _LevelScreenState extends State<LevelScreen> {
                           arguments: level[index].grade);
                     },
                     child: Container(
-                      margin: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(Dimension.height20),
+                      margin: EdgeInsets.only(
+                          top: Dimension.height10,
+                          bottom: Dimension.height10,
+                          left: Dimension.height20,
+                          right: Dimension.height20),
                       width: double.maxFinite,
-                      height: 50,
+                      height: Dimension.height100,
                       decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          border:
-                              Border.all(color: Colors.redAccent, width: 1.5),
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              bottomRight: Radius.circular(15))),
+                        color: Colors.white,
+                        // border: Border.all(color: Colors.lightBlue, width: 1),
+                        borderRadius: BorderRadius.circular(Dimension.height15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.7),
+                            offset: Offset(0, 7),
+                            blurRadius: 4,
+                          ),
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.7),
+                            offset: Offset(0, 2),
+                            blurRadius: 3,
+                          ),
+                        ],
+                      ),
                       child: Center(
-                        child: Text(
-                          level[index].levelName.toString(),
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500),
+                        child: Row(
+                          children: [
+                            Container(
+                                width: Dimension.height60,
+                                height: Dimension.height60,
+                                child: Image.asset('assets/img/school-bag.png',
+                                    fit: BoxFit.cover)),
+                            SizedBox(
+                              width: Dimension.height20,
+                            ),
+                            VerticalDivider(
+                              thickness: 2,
+                              color: Colors.lightBlue,
+                            ),
+                            SizedBox(
+                              width: Dimension.height20,
+                            ),
+                            Text(
+                              level[index].levelName.toString(),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: Dimension.fontSize20,
+                                  fontFamily: 'RobotoCondensed',
+                                  letterSpacing: 1,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   );
                 }),
-              ))),
-            )
-          ],
-        ),
-      ),
-    );
+              ),
+            )));
   }
 }

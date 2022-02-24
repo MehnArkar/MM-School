@@ -13,27 +13,34 @@ class TimerDialog extends StatelessWidget {
       height: 200,
       width: double.maxFinite,
       decoration: BoxDecoration(
-          color: AppColors.primaryColor,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-              color: AppColors.primaryColor,
-              width: 2,
-              style: BorderStyle.solid)),
+              color: Colors.lightBlue, width: 2.5, style: BorderStyle.solid)),
       child: Center(
           child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          Container(
+              width: 50,
+              height: 50,
+              child: Image.asset('assets/img/stopwatch.png')),
+          SizedBox(
+            height: 20,
+          ),
           Text(
-            'Ads starting in ...',
+            'Ad starting in ...',
             style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.lightBlue),
           ),
           SizedBox(
             height: 20,
           ),
           Obx(() {
             return Text(dialogController.start.toString(),
-                style: TextStyle(fontSize: 20, color: Colors.white));
+                style: TextStyle(fontSize: 20, color: Colors.lightBlue));
           }),
         ],
       )),

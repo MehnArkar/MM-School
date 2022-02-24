@@ -7,8 +7,8 @@ import 'package:mm_school/controller/data_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/main.dart';
 import 'package:mm_school/page/level/level_screen.dart';
-import 'package:mm_school/page/widgets/app_bar.dart';
 import 'package:mm_school/utils/colors.dart';
+import 'package:mm_school/utils/dimension.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/';
@@ -63,135 +63,172 @@ class _HomeScreenState extends State<HomeScreen> {
     print(Get.context!.height);
     print('internet is ' + isInternet.toString());
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.blue[400],
+          title:
+              Text('MM School', style: TextStyle(fontWeight: FontWeight.bold)),
+        ),
         backgroundColor: AppColors.backgroundColor,
         body: isInternet
             ? GetBuilder<DataController>(builder: (dataController) {
                 return Container(
-                  margin: EdgeInsets.only(top: statusbar_height),
-                  child: Column(
-                    children: [
-                      //App Bar
-                      AppBarWidget(),
-                      dataController.isLoaded
-                          ? //Home Body
-                          Expanded(
-                              child: Container(
-                              child: Column(
-                                children: [
-                                  //Image Banner
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5)),
-                                    width: double.maxFinite,
-                                    height: 200,
-                                    child: Image.asset(
-                                      'assets/img/foemi_img.jpg',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-
-                                  Divider(
-                                    endIndent: 20,
-                                    indent: 20,
-                                    color: Colors.redAccent,
-                                    thickness: 1.5,
-                                  ),
-
-                                  //Grid View
-                                  Expanded(
-                                    child: Container(
-                                      child: GridView.count(
-                                        childAspectRatio: 3,
-                                        primary: false,
-                                        crossAxisSpacing: 10,
-                                        mainAxisSpacing: 10,
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10, bottom: 5),
-                                        crossAxisCount: 2,
-                                        children: List.generate(
-                                            dataController.datamodel.state!
-                                                .length, (index) {
-                                          return GestureDetector(
-                                            onTap: () async {
-                                              await showAds(null);
-                                              await Get.toNamed(
-                                                  LevelScreen.routeName,
-                                                  arguments: dataController
-                                                      .datamodel.level);
-                                            },
-                                            child: Container(
-                                              width: double.maxFinite,
-                                              height: 50,
-                                              decoration: BoxDecoration(
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.7),
-                                                    offset: Offset(0, 5),
-                                                    blurRadius: 3,
-                                                  ),
-                                                ],
-                                                color: AppColors.primaryColor,
-                                                border: Border.all(
-                                                    color:
-                                                        AppColors.primaryColor,
-                                                    width: 1.5),
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                              ),
-                                              child: Container(
-                                                padding:
-                                                    EdgeInsets.only(left: 5),
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.location_on_sharp,
-                                                      color: Colors.white,
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        dataController.datamodel
-                                                            .state![index]
-                                                            .toString(),
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                    ),
+                  width: double.maxFinite,
+                  height: double.maxFinite,
+                  // margin: EdgeInsets.only(top: statusbar_height),
+                  child: Stack(children: [
+                    Positioned(
+                        left: 0,
+                        top: 0,
+                        right: 0,
+                        child: Container(
+                          width: double.maxFinite,
+                          height: Dimension.height200,
+                          child: Image.asset(
+                            'assets/img/banner.jpg',
+                            fit: BoxFit.fill,
+                          ),
+                        )),
+                    Positioned(
+                        left: 0,
+                        right: 0,
+                        top: Dimension.height175,
+                        bottom: 0,
+                        child: Container(
+                            padding: EdgeInsets.only(top: Dimension.height25),
+                            width: double.maxFinite,
+                            height: double.maxFinite,
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.purple,
+                                    offset: Offset(0, -3),
+                                    blurRadius: 7,
                                   )
                                 ],
-                              ),
-                            ))
-                          : Expanded(
-                              child: Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.redAccent,
-                              ),
-                            )),
-                    ],
-                  ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                    topLeft:
+                                        Radius.circular(Dimension.height25),
+                                    topRight:
+                                        Radius.circular(Dimension.height25))),
+                            child: dataController.isLoaded.value
+                                ? GridView.count(
+                                    childAspectRatio: (3 / 2),
+                                    primary: false,
+                                    crossAxisSpacing: Dimension.height20,
+                                    mainAxisSpacing: Dimension.height20,
+                                    padding: EdgeInsets.only(
+                                      left: Dimension.height10,
+                                      right: Dimension.height10,
+                                      bottom: Dimension.height5,
+                                      top: Dimension.height5,
+                                    ),
+                                    crossAxisCount: 2,
+                                    children: List.generate(
+                                        dataController.datamodel.state!.length,
+                                        (index) {
+                                      return GestureDetector(
+                                        onTap: () async {
+                                          await showAds(null);
+                                          await Get.toNamed(
+                                              LevelScreen.routeName,
+                                              arguments: dataController
+                                                  .datamodel.level);
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.7),
+                                                offset: Offset(0, 5),
+                                                blurRadius: 3,
+                                              ),
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.7),
+                                                offset: Offset(0, 1),
+                                                blurRadius: 3,
+                                              ),
+                                            ],
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: Center(
+                                            child: Container(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: Dimension.height35,
+                                                    height: Dimension.height35,
+                                                    child: Image.asset(
+                                                      'assets/img/location.png',
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: Dimension.height10,
+                                                  ),
+                                                  Text(
+                                                    dataController
+                                                        .datamodel.state![index]
+                                                        .toString(),
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'RobotoCondensed',
+                                                        color: Colors.black,
+                                                        fontSize: Dimension
+                                                            .fontSize18,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                  )
+                                : Center(
+                                    child: Container(
+                                      width: Dimension.height35,
+                                      height: Dimension.height35,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  )))
+                  ]),
                 );
               })
             : Container(
+                width: double.maxFinite,
+                height: double.maxFinite,
                 child: Center(
-                child: Text(
-                  'Not internet connection!',
-                  style: TextStyle(color: Colors.redAccent, fontSize: 20),
-                ),
-              )));
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                          width: Dimension.height100,
+                          height: Dimension.height100,
+                          child: Image.asset('assets/img/no-signal.png')),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'No internet connection!',
+                        style: TextStyle(color: Colors.grey, fontSize: 20),
+                      ),
+                    ],
+                  ),
+                )));
   }
 }
