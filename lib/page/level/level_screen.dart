@@ -5,7 +5,6 @@ import 'package:mm_school/main.dart';
 import 'package:mm_school/model/data_model.dart';
 import 'package:mm_school/page/grade/grade_screen.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
-import 'package:mm_school/utils/colors.dart';
 import 'package:mm_school/utils/dimension.dart';
 
 class LevelScreen extends StatefulWidget {
@@ -21,16 +20,16 @@ class _LevelScreenState extends State<LevelScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double statusbar_height = MediaQuery.of(context).padding.top;
     List<Level> level = Get.arguments;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue[400],
-          title: Text('Levels', style: TextStyle(fontWeight: FontWeight.bold)),
+          title: const Text('Levels',
+              style: TextStyle(fontWeight: FontWeight.bold)),
           actions: [
             Container(
                 margin: EdgeInsets.only(right: Dimension.height10),
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Image.asset(
                   'assets/img/circle.png',
                   fit: BoxFit.fill,
@@ -79,12 +78,12 @@ class _LevelScreenState extends State<LevelScreen> {
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.7),
-                            offset: Offset(0, 7),
+                            offset: const Offset(0, 7),
                             blurRadius: 4,
                           ),
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.7),
-                            offset: Offset(0, 2),
+                            offset: const Offset(0, 2),
                             blurRadius: 3,
                           ),
                         ],
@@ -100,7 +99,7 @@ class _LevelScreenState extends State<LevelScreen> {
                             SizedBox(
                               width: Dimension.height20,
                             ),
-                            VerticalDivider(
+                            const VerticalDivider(
                               thickness: 2,
                               color: Colors.lightBlue,
                             ),
@@ -109,7 +108,7 @@ class _LevelScreenState extends State<LevelScreen> {
                             ),
                             Text(
                               level[index].levelName.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 20,
                                   fontFamily: 'RobotoCondensed',

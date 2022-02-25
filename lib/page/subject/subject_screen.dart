@@ -5,7 +5,6 @@ import 'package:mm_school/main.dart';
 import 'package:mm_school/model/data_model.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/dimension.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SubjectScreen extends StatelessWidget {
   static const routeName = '/subjectScreen';
@@ -19,11 +18,12 @@ class SubjectScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[400],
-        title: Text('Subjects', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('Subjects',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           Container(
               margin: EdgeInsets.only(right: Dimension.height10),
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Image.asset(
                 'assets/img/circle.png',
                 fit: BoxFit.fill,
@@ -74,12 +74,12 @@ class SubjectScreen extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.7),
-                      offset: Offset(0, 5),
+                      offset: const Offset(0, 5),
                       blurRadius: 3,
                     ),
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.7),
-                      offset: Offset(0, 1),
+                      offset: const Offset(0, 1),
                       blurRadius: 3,
                     ),
                   ],
@@ -105,7 +105,7 @@ class SubjectScreen extends StatelessWidget {
                           subList[index].subName.toString(),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: 'RobotoCondensed',
                               color: Colors.black,
                               fontSize: 20,

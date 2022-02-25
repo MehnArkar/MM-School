@@ -14,16 +14,16 @@ class GradeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DialogController dialogController = Get.find();
-    double statusbar_height = MediaQuery.of(context).padding.top;
     List<Grade> gradeList = Get.arguments;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[400],
-        title: Text('Grades', style: TextStyle(fontWeight: FontWeight.bold)),
+        title:
+            const Text('Grades', style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           Container(
               margin: EdgeInsets.only(right: Dimension.height10),
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Image.asset(
                 'assets/img/circle.png',
                 fit: BoxFit.fill,
@@ -78,12 +78,12 @@ class GradeScreen extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.7),
-                      offset: Offset(0, 5),
+                      offset: const Offset(0, 5),
                       blurRadius: 3,
                     ),
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.7),
-                      offset: Offset(0, 1),
+                      offset: const Offset(0, 1),
                       blurRadius: 3,
                     ),
                   ],
@@ -109,7 +109,7 @@ class GradeScreen extends StatelessWidget {
                           gradeList[index].gradeName.toString(),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.black,
                               fontSize: 20,
                               fontFamily: 'RobotoCondensed',

@@ -10,7 +10,6 @@ import 'package:mm_school/page/home/home_screen.dart';
 import 'package:mm_school/page/level/level_screen.dart';
 import 'package:mm_school/page/splash_screen.dart';
 import 'package:mm_school/page/subject/subject_screen.dart';
-import 'package:mm_school/utils/colors.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,7 +36,7 @@ Future<void> _checkConnectivityState() async {
 Future<void> loadAd() async {
   await RewardedAd.load(
       adUnitId: 'ca-app-pub-3940256099942544/5224354917',
-      request: AdRequest(),
+      request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (RewardedAd ad) {
           print('$ad loaded.');
@@ -116,17 +115,17 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: LevelScreen.routeName,
-          page: () => LevelScreen(),
+          page: () => const LevelScreen(),
           transition: Transition.fade,
         ),
         GetPage(
           name: GradeScreen.routeName,
-          page: () => GradeScreen(),
+          page: () => const GradeScreen(),
           transition: Transition.fade,
         ),
         GetPage(
           name: SubjectScreen.routeName,
-          page: () => SubjectScreen(),
+          page: () => const SubjectScreen(),
           transition: Transition.fade,
         ),
       ],

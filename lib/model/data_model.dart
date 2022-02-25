@@ -9,7 +9,7 @@ class Datamodel {
     if (json['level'] != null) {
       level = <Level>[];
       json['level'].forEach((v) {
-        level!.add(new Level.fromJson(v));
+        level!.add(Level.fromJson(v));
       });
     }
   }
@@ -26,7 +26,7 @@ class Level {
     if (json['grade'] != null) {
       grade = <Grade>[];
       json['grade'].forEach((v) {
-        grade!.add(new Grade.fromJson(v));
+        grade!.add(Grade.fromJson(v));
       });
     }
   }
@@ -43,7 +43,7 @@ class Grade {
     if (json['sub'] != null) {
       sub = <Sub>[];
       json['sub'].forEach((v) {
-        sub!.add(new Sub.fromJson(v));
+        sub!.add(Sub.fromJson(v));
       });
     }
   }

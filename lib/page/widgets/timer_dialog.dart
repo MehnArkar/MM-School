@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
-import 'package:mm_school/utils/colors.dart';
 import 'package:mm_school/utils/dimension.dart';
 
 class TimerDialog extends StatelessWidget {
@@ -29,7 +28,7 @@ class TimerDialog extends StatelessWidget {
           SizedBox(
             height: Dimension.height20,
           ),
-          Text(
+          const Text(
             'Ad starting in ...',
             style: TextStyle(
                 fontSize: 20,
@@ -41,7 +40,7 @@ class TimerDialog extends StatelessWidget {
           ),
           Obx(() {
             return Text(dialogController.start.toString(),
-                style: TextStyle(fontSize: 20, color: Colors.lightBlue));
+                style: const TextStyle(fontSize: 20, color: Colors.lightBlue));
           }),
         ],
       )),

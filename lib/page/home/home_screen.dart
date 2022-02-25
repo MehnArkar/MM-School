@@ -4,7 +4,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/controller/data_controller.dart';
-import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/main.dart';
 import 'package:mm_school/page/level/level_screen.dart';
 import 'package:mm_school/utils/colors.dart';
@@ -59,18 +58,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double statusbar_height = MediaQuery.of(context).padding.top;
-    print(Get.context!.height);
     print('internet is ' + isInternet.toString());
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue[400],
-          title:
-              Text('MM School', style: TextStyle(fontWeight: FontWeight.bold)),
+          title: const Text('MM School',
+              style: TextStyle(fontWeight: FontWeight.bold)),
           actions: [
             Container(
                 margin: EdgeInsets.only(right: Dimension.height10),
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Image.asset(
                   'assets/img/circle.png',
                   fit: BoxFit.fill,
@@ -83,7 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Container(
                   width: double.maxFinite,
                   height: double.maxFinite,
-                  // margin: EdgeInsets.only(top: statusbar_height),
                   child: Stack(children: [
                     Positioned(
                         left: 0,
@@ -152,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               BoxShadow(
                                                 color: Colors.grey
                                                     .withOpacity(0.7),
-                                                offset: Offset(0, 5),
+                                                offset: const Offset(0, 5),
                                                 blurRadius: 3,
                                               ),
                                               BoxShadow(
@@ -191,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     maxLines: 1,
                                                     overflow:
                                                         TextOverflow.ellipsis,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontFamily:
                                                             'RobotoCondensed',
                                                         color: Colors.black,
@@ -211,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Container(
                                       width: Dimension.height35,
                                       height: Dimension.height35,
-                                      child: CircularProgressIndicator(
+                                      child: const CircularProgressIndicator(
                                         color: Colors.blue,
                                       ),
                                     ),
@@ -230,10 +226,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: Dimension.height100,
                           height: Dimension.height100,
                           child: Image.asset('assets/img/no-signal.png')),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Text(
+                      const Text(
                         'No internet connection!',
                         style: TextStyle(color: Colors.grey, fontSize: 20),
                       ),
