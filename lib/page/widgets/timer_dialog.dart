@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/utils/colors.dart';
+import 'package:mm_school/utils/dimension.dart';
 
 class TimerDialog extends StatelessWidget {
   TimerDialog({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class TimerDialog extends StatelessWidget {
               height: 50,
               child: Image.asset('assets/img/stopwatch.png')),
           SizedBox(
-            height: 20,
+            height: Dimension.height20,
           ),
           Text(
             'Ad starting in ...',
@@ -36,7 +37,7 @@ class TimerDialog extends StatelessWidget {
                 color: Colors.lightBlue),
           ),
           SizedBox(
-            height: 20,
+            height: Dimension.height20,
           ),
           Obx(() {
             return Text(dialogController.start.toString(),

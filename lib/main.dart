@@ -68,6 +68,7 @@ Future<void> showAds(String? url) async {
       ad.dispose();
       rewardedAd = null;
       loadAd();
+      Get.find<DialogController>().setTime();
     },
     onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
       print('$ad onAdFailedToShowFullScreenContent: $error');

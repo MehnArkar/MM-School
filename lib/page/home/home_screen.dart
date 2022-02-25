@@ -67,6 +67,15 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.blue[400],
           title:
               Text('MM School', style: TextStyle(fontWeight: FontWeight.bold)),
+          actions: [
+            Container(
+                margin: EdgeInsets.only(right: Dimension.height10),
+                padding: EdgeInsets.all(8),
+                child: Image.asset(
+                  'assets/img/circle.png',
+                  fit: BoxFit.fill,
+                ))
+          ],
         ),
         backgroundColor: AppColors.backgroundColor,
         body: isInternet
@@ -98,10 +107,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: double.maxFinite,
                             height: double.maxFinite,
                             decoration: BoxDecoration(
-                                boxShadow: [
+                                boxShadow: const [
                                   BoxShadow(
-                                    color: Colors.purple,
-                                    offset: Offset(0, -3),
+                                    color: Colors.purpleAccent,
+                                    offset: Offset(0, -2),
                                     blurRadius: 7,
                                   )
                                 ],
@@ -113,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Radius.circular(Dimension.height25))),
                             child: dataController.isLoaded.value
                                 ? GridView.count(
-                                    childAspectRatio: (3 / 2),
+                                    childAspectRatio: (4 / 3),
                                     primary: false,
                                     crossAxisSpacing: Dimension.height20,
                                     mainAxisSpacing: Dimension.height20,
@@ -136,6 +145,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   .datamodel.level);
                                         },
                                         child: Container(
+                                          padding: EdgeInsets.all(
+                                              Dimension.height15),
                                           decoration: BoxDecoration(
                                             boxShadow: [
                                               BoxShadow(
@@ -147,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               BoxShadow(
                                                 color: Colors.grey
                                                     .withOpacity(0.7),
-                                                offset: Offset(0, 1),
+                                                offset: const Offset(0, 1),
                                                 blurRadius: 3,
                                               ),
                                             ],
@@ -184,8 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         fontFamily:
                                                             'RobotoCondensed',
                                                         color: Colors.black,
-                                                        fontSize: Dimension
-                                                            .fontSize18,
+                                                        fontSize: 18,
                                                         fontWeight:
                                                             FontWeight.w500),
                                                   ),

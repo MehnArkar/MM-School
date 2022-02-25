@@ -27,6 +27,15 @@ class _LevelScreenState extends State<LevelScreen> {
         appBar: AppBar(
           backgroundColor: Colors.blue[400],
           title: Text('Levels', style: TextStyle(fontWeight: FontWeight.bold)),
+          actions: [
+            Container(
+                margin: EdgeInsets.only(right: Dimension.height10),
+                padding: EdgeInsets.all(8),
+                child: Image.asset(
+                  'assets/img/circle.png',
+                  fit: BoxFit.fill,
+                ))
+          ],
         ),
         body: Container(
             width: double.maxFinite,
@@ -102,7 +111,7 @@ class _LevelScreenState extends State<LevelScreen> {
                               level[index].levelName.toString(),
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: Dimension.fontSize20,
+                                  fontSize: 20,
                                   fontFamily: 'RobotoCondensed',
                                   letterSpacing: 1,
                                   fontWeight: FontWeight.w500),

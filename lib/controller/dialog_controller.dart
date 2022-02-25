@@ -15,11 +15,14 @@ class DialogController extends GetxController {
         if (start.value < 1) {
           timer.cancel();
           Navigator.of(Get.context!).pop();
-          start.value = 5;
         } else {
           start.value = start.value - 1;
         }
       },
     );
+  }
+
+  void setTime() {
+    start.value = 5;
   }
 }
