@@ -10,11 +10,11 @@ class TimerDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      height: Dimension.height200,
       width: double.maxFinite,
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(Dimension.height20),
           border: Border.all(
               color: Colors.lightBlue, width: 2.5, style: BorderStyle.solid)),
       child: Center(
@@ -22,25 +22,19 @@ class TimerDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-              width: 50,
-              height: 50,
+              width: Dimension.height50,
+              height: Dimension.height50,
               child: Image.asset('assets/img/stopwatch.png')),
           SizedBox(
             height: Dimension.height20,
           ),
-          const Text(
-            'Ad starting in ...',
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.lightBlue),
-          ),
-          SizedBox(
-            height: Dimension.height20,
-          ),
           Obx(() {
-            return Text(dialogController.start.toString(),
-                style: const TextStyle(fontSize: 20, color: Colors.lightBlue));
+            return Text('Ad starting in : ' + dialogController.start.toString(),
+                style: const TextStyle(
+                    fontFamily: 'RobotoCondensed',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.lightBlue));
           }),
         ],
       )),

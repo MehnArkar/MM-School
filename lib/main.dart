@@ -14,7 +14,6 @@ import 'package:mm_school/utils/constant.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-InterstitialAd? interstitialAd;
 RewardedAd? rewardedAd;
 bool isInternet = false;
 

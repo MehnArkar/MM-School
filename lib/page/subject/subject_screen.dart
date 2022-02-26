@@ -5,6 +5,7 @@ import 'package:mm_school/main.dart';
 import 'package:mm_school/model/data_model.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/dimension.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SubjectScreen extends StatelessWidget {
   static const routeName = '/subjectScreen';
@@ -13,7 +14,6 @@ class SubjectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DialogController dialogController = Get.find();
-    double statusbar_height = MediaQuery.of(context).padding.top;
     List<Sub> subList = Get.arguments;
     return Scaffold(
       appBar: AppBar(
@@ -61,8 +61,11 @@ class SubjectScreen extends StatelessWidget {
                           child: TimerDialog(),
                         );
                       });
-
-                  await showAds(subList[index].link.toString());
+                  if (rewardedAd == null) {
+                    launch(subList[index].link.toString());
+                  } else {
+                    await showAds(subList[index].link.toString());
+                  }
                 } else {
                   Get.snackbar('No data!', 'No data for this subject',
                       backgroundColor: Colors.lightBlue,
