@@ -34,7 +34,7 @@ Future<void> _checkConnectivityState() async {
 
 Future<void> loadAd() async {
   await RewardedAd.load(
-      adUnitId: 'ca-app-pub-3940256099942544/5224354917',
+      adUnitId: 'ca-app-pub-1222451237037237/3497978458',
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (RewardedAd ad) {
