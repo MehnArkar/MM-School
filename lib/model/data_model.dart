@@ -1,10 +1,12 @@
 class Datamodel {
+  List<int>? batch;
   List<String>? state;
   List<Level>? level;
 
-  Datamodel({this.state, this.level});
+  Datamodel({this.batch, this.state, this.level});
 
   Datamodel.fromJson(Map<String, dynamic> json) {
+    batch = json['batch'].cast<int>();
     state = json['state'].cast<String>();
     if (json['level'] != null) {
       level = <Level>[];

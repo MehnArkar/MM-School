@@ -1,20 +1,25 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mm_school/controller/ad_controller.dart';
 import 'package:mm_school/controller/data_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
+import 'package:mm_school/controller/eclass_controller.dart';
 import 'package:mm_school/data/api/api_client.dart';
+import 'package:mm_school/data/api/eclass_api_client.dart';
 import 'package:mm_school/data/repository/data_repository.dart';
+import 'package:mm_school/data/repository/eclass_repository.dart';
+import 'package:mm_school/page/batch/batch_screen.dart';
+import 'package:mm_school/page/eclass_grade/eclass_grade.dart';
 import 'package:mm_school/page/grade/grade_screen.dart';
 import 'package:mm_school/page/home/home_screen.dart';
+import 'package:mm_school/page/lesson/lesson_screen.dart';
 import 'package:mm_school/page/level/level_screen.dart';
 import 'package:mm_school/page/splash_screen.dart';
 import 'package:mm_school/page/subject/subject_screen.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-RewardedAd? rewardedAd;
 bool isInternet = false;
 
 Future<void> _checkConnectivityState() async {
@@ -32,61 +37,11 @@ Future<void> _checkConnectivityState() async {
   }
 }
 
-Future<void> loadAd() async {
-  await RewardedAd.load(
-      adUnitId: 'ca-app-pub-1222451237037237/3497978458',
-      request: const AdRequest(),
-      rewardedAdLoadCallback: RewardedAdLoadCallback(
-        onAdLoaded: (RewardedAd ad) {
-          print('$ad loaded.');
-          // Keep a reference to the ad so you can show it later.
-          rewardedAd = ad;
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          print('RewardedAd failed to load: $error');
-        },
-      ));
-}
-
-Future<void> showAds(String? url) async {
-  if (rewardedAd == null) {
-    print('ads is not load yet');
-    loadAd();
-    return;
-  }
-
-  rewardedAd?.fullScreenContentCallback = FullScreenContentCallback(
-    onAdShowedFullScreenContent: (RewardedAd ad) =>
-        print('$ad onAdShowedFullScreenContent.'),
-    onAdDismissedFullScreenContent: (RewardedAd ad) {
-      print('$ad onAdDismissedFullScreenContent.');
-      if (url != null) {
-        launch(url);
-      }
-      ad.dispose();
-      rewardedAd = null;
-      loadAd();
-      Get.find<DialogController>().setTime();
-    },
-    onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
-      print('$ad onAdFailedToShowFullScreenContent: $error');
-      ad.dispose();
-      rewardedAd = null;
-      loadAd();
-    },
-    onAdImpression: (RewardedAd ad) => print('$ad impression occurred.'),
-  );
-
-  rewardedAd!
-      .show(onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {});
-}
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
   await init();
   await _checkConnectivityState();
-  await loadAd();
   runApp(const MyApp());
 }
 
@@ -127,6 +82,21 @@ class MyApp extends StatelessWidget {
           page: () => const SubjectScreen(),
           transition: Transition.fade,
         ),
+        GetPage(
+          name: BatchScreen.routeName,
+          page: () => const BatchScreen(),
+          transition: Transition.fadeIn,
+        ),
+        GetPage(
+          name: EclassGrade.routeName,
+          page: () => const EclassGrade(),
+          transition: Transition.fadeIn,
+        ),
+        GetPage(
+          name: LessonScreen.routeName,
+          page: () => const LessonScreen(),
+          transition: Transition.fadeIn,
+        ),
       ],
     );
   }
@@ -135,11 +105,15 @@ class MyApp extends StatelessWidget {
 Future<void> init() async {
   //Put api_client
   Get.lazyPut(() => ApiClient(appBaseUrl: AppConstant.BASE_URL));
+  Get.lazyPut(() => EClassApiClient(appBaseUrl: AppConstant.ECLASS_BASE_URL));
 
   //Put Repository
   Get.lazyPut(() => DataRepo(apiClient: Get.find()));
+  Get.lazyPut(() => EClassRepo(apiClient: Get.find()));
 
   //Put Controller
   Get.lazyPut(() => DataController(dataRepo: Get.find()));
   Get.put(DialogController());
+  Get.put(AdController());
+  Get.put(EclassController(eClassRepo: Get.find()));
 }

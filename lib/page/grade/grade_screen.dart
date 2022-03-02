@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:mm_school/controller/ad_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/main.dart';
 import 'package:mm_school/model/data_model.dart';
@@ -7,13 +9,19 @@ import 'package:mm_school/page/subject/subject_screen.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/dimension.dart';
 
-class GradeScreen extends StatelessWidget {
+class GradeScreen extends StatefulWidget {
   static const routeName = '/gradeScreen';
   const GradeScreen({Key? key}) : super(key: key);
 
   @override
+  State<GradeScreen> createState() => _GradeScreenState();
+}
+
+class _GradeScreenState extends State<GradeScreen> {
+  DialogController dialogController = Get.find();
+
+  @override
   Widget build(BuildContext context) {
-    DialogController dialogController = Get.find();
     List<Grade> gradeList = Get.arguments;
     return Scaffold(
       appBar: AppBar(
@@ -48,6 +56,9 @@ class GradeScreen extends StatelessWidget {
           children: List.generate(gradeList.length, (index) {
             return GestureDetector(
               onTap: () async {
+                dialogController.setTime();
+                Get.find<AdController>()
+                    .loadAd('ca-app-pub-1222451237037237/2201509978', null);
                 dialogController.startTimer();
                 await showDialog(
                     barrierDismissible: false,
@@ -61,20 +72,13 @@ class GradeScreen extends StatelessWidget {
                       );
                     });
 
-                await showAds(null);
+                await Get.find<AdController>()
+                    .showAds('ca-app-pub-1222451237037237/2201509978');
                 await Get.toNamed(SubjectScreen.routeName,
                     arguments: gradeList[index].sub);
               },
               child: Container(
                 decoration: BoxDecoration(
-                  // gradient: LinearGradient(
-                  //   begin: Alignment.topLeft,
-                  //   end: Alignment.bottomRight,
-                  //   colors: [
-                  //     Colors.lightBlueAccent.withOpacity(0.7),
-                  //     Colors.lightBlueAccent
-                  //   ],
-                  // ),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.7),

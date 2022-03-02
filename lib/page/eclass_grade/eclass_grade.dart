@@ -1,34 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:mm_school/controller/ad_controller.dart';
-import 'package:mm_school/controller/dialog_controller.dart';
-import 'package:mm_school/main.dart';
-import 'package:mm_school/model/data_model.dart';
-import 'package:mm_school/page/widgets/timer_dialog.dart';
+import 'package:mm_school/controller/eclass_controller.dart';
+import 'package:mm_school/page/lesson/lesson_screen.dart';
 import 'package:mm_school/utils/dimension.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-class SubjectScreen extends StatefulWidget {
-  static const routeName = '/subjectScreen';
-  const SubjectScreen({Key? key}) : super(key: key);
+class EclassGrade extends StatefulWidget {
+  static const routeName = '/eclassGradeScreen';
+  const EclassGrade({Key? key}) : super(key: key);
 
   @override
-  State<SubjectScreen> createState() => _SubjectScreenState();
+  State<EclassGrade> createState() => _EclassGradeState();
 }
 
-class _SubjectScreenState extends State<SubjectScreen> {
-  DialogController dialogController = Get.find();
-  AdController adController = Get.find();
+class _EclassGradeState extends State<EclassGrade> {
+  EclassController eclassController = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    List<Sub> subList = Get.arguments;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[400],
-        title: const Text('Subjects',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        title:
+            const Text('Grades', style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           Container(
               margin: EdgeInsets.only(right: Dimension.height10),
@@ -54,37 +47,16 @@ class _SubjectScreenState extends State<SubjectScreen> {
             top: Dimension.height20,
           ),
           crossAxisCount: 2,
-          children: List.generate(subList.length, (index) {
+          children: List.generate(11, (index) {
             return GestureDetector(
-              onTap: () async {
-                dialogController.setTime();
-
-                if (subList[index].link != "") {
-                  adController.loadAd('ca-app-pub-1222451237037237/1140026976',
-                      subList[index].link);
-                  dialogController.startTimer();
-                  await showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(Dimension.height20)),
-                          child: TimerDialog(),
-                        );
-                      });
-                  if (adController.rewardedAd == null) {
-                    launch(subList[index].link.toString());
-                  } else {
-                    await adController
-                        .showAds('ca-app-pub-1222451237037237/1140026976');
-                  }
-                } else {
-                  Get.snackbar('No data!', 'No data for this subject',
-                      backgroundColor: Colors.lightBlue,
-                      colorText: Colors.white);
+              onTap: () {
+                if ((index + 1).toString().length == 1) {
+                  eclassController.setGrade("0" + (index + 1).toString());
+                } else if ((index + 1).toString().length == 2) {
+                  eclassController.setGrade((index + 1).toString());
                 }
+                Get.toNamed(LessonScreen.routeName,
+                    arguments: (index + 1).toString());
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -112,20 +84,20 @@ class _SubjectScreenState extends State<SubjectScreen> {
                         Container(
                           width: Dimension.height50,
                           height: Dimension.height50,
-                          child: Image.asset('assets/img/books.png',
+                          child: Image.asset('assets/img/education.png',
                               fit: BoxFit.cover),
                         ),
                         SizedBox(
                           height: Dimension.height10,
                         ),
                         Text(
-                          subList[index].subName.toString(),
+                          "Grade - " + (index + 1).toString(),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              fontFamily: 'RobotoCondensed',
                               color: Colors.black,
                               fontSize: 20,
+                              fontFamily: 'RobotoCondensed',
                               fontWeight: FontWeight.w500),
                         ),
                       ],

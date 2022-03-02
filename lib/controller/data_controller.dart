@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:mm_school/data/repository/data_repository.dart';
 import 'package:mm_school/model/data_model.dart';
+import 'package:mm_school/model/eclass_model.dart';
 import 'package:mm_school/page/home/home_screen.dart';
 
 class DataController extends GetxController {

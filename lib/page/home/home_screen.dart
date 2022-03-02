@@ -3,22 +3,27 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:mm_school/controller/ad_controller.dart';
 import 'package:mm_school/controller/data_controller.dart';
+import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/main.dart';
 import 'package:mm_school/page/level/level_screen.dart';
+import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/colors.dart';
 import 'package:mm_school/utils/dimension.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/';
 
-  HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  DialogController dialogController = Get.find();
   late StreamSubscription _connectivitySubscription;
 
   @override
@@ -134,7 +139,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                         (index) {
                                       return GestureDetector(
                                         onTap: () async {
-                                          await showAds(null);
+                                          // dialogController.setTime();
+                                          // await Get.find<AdController>().loadAd(
+                                          //     'ca-app-pub-1222451237037237/3497978458',
+                                          //     null);
+                                          // dialogController.startTimer();
+                                          // await showDialog(
+                                          //     barrierDismissible: false,
+                                          //     context: context,
+                                          //     builder: (context) {
+                                          //       return Dialog(
+                                          //         shape: RoundedRectangleBorder(
+                                          //             borderRadius:
+                                          //                 BorderRadius.circular(
+                                          //                     Dimension
+                                          //                         .height20)),
+                                          //         child: TimerDialog(),
+                                          //       );
+                                          //     });
+                                          // await Get.find<AdController>().showAds(
+                                          //     'ca-app-pub-1222451237037237/3497978458');
                                           await Get.toNamed(
                                               LevelScreen.routeName,
                                               arguments: dataController
