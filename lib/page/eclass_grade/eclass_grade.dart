@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mm_school/controller/ad_controller.dart';
+import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/controller/eclass_controller.dart';
 import 'package:mm_school/page/lesson/lesson_screen.dart';
+import 'package:mm_school/page/widgets/timer_dialog.dart';
+import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
 
 class EclassGrade extends StatefulWidget {
@@ -14,6 +18,7 @@ class EclassGrade extends StatefulWidget {
 
 class _EclassGradeState extends State<EclassGrade> {
   EclassController eclassController = Get.find();
+  DialogController dialogController = Get.find<DialogController>();
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +54,32 @@ class _EclassGradeState extends State<EclassGrade> {
           crossAxisCount: 2,
           children: List.generate(11, (index) {
             return GestureDetector(
-              onTap: () {
+              onTap: () async {
+                dialogController.setTime();
+                await Get.find<AdController>()
+                    .loadAd(AppConstant.FOURTH_AD_UNIT, null);
+                dialogController.startTimer();
+                await showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(Dimension.height20)),
+                        child: TimerDialog(),
+                      );
+                    });
+                await Get.find<AdController>()
+                    .showAds(AppConstant.FOURTH_AD_UNIT);
+
                 if ((index + 1).toString().length == 1) {
                   eclassController.setGrade("0" + (index + 1).toString());
                 } else if ((index + 1).toString().length == 2) {
                   eclassController.setGrade((index + 1).toString());
                 }
-                Get.toNamed(LessonScreen.routeName,
-                    arguments: (index + 1).toString());
+
+                await Get.toNamed(LessonScreen.routeName);
               },
               child: Container(
                 decoration: BoxDecoration(

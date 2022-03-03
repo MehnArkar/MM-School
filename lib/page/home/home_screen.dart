@@ -11,6 +11,7 @@ import 'package:mm_school/main.dart';
 import 'package:mm_school/page/level/level_screen.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/colors.dart';
+import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -139,26 +140,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                         (index) {
                                       return GestureDetector(
                                         onTap: () async {
-                                          // dialogController.setTime();
-                                          // await Get.find<AdController>().loadAd(
-                                          //     'ca-app-pub-1222451237037237/3497978458',
-                                          //     null);
-                                          // dialogController.startTimer();
-                                          // await showDialog(
-                                          //     barrierDismissible: false,
-                                          //     context: context,
-                                          //     builder: (context) {
-                                          //       return Dialog(
-                                          //         shape: RoundedRectangleBorder(
-                                          //             borderRadius:
-                                          //                 BorderRadius.circular(
-                                          //                     Dimension
-                                          //                         .height20)),
-                                          //         child: TimerDialog(),
-                                          //       );
-                                          //     });
-                                          // await Get.find<AdController>().showAds(
-                                          //     'ca-app-pub-1222451237037237/3497978458');
+                                          dialogController.setTime();
+                                          await Get.find<AdController>().loadAd(
+                                              AppConstant.FIRST_AD_UNIT, null);
+                                          dialogController.startTimer();
+                                          await showDialog(
+                                              barrierDismissible: false,
+                                              context: context,
+                                              builder: (context) {
+                                                return Dialog(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              Dimension
+                                                                  .height20)),
+                                                  child: TimerDialog(),
+                                                );
+                                              });
+                                          await Get.find<AdController>()
+                                              .showAds(
+                                                  AppConstant.FIRST_AD_UNIT);
                                           await Get.toNamed(
                                               LevelScreen.routeName,
                                               arguments: dataController

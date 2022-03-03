@@ -19,9 +19,11 @@ class EclassController extends GetxController {
     if (response.statusCode == 200) {
       if (lesson == 'Lesson') {
         lessonModel = EclassModel.fromJson(jsonDecode(response.body));
+        await Future.delayed(Duration(seconds: 1));
         isLoaded = true;
       } else if (lesson == 'Assessment') {
         assessmentModel = EclassModel.fromJson(jsonDecode(response.body));
+        await Future.delayed(Duration(seconds: 1));
         isLoaded = true;
       }
     } else {

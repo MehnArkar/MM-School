@@ -7,6 +7,7 @@ import 'package:mm_school/model/data_model.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/page/subject/subject_screen.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
+import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
 
 class GradeScreen extends StatefulWidget {
@@ -58,7 +59,7 @@ class _GradeScreenState extends State<GradeScreen> {
               onTap: () async {
                 dialogController.setTime();
                 Get.find<AdController>()
-                    .loadAd('ca-app-pub-1222451237037237/2201509978', null);
+                    .loadAd(AppConstant.THIRTH_AD_UNIT, null);
                 dialogController.startTimer();
                 await showDialog(
                     barrierDismissible: false,
@@ -73,7 +74,7 @@ class _GradeScreenState extends State<GradeScreen> {
                     });
 
                 await Get.find<AdController>()
-                    .showAds('ca-app-pub-1222451237037237/2201509978');
+                    .showAds(AppConstant.THIRTH_AD_UNIT);
                 await Get.toNamed(SubjectScreen.routeName,
                     arguments: gradeList[index].sub);
               },

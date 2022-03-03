@@ -8,6 +8,7 @@ import 'package:mm_school/model/data_model.dart';
 import 'package:mm_school/page/batch/batch_screen.dart';
 import 'package:mm_school/page/grade/grade_screen.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
+import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -46,8 +47,25 @@ class _LevelScreenState extends State<LevelScreen> {
             child: Center(
               child: Column(mainAxisSize: MainAxisSize.min, children: [
                 GestureDetector(
-                  onTap: () {
-                    Get.toNamed(BatchScreen.routeName);
+                  onTap: () async {
+                    dialogController.setTime();
+                    await Get.find<AdController>()
+                        .loadAd(AppConstant.SECOND_AD_UNIT, null);
+                    dialogController.startTimer();
+                    await showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(Dimension.height20)),
+                            child: TimerDialog(),
+                          );
+                        });
+                    await Get.find<AdController>()
+                        .showAds(AppConstant.SECOND_AD_UNIT);
+                    await Get.toNamed(BatchScreen.routeName);
                   },
                   child: Container(
                     padding: EdgeInsets.all(Dimension.height20),
@@ -113,8 +131,8 @@ class _LevelScreenState extends State<LevelScreen> {
                     return GestureDetector(
                       onTap: () async {
                         dialogController.setTime();
-                        Get.find<AdController>().loadAd(
-                            'ca-app-pub-1222451237037237/5972361886', null);
+                        Get.find<AdController>()
+                            .loadAd(AppConstant.SECOND_AD_UNIT, null);
                         dialogController.startTimer();
                         await showDialog(
                             barrierDismissible: false,
@@ -129,7 +147,7 @@ class _LevelScreenState extends State<LevelScreen> {
                             });
 
                         await Get.find<AdController>()
-                            .showAds('ca-app-pub-1222451237037237/5972361886');
+                            .showAds(AppConstant.SECOND_AD_UNIT);
                         await Get.toNamed(GradeScreen.routeName,
                             arguments: level[index].grade);
                       },

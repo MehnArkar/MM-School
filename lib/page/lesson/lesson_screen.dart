@@ -61,7 +61,7 @@ class _LessonScreenState extends State<LessonScreen> {
             )
           ]),
         ),
-        body: const TabBarView(children: [Lesson(), Assessment()]),
+        body: TabBarView(children: [Lesson(), Assessment()]),
       ),
     );
   }

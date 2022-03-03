@@ -6,6 +6,7 @@ import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/main.dart';
 import 'package:mm_school/model/data_model.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
+import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -60,8 +61,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 dialogController.setTime();
 
                 if (subList[index].link != "") {
-                  adController.loadAd('ca-app-pub-1222451237037237/1140026976',
-                      subList[index].link);
+                  adController.loadAd(
+                      AppConstant.FOURTH_AD_UNIT, subList[index].link);
                   dialogController.startTimer();
                   await showDialog(
                       barrierDismissible: false,
@@ -77,8 +78,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   if (adController.rewardedAd == null) {
                     launch(subList[index].link.toString());
                   } else {
-                    await adController
-                        .showAds('ca-app-pub-1222451237037237/1140026976');
+                    await adController.showAds(AppConstant.FOURTH_AD_UNIT);
                   }
                 } else {
                   Get.snackbar('No data!', 'No data for this subject',
