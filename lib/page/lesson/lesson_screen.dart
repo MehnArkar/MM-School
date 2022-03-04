@@ -16,6 +16,7 @@ class LessonScreen extends StatefulWidget {
 
 class _LessonScreenState extends State<LessonScreen> {
   EclassController eclassController = Get.find();
+
   @override
   void initState() {
     super.initState();
@@ -37,32 +38,33 @@ class _LessonScreenState extends State<LessonScreen> {
   Widget build(BuildContext context) {
     String grade = Get.arguments;
     return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blue[400],
-          title: Text('Grade - $grade',
-              style: TextStyle(fontWeight: FontWeight.bold)),
-          actions: [
-            Container(
-                margin: EdgeInsets.only(right: Dimension.height10),
-                padding: const EdgeInsets.all(8),
-                child: Image.asset(
-                  'assets/img/circle.png',
-                  fit: BoxFit.fill,
-                ))
-          ],
-          bottom: const TabBar(indicatorColor: Colors.white, tabs: [
-            Tab(
-              text: 'Lessons',
-            ),
-            Tab(
-              text: 'Assessments',
-            )
-          ]),
-        ),
-        body: TabBarView(children: [Lesson(), Assessment()]),
-      ),
-    );
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.blue[400],
+            title: Text('Grade - $grade',
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            actions: [
+              Container(
+                  margin: EdgeInsets.only(right: Dimension.height10),
+                  padding: const EdgeInsets.all(8),
+                  child: Image.asset(
+                    'assets/img/circle.png',
+                    fit: BoxFit.fill,
+                  ))
+            ],
+            bottom: const TabBar(indicatorColor: Colors.white, tabs: [
+              Tab(
+                text: 'Lessons',
+              ),
+              Tab(
+                text: 'Assessments',
+              )
+            ]),
+          ),
+          body: TabBarView(children: [Lesson(), Assessment()]),
+        ));
   }
 }
+
+//TabBarView(children: [Lesson(), Assessment()])

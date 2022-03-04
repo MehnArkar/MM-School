@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mm_school/controller/ad_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
-import 'package:mm_school/main.dart';
 import 'package:mm_school/model/data_model.dart';
 import 'package:mm_school/page/batch/batch_screen.dart';
 import 'package:mm_school/page/grade/grade_screen.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class LevelScreen extends StatefulWidget {
   static const routeName = '/levelScreen';

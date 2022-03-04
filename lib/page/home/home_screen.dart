@@ -1,18 +1,18 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mm_school/controller/ad_controller.dart';
 import 'package:mm_school/controller/data_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/main.dart';
+import 'package:mm_school/model/data_model.dart';
 import 'package:mm_school/page/level/level_screen.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/colors.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/';
@@ -26,6 +26,30 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   DialogController dialogController = Get.find();
   late StreamSubscription _connectivitySubscription;
+
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    // monitor network fetch
+    Get.find<DataController>().isLoaded.value = false;
+    Get.find<DataController>().datamodel = Datamodel();
+    await Get.find<DataController>().getData();
+    setState(() {});
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    // monitor network fetch
+    Get.find<DataController>().isLoaded.value = false;
+    Get.find<DataController>().datamodel = Datamodel();
+    await Get.find<DataController>().getData();
+    setState(() {});
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+
+    _refreshController.loadComplete();
+  }
 
   @override
   void initState() {
@@ -64,7 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('internet is ' + isInternet.toString());
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue[400],
@@ -123,110 +146,125 @@ class _HomeScreenState extends State<HomeScreen> {
                                     topRight:
                                         Radius.circular(Dimension.height25))),
                             child: dataController.isLoaded.value
-                                ? GridView.count(
-                                    childAspectRatio: (4 / 3),
-                                    primary: false,
-                                    crossAxisSpacing: Dimension.height20,
-                                    mainAxisSpacing: Dimension.height20,
-                                    padding: EdgeInsets.only(
-                                      left: Dimension.height10,
-                                      right: Dimension.height10,
-                                      bottom: Dimension.height5,
-                                      top: Dimension.height5,
+                                ? SmartRefresher(
+                                    enablePullDown: true,
+                                    enablePullUp: false,
+                                    header: const WaterDropHeader(
+                                      waterDropColor: Colors.blue,
                                     ),
-                                    crossAxisCount: 2,
-                                    children: List.generate(
-                                        dataController.datamodel.state!.length,
-                                        (index) {
-                                      return GestureDetector(
-                                        onTap: () async {
-                                          dialogController.setTime();
-                                          await Get.find<AdController>().loadAd(
-                                              AppConstant.FIRST_AD_UNIT, null);
-                                          dialogController.startTimer();
-                                          await showDialog(
-                                              barrierDismissible: false,
-                                              context: context,
-                                              builder: (context) {
-                                                return Dialog(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              Dimension
-                                                                  .height20)),
-                                                  child: TimerDialog(),
-                                                );
-                                              });
-                                          await Get.find<AdController>()
-                                              .showAds(
-                                                  AppConstant.FIRST_AD_UNIT);
-                                          await Get.toNamed(
-                                              LevelScreen.routeName,
-                                              arguments: dataController
-                                                  .datamodel.level);
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(
-                                              Dimension.height15),
-                                          decoration: BoxDecoration(
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.7),
-                                                offset: const Offset(0, 5),
-                                                blurRadius: 3,
-                                              ),
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.7),
-                                                offset: const Offset(0, 1),
-                                                blurRadius: 3,
-                                              ),
-                                            ],
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                          ),
-                                          child: Center(
-                                            child: Container(
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    width: Dimension.height35,
-                                                    height: Dimension.height35,
-                                                    child: Image.asset(
-                                                      'assets/img/location.png',
-                                                      fit: BoxFit.cover,
+                                    controller: _refreshController,
+                                    onRefresh: _onRefresh,
+                                    onLoading: _onLoading,
+                                    child: GridView.count(
+                                      childAspectRatio: (4 / 3),
+                                      primary: false,
+                                      crossAxisSpacing: Dimension.height20,
+                                      mainAxisSpacing: Dimension.height20,
+                                      padding: EdgeInsets.only(
+                                        left: Dimension.height10,
+                                        right: Dimension.height10,
+                                        bottom: Dimension.height5,
+                                        top: Dimension.height5,
+                                      ),
+                                      crossAxisCount: 2,
+                                      children: List.generate(
+                                          dataController.datamodel.state!
+                                              .length, (index) {
+                                        return GestureDetector(
+                                          onTap: () async {
+                                            dialogController.setTime();
+                                            await Get.find<AdController>()
+                                                .loadAd(
+                                                    AppConstant.FIRST_AD_UNIT,
+                                                    null);
+                                            dialogController.startTimer();
+                                            await showDialog(
+                                                barrierDismissible: false,
+                                                context: context,
+                                                builder: (context) {
+                                                  return Dialog(
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                Dimension
+                                                                    .height20)),
+                                                    child: TimerDialog(),
+                                                  );
+                                                });
+                                            await Get.find<AdController>()
+                                                .showAds(
+                                                    AppConstant.FIRST_AD_UNIT);
+                                            await Get.toNamed(
+                                                LevelScreen.routeName,
+                                                arguments: dataController
+                                                    .datamodel.level);
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(
+                                                Dimension.height15),
+                                            decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.7),
+                                                  offset: const Offset(0, 5),
+                                                  blurRadius: 3,
+                                                ),
+                                                BoxShadow(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.7),
+                                                  offset: const Offset(0, 1),
+                                                  blurRadius: 3,
+                                                ),
+                                              ],
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                            child: Center(
+                                              child: Container(
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      width: Dimension.height35,
+                                                      height:
+                                                          Dimension.height35,
+                                                      child: Image.asset(
+                                                        'assets/img/location.png',
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: Dimension.height10,
-                                                  ),
-                                                  Text(
-                                                    dataController
-                                                        .datamodel.state![index]
-                                                        .toString(),
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: const TextStyle(
-                                                        fontFamily:
-                                                            'RobotoCondensed',
-                                                        color: Colors.black,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                ],
+                                                    SizedBox(
+                                                      height:
+                                                          Dimension.height10,
+                                                    ),
+                                                    Text(
+                                                      dataController.datamodel
+                                                          .state![index]
+                                                          .toString(),
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: const TextStyle(
+                                                          fontFamily:
+                                                              'RobotoCondensed',
+                                                          color: Colors.black,
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      );
-                                    }),
+                                        );
+                                      }),
+                                    ),
                                   )
                                 : Center(
                                     child: Container(

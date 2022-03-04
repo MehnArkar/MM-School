@@ -79,7 +79,8 @@ class _EclassGradeState extends State<EclassGrade> {
                   eclassController.setGrade((index + 1).toString());
                 }
 
-                await Get.toNamed(LessonScreen.routeName);
+                await Get.toNamed(LessonScreen.routeName,
+                    arguments: (index + 1).toString());
               },
               child: Container(
                 decoration: BoxDecoration(

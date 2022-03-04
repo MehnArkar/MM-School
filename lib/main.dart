@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Raleway',
       ),
-      home: HomeScreen(),
+      home: const HomeScreen(),
       initialRoute: SplashScreen.routeName,
       getPages: [
         GetPage(name: SplashScreen.routeName, page: () => SplashScreen()),
