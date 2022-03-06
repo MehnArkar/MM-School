@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:mm_school/data/repository/eclass_repository.dart';
 import 'package:mm_school/model/eclass_model.dart';
@@ -19,11 +18,11 @@ class EclassController extends GetxController {
     if (response.statusCode == 200) {
       if (lesson == 'Lesson') {
         lessonModel = EclassModel.fromJson(jsonDecode(response.body));
-        await Future.delayed(Duration(seconds: 1));
+        await Future.delayed(const Duration(seconds: 1));
         isLoaded = true;
       } else if (lesson == 'Assessment') {
         assessmentModel = EclassModel.fromJson(jsonDecode(response.body));
-        await Future.delayed(Duration(seconds: 1));
+        await Future.delayed(const Duration(seconds: 1));
         isLoaded = true;
       }
     } else {

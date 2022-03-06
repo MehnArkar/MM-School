@@ -61,10 +61,10 @@ class MyApp extends StatelessWidget {
       home: const HomeScreen(),
       initialRoute: SplashScreen.routeName,
       getPages: [
-        GetPage(name: SplashScreen.routeName, page: () => SplashScreen()),
+        GetPage(name: SplashScreen.routeName, page: () => const SplashScreen()),
         GetPage(
           name: HomeScreen.routeName,
-          page: () => HomeScreen(),
+          page: () => const HomeScreen(),
           transition: Transition.fade,
         ),
         GetPage(
@@ -85,17 +85,17 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: BatchScreen.routeName,
           page: () => const BatchScreen(),
-          transition: Transition.fadeIn,
+          transition: Transition.fade,
         ),
         GetPage(
           name: EclassGrade.routeName,
           page: () => const EclassGrade(),
-          transition: Transition.fadeIn,
+          transition: Transition.fade,
         ),
         GetPage(
           name: LessonScreen.routeName,
           page: () => const LessonScreen(),
-          transition: Transition.fadeIn,
+          transition: Transition.fade,
         ),
       ],
     );

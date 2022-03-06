@@ -52,7 +52,13 @@ class _EclassGradeState extends State<EclassGrade> {
             top: Dimension.height20,
           ),
           crossAxisCount: 2,
-          children: List.generate(11, (index) {
+          children: List.generate(10, (index) {
+            String grade;
+            if (index < 4) {
+              grade = (index + 1).toString();
+            } else {
+              grade = (index + 2).toString();
+            }
             return GestureDetector(
               onTap: () async {
                 dialogController.setTime();
@@ -73,14 +79,13 @@ class _EclassGradeState extends State<EclassGrade> {
                 await Get.find<AdController>()
                     .showAds(AppConstant.FOURTH_AD_UNIT);
 
-                if ((index + 1).toString().length == 1) {
-                  eclassController.setGrade("0" + (index + 1).toString());
-                } else if ((index + 1).toString().length == 2) {
-                  eclassController.setGrade((index + 1).toString());
+                if (grade.length == 1) {
+                  eclassController.setGrade("0$grade");
+                } else if (grade.length == 2) {
+                  eclassController.setGrade(grade);
                 }
 
-                await Get.toNamed(LessonScreen.routeName,
-                    arguments: (index + 1).toString());
+                await Get.toNamed(LessonScreen.routeName, arguments: grade);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -99,34 +104,13 @@ class _EclassGradeState extends State<EclassGrade> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(Dimension.height15),
                 ),
-                child: Center(
-                  child: Container(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: Dimension.height50,
-                          height: Dimension.height50,
-                          child: Image.asset('assets/img/education.png',
-                              fit: BoxFit.cover),
-                        ),
-                        SizedBox(
-                          height: Dimension.height10,
-                        ),
-                        Text(
-                          "Grade - " + (index + 1).toString(),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontFamily: 'RobotoCondensed',
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ),
-                  ),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(Dimension.height15),
+                      child: Image.asset('assets/img/$grade.jpg',
+                          fit: BoxFit.fill)),
                 ),
               ),
             );

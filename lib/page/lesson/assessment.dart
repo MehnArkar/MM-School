@@ -159,7 +159,7 @@ class _AssessmentState extends State<Assessment> {
                                             controller.assessmentModel
                                                 .eclassData[index].subject
                                                 .toString(),
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold),
                                           )

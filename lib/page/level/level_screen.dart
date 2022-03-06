@@ -108,9 +108,9 @@ class _LevelScreenState extends State<LevelScreen> {
                           SizedBox(
                             width: Dimension.height20,
                           ),
-                          Text(
-                            'E - Class',
-                            style: const TextStyle(
+                          const Text(
+                            'E - Classes',
+                            style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
                                 fontFamily: 'RobotoCondensed',
@@ -159,7 +159,6 @@ class _LevelScreenState extends State<LevelScreen> {
                         height: Dimension.height100,
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          // border: Border.all(color: Colors.lightBlue, width: 1),
                           borderRadius:
                               BorderRadius.circular(Dimension.height15),
                           boxShadow: [

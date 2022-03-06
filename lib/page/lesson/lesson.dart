@@ -121,7 +121,6 @@ class _LessonState extends State<Lesson> {
                               height: Dimension.height100,
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                // border: Border.all(color: Colors.lightBlue, width: 1),
                                 borderRadius:
                                     BorderRadius.circular(Dimension.height15),
                                 boxShadow: [

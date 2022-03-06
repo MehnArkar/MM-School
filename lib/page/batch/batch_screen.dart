@@ -6,6 +6,7 @@ import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/controller/eclass_controller.dart';
 import 'package:mm_school/page/eclass_grade/eclass_grade.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
+import 'package:mm_school/utils/colors.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,7 +32,7 @@ class _BatchScreenState extends State<BatchScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[400],
-        title: const Text('E-Classes',
+        title: const Text('E - Classes',
             style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           Container(
@@ -48,7 +49,7 @@ class _BatchScreenState extends State<BatchScreen> {
         height: double.maxFinite,
         child: GetBuilder<DataController>(builder: (controller) {
           return GridView.count(
-            childAspectRatio: 1,
+            childAspectRatio: (1 / 1.05),
             primary: false,
             crossAxisSpacing: Dimension.height20,
             mainAxisSpacing: Dimension.height20,
@@ -98,38 +99,41 @@ class _BatchScreenState extends State<BatchScreen> {
                         blurRadius: 3,
                       ),
                     ],
-                    color: Colors.white,
+                    color: AppColors.imageBgColor,
                     borderRadius: BorderRadius.circular(Dimension.height15),
                   ),
-                  child: Center(
-                    child: Container(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: Dimension.height50,
-                            height: Dimension.height50,
-                            child: Image.asset('assets/img/batch.png',
-                                fit: BoxFit.cover),
-                          ),
-                          SizedBox(
-                            height: Dimension.height10,
-                          ),
-                          Text(
+                  child: Column(
+                    children: [
+                      Container(
+                        width: double.maxFinite,
+                        height: ((MediaQuery.of(context).size.width -
+                                    (Dimension.height20 * 3)) /
+                                2) -
+                            Dimension.height20,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(Dimension.height15),
+                              topRight: Radius.circular(Dimension.height15),
+                            ),
+                            child: Image.asset('assets/img/eclass.jpg',
+                                fit: BoxFit.fill)),
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
                             "Batch - " +
                                 controller.datamodel.batch![index].toString(),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                color: Colors.black,
+                            style: TextStyle(
+                                color: AppColors.imageColor,
                                 fontSize: 20,
                                 fontFamily: 'RobotoCondensed',
-                                fontWeight: FontWeight.w500),
+                                fontWeight: FontWeight.bold),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
               );

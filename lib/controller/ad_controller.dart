@@ -9,7 +9,7 @@ class AdController extends GetxController {
   Future<void> loadAd(String adUnit, String? url) async {
     await RewardedAd.load(
         adUnitId: adUnit,
-        request: const AdRequest(),
+        request: AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
           onAdLoaded: (RewardedAd ad) {
             print('$ad loaded.');
