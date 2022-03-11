@@ -4,8 +4,9 @@ class AppConstant {
 
   static const String ECLASS_BASE_URL = 'http://foeimacademy.org/eclass';
 
-  static const String CHECK_IDENTITY_URL =
-      'http://foeimacademy.org/stuidentity/';
+//http://foeimacademy.org/stuidentity/
+  static const String IDENTITY_BASE_URL =
+      'https://www.foeimacademy.org/stuidentity/source/scanner/api/';
 
   static const String FIRST_AD_UNIT = 'ca-app-pub-1222451237037237/3497978458';
 

@@ -5,10 +5,15 @@ import 'package:mm_school/controller/ad_controller.dart';
 import 'package:mm_school/controller/data_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/controller/eclass_controller.dart';
+import 'package:mm_school/controller/identity_controller.dart';
 import 'package:mm_school/data/api/api_client.dart';
 import 'package:mm_school/data/api/eclass_api_client.dart';
+import 'package:mm_school/data/api/identity_api.dart';
 import 'package:mm_school/data/repository/data_repository.dart';
 import 'package:mm_school/data/repository/eclass_repository.dart';
+import 'package:mm_school/data/repository/identity_repository.dart';
+import 'package:mm_school/page/Identity/check_identity_screen.dart';
+import 'package:mm_school/page/Identity/identity_card.dart';
 import 'package:mm_school/page/batch/batch_screen.dart';
 import 'package:mm_school/page/eclass_grade/eclass_grade.dart';
 import 'package:mm_school/page/grade/grade_screen.dart';
@@ -53,7 +58,7 @@ class MyApp extends StatelessWidget {
     Get.find<DataController>().getData();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'MM School',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'Raleway',
@@ -97,6 +102,16 @@ class MyApp extends StatelessWidget {
           page: () => const LessonScreen(),
           transition: Transition.fade,
         ),
+        GetPage(
+          name: CheckIdentityScreen.routeName,
+          page: () => const CheckIdentityScreen(),
+          transition: Transition.fade,
+        ),
+        GetPage(
+          name: IdentityCard.routeName,
+          page: () => const IdentityCard(),
+          transition: Transition.fade,
+        ),
       ],
     );
   }
@@ -106,14 +121,17 @@ Future<void> init() async {
   //Put api_client
   Get.lazyPut(() => ApiClient(appBaseUrl: AppConstant.BASE_URL));
   Get.lazyPut(() => EClassApiClient(appBaseUrl: AppConstant.ECLASS_BASE_URL));
+  Get.lazyPut(() => IdentityApi(appBaseUrl: AppConstant.IDENTITY_BASE_URL));
 
   //Put Repository
   Get.lazyPut(() => DataRepo(apiClient: Get.find()));
   Get.lazyPut(() => EClassRepo(apiClient: Get.find()));
+  Get.lazyPut(() => IdentityRepo(apiClient: Get.find()));
 
   //Put Controller
   Get.lazyPut(() => DataController(dataRepo: Get.find()));
   Get.put(DialogController());
   Get.put(AdController());
   Get.put(EclassController(eClassRepo: Get.find()));
+  Get.put(IdentityController(identityRepo: Get.find()));
 }

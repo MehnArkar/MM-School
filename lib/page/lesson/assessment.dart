@@ -11,7 +11,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Assessment extends StatefulWidget {
-  Assessment({Key? key}) : super(key: key);
+  String grade;
+  Assessment({Key? key, required this.grade}) : super(key: key);
 
   @override
   State<Assessment> createState() => _AssessmentState();
@@ -72,127 +73,287 @@ class _AssessmentState extends State<Assessment> {
                         padding: EdgeInsets.only(bottom: Dimension.height10),
                         itemCount: controller.assessmentModel.eclassData.length,
                         itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () async {
-                              dialogController.setTime();
-
-                              if (controller
-                                      .assessmentModel.eclassData[index].link !=
-                                  "") {
-                                adController.loadAd(
-                                    AppConstant.SECOND_AD_UNIT,
-                                    controller
-                                        .assessmentModel.eclassData[index].link
-                                        .toString());
-                                dialogController.startTimer();
-                                await showDialog(
-                                    barrierDismissible: false,
-                                    context: context,
-                                    builder: (context) {
-                                      return Dialog(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                Dimension.height20)),
-                                        child: TimerDialog(),
-                                      );
-                                    });
-                                if (adController.rewardedAd == null) {
-                                  launch(controller
-                                      .assessmentModel.eclassData[index].link
-                                      .toString());
-                                } else {
-                                  await adController
-                                      .showAds(AppConstant.SECOND_AD_UNIT);
-                                }
-                              } else {
-                                Get.snackbar(
-                                    'No data!', 'No data for this Lesson',
-                                    backgroundColor: Colors.lightBlue,
-                                    colorText: Colors.white);
-                              }
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(Dimension.height10),
-                              margin: EdgeInsets.only(
-                                  top: Dimension.height10,
-                                  left: Dimension.height20,
-                                  right: Dimension.height20),
-                              width: double.maxFinite,
-                              height: Dimension.height100,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                // border: Border.all(color: Colors.lightBlue, width: 1),
-                                borderRadius:
-                                    BorderRadius.circular(Dimension.height15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.7),
-                                    offset: const Offset(0, 7),
-                                    blurRadius: 4,
-                                  ),
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.7),
-                                    offset: const Offset(0, 2),
-                                    blurRadius: 3,
-                                  ),
-                                ],
-                              ),
-                              child: Center(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      width: Dimension.height100,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Container(
-                                              width: Dimension.height50,
-                                              height: Dimension.height50,
-                                              child: Image.asset(
-                                                  'assets/img/assessment.png',
-                                                  fit: BoxFit.cover)),
-                                          SizedBox(
-                                            height: Dimension.height10,
-                                          ),
-                                          Text(
+                          return Container(
+                            padding: EdgeInsets.all(Dimension.height5),
+                            margin: EdgeInsets.only(
+                                top: Dimension.height10,
+                                left: Dimension.height20,
+                                right: Dimension.height20),
+                            width: double.maxFinite,
+                            height: Dimension.height100,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.circular(Dimension.height15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.7),
+                                  offset: const Offset(0, 7),
+                                  blurRadius: 4,
+                                ),
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.7),
+                                  offset: const Offset(0, 2),
+                                  blurRadius: 3,
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: Dimension.height20 * 4,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        SizedBox(
+                                            width: Dimension.height50,
+                                            height: Dimension.height50,
+                                            child: Image.asset(
+                                                'assets/img/assessment.png',
+                                                fit: BoxFit.cover)),
+                                        SizedBox(
+                                          height: Dimension.height10,
+                                        ),
+                                        FittedBox(
+                                          fit: BoxFit.fitWidth,
+                                          child: Text(
                                             controller.assessmentModel
                                                 .eclassData[index].subject
                                                 .toString(),
                                             style: const TextStyle(
-                                                fontSize: 16,
+                                                fontSize: 14,
                                                 fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                    SizedBox(
-                                      width: Dimension.height5,
-                                    ),
-                                    const VerticalDivider(
-                                      thickness: 2,
-                                      color: Colors.lightBlue,
-                                    ),
-                                    SizedBox(
-                                      width: Dimension.height5,
-                                    ),
-                                    Expanded(
-                                      child: SingleChildScrollView(
-                                        child: Text(
+                                  ),
+                                  SizedBox(
+                                    width: Dimension.height5,
+                                  ),
+                                  const VerticalDivider(
+                                    thickness: 2,
+                                    color: Colors.lightBlue,
+                                  ),
+                                  SizedBox(
+                                    width: Dimension.height5,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
                                           controller.assessmentModel
                                               .eclassData[index].description
                                               .toString(),
-                                          overflow: TextOverflow.clip,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
+                                              color: Color.fromARGB(
+                                                  255, 158, 148, 148),
+                                              fontSize: 14,
                                               fontFamily: 'RobotoCondensed',
                                               fontWeight: FontWeight.w500),
                                         ),
-                                      ),
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Container(
+                                                width: Dimension.height20 * 4,
+                                                height: Dimension.height35 -
+                                                    Dimension.height5,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            Dimension.height35 /
+                                                                2),
+                                                    color: Colors.lightBlue),
+                                                child: MaterialButton(
+                                                    child: const FittedBox(
+                                                      fit: BoxFit.fitWidth,
+                                                      child: Text(
+                                                        'Assessment',
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ),
+                                                    onPressed: () async {
+                                                      dialogController
+                                                          .setTime();
+
+                                                      if (controller
+                                                              .assessmentModel
+                                                              .eclassData[index]
+                                                              .link !=
+                                                          "") {
+                                                        adController.loadAd(
+                                                            AppConstant
+                                                                .FIRST_AD_UNIT,
+                                                            controller
+                                                                .assessmentModel
+                                                                .eclassData[
+                                                                    index]
+                                                                .link
+                                                                .toString());
+                                                        dialogController
+                                                            .startTimer();
+                                                        await showDialog(
+                                                            barrierDismissible:
+                                                                false,
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return Dialog(
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            Dimension.height20)),
+                                                                child:
+                                                                    TimerDialog(),
+                                                              );
+                                                            });
+                                                        if (adController
+                                                                .rewardedAd ==
+                                                            null) {
+                                                          launch(controller
+                                                              .assessmentModel
+                                                              .eclassData[index]
+                                                              .link
+                                                              .toString());
+                                                        } else {
+                                                          await adController
+                                                              .showAds(AppConstant
+                                                                  .FIRST_AD_UNIT);
+                                                        }
+                                                      } else {
+                                                        Get.snackbar('No data!',
+                                                            'No data for this Lesson',
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .lightBlue,
+                                                            colorText:
+                                                                Colors.white);
+                                                      }
+                                                    }),
+                                              ),
+                                              SizedBox(
+                                                width: Dimension.height5,
+                                              ),
+                                              Container(
+                                                width: Dimension.height60,
+                                                height: Dimension.height35 -
+                                                    Dimension.height5,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          Dimension.height35 /
+                                                              2),
+                                                  border: Border.all(
+                                                      color: Colors.lightBlue,
+                                                      width: 1.5),
+                                                ),
+                                                child: MaterialButton(
+                                                    child: const FittedBox(
+                                                      fit: BoxFit.fitWidth,
+                                                      child: Text(
+                                                        'Details',
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .lightBlue,
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      showModalBottomSheet(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return Container(
+                                                              padding: EdgeInsets
+                                                                  .all(Dimension
+                                                                      .height20),
+                                                              height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height /
+                                                                  2,
+                                                              child:
+                                                                  SingleChildScrollView(
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Row(
+                                                                      children: [
+                                                                        Expanded(
+                                                                            child:
+                                                                                Container()),
+                                                                        Text(
+                                                                          'Grade - ${widget.grade}',
+                                                                          style: const TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 18),
+                                                                        ),
+                                                                        Expanded(
+                                                                            child:
+                                                                                Container()),
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: Dimension
+                                                                          .height20,
+                                                                    ),
+                                                                    Text(
+                                                                      controller
+                                                                          .assessmentModel
+                                                                          .eclassData[
+                                                                              index]
+                                                                          .subject
+                                                                          .toString(),
+                                                                      style: const TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontSize:
+                                                                              16),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: Dimension
+                                                                          .height10,
+                                                                    ),
+                                                                    Text(
+                                                                      controller
+                                                                          .assessmentModel
+                                                                          .eclassData[
+                                                                              index]
+                                                                          .description
+                                                                          .toString(),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            );
+                                                          });
+                                                    }),
+                                              )
+                                            ])
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           );

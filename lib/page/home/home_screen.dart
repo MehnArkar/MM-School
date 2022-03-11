@@ -242,20 +242,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       height:
                                                           Dimension.height10,
                                                     ),
-                                                    Text(
-                                                      dataController.datamodel
-                                                          .state![index]
-                                                          .toString(),
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'RobotoCondensed',
-                                                          color: Colors.black,
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.w500),
+                                                    FittedBox(
+                                                      fit: BoxFit.fitWidth,
+                                                      child: Text(
+                                                        dataController.datamodel
+                                                            .state![index]
+                                                            .toString(),
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: const TextStyle(
+                                                            fontFamily:
+                                                                'RobotoCondensed',
+                                                            color: Colors.black,
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
                                                     ),
                                                   ],
                                                 ),

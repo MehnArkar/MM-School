@@ -62,7 +62,14 @@ class _LessonScreenState extends State<LessonScreen> {
               )
             ]),
           ),
-          body: TabBarView(children: [Lesson(), Assessment()]),
+          body: TabBarView(children: [
+            Lesson(
+              grade: grade,
+            ),
+            Assessment(
+              grade: grade,
+            )
+          ]),
         ));
   }
 }

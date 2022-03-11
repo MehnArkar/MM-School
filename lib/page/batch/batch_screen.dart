@@ -4,6 +4,7 @@ import 'package:mm_school/controller/ad_controller.dart';
 import 'package:mm_school/controller/data_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/controller/eclass_controller.dart';
+import 'package:mm_school/page/Identity/check_identity_screen.dart';
 import 'package:mm_school/page/eclass_grade/eclass_grade.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/colors.dart';
@@ -145,8 +146,8 @@ class _BatchScreenState extends State<BatchScreen> {
         onTap: () async {
           dialogController.setTime();
 
-          await Get.find<AdController>().loadAd(
-              AppConstant.THIRTH_AD_UNIT, AppConstant.CHECK_IDENTITY_URL);
+          await Get.find<AdController>()
+              .loadAd(AppConstant.THIRTH_AD_UNIT, null);
           dialogController.startTimer();
           await showDialog(
               barrierDismissible: false,
@@ -158,11 +159,7 @@ class _BatchScreenState extends State<BatchScreen> {
                   child: TimerDialog(),
                 );
               });
-          if (Get.find<AdController>().rewardedAd == null) {
-            launch(AppConstant.CHECK_IDENTITY_URL);
-          } else {
-            await Get.find<AdController>().showAds(AppConstant.THIRTH_AD_UNIT);
-          }
+          await Get.toNamed(CheckIdentityScreen.routeName);
         },
         child: Container(
           padding: EdgeInsets.all(Dimension.height10),

@@ -39,6 +39,10 @@ dependencies:
   connectivity_plus: ^1.0.6
   google_mobile_ads: ^1.1.0
   pull_to_refresh: ^2.0.0
+  qr_flutter: ^4.0.0
+  external_path: ^1.0.1
+  permission_handler: ^9.2.0
+
 
 dev_dependencies:
   flutter_test:
