@@ -14,6 +14,7 @@ class CheckIdentityScreen extends StatefulWidget {
 }
 
 class _CheckIdentityScreenState extends State<CheckIdentityScreen> {
+  late FocusNode emailFocus;
   bool isComplete = true;
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -32,12 +33,24 @@ class _CheckIdentityScreenState extends State<CheckIdentityScreen> {
       DropdownMenuItem(child: Text("Grade - 7"), value: "7"),
       DropdownMenuItem(child: Text("Grade - 8"), value: "8"),
       DropdownMenuItem(child: Text("Grade - 9"), value: "9"),
-      DropdownMenuItem(child: Text("Grade - 10 (Bio)"), value: "10Bio"),
-      DropdownMenuItem(child: Text("Grade - 10 (Eco)"), value: "10Eco"),
-      DropdownMenuItem(child: Text("Grade - 11 (Bio)"), value: "11Bio"),
-      DropdownMenuItem(child: Text("Grade - 11 (Eco)"), value: "11Eco")
+      DropdownMenuItem(child: Text("Grade - 10 (Bio)"), value: "10B"),
+      DropdownMenuItem(child: Text("Grade - 10 (Eco)"), value: "10E"),
+      DropdownMenuItem(child: Text("Grade - 11 (Bio)"), value: "11B"),
+      DropdownMenuItem(child: Text("Grade - 11 (Eco)"), value: "11E")
     ];
     return menuItems;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    emailFocus = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    emailFocus.dispose();
+    super.dispose();
   }
 
   @override
@@ -45,7 +58,7 @@ class _CheckIdentityScreenState extends State<CheckIdentityScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[400],
-        title: const Text('Identity Card',
+        title: const Text('Check Identity',
             style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           Container(
@@ -61,11 +74,11 @@ class _CheckIdentityScreenState extends State<CheckIdentityScreen> {
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height -
-              AppBar().preferredSize.height,
-          padding: EdgeInsets.all(Dimension.height20),
+              (AppBar().preferredSize.height * 2),
           child: Center(
             child: Container(
               width: double.maxFinite,
+              margin: EdgeInsets.all(Dimension.height20),
               padding: EdgeInsets.all(Dimension.height10),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -131,6 +144,9 @@ class _CheckIdentityScreenState extends State<CheckIdentityScreen> {
                               offset: const Offset(1, 1))
                         ]),
                     child: TextField(
+                        onSubmitted: (value) {
+                          FocusScope.of(context).requestFocus(emailFocus);
+                        },
                         controller: nameController,
                         decoration: InputDecoration(
                             hintText: 'Student Name',
@@ -165,6 +181,7 @@ class _CheckIdentityScreenState extends State<CheckIdentityScreen> {
                               offset: const Offset(1, 1))
                         ]),
                     child: TextField(
+                        focusNode: emailFocus,
                         controller: emailController,
                         decoration: InputDecoration(
                             hintText: 'Email',
@@ -204,13 +221,14 @@ class _CheckIdentityScreenState extends State<CheckIdentityScreen> {
                   Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(Dimension.height5),
-                        border: Border.all(color: Colors.blue, width: 1.5)),
+                        border: Border.all(
+                            color: AppColors.imageColor, width: 1.5)),
                     child: MaterialButton(
-                        child: const Text(
+                        child: Text(
                           'Check Now',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue,
+                            color: AppColors.imageColor,
                           ),
                         ),
                         onPressed: () {

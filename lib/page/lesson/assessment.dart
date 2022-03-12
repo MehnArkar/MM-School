@@ -166,92 +166,97 @@ class _AssessmentState extends State<Assessment> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceAround,
                                             children: [
-                                              Container(
-                                                width: Dimension.height20 * 4,
-                                                height: Dimension.height35 -
-                                                    Dimension.height5,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            Dimension.height35 /
-                                                                2),
-                                                    color: Colors.lightBlue),
-                                                child: MaterialButton(
-                                                    child: const FittedBox(
-                                                      fit: BoxFit.fitWidth,
-                                                      child: Text(
-                                                        'Assessment',
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 13,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                              Expanded(
+                                                child: Container(
+                                                  height: Dimension.height35 -
+                                                      Dimension.height5,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius
+                                                          .circular(Dimension
+                                                                  .height35 /
+                                                              2),
+                                                      color: Colors.lightBlue),
+                                                  child: MaterialButton(
+                                                      child: const FittedBox(
+                                                        fit: BoxFit.fitWidth,
+                                                        child: Text(
+                                                          'Assessment',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 13,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
                                                       ),
-                                                    ),
-                                                    onPressed: () async {
-                                                      dialogController
-                                                          .setTime();
+                                                      onPressed: () async {
+                                                        dialogController
+                                                            .setTime();
 
-                                                      if (controller
-                                                              .assessmentModel
-                                                              .eclassData[index]
-                                                              .link !=
-                                                          "") {
-                                                        adController.loadAd(
-                                                            AppConstant
-                                                                .FIRST_AD_UNIT,
-                                                            controller
+                                                        if (controller
+                                                                .assessmentModel
+                                                                .eclassData[
+                                                                    index]
+                                                                .link !=
+                                                            "") {
+                                                          adController.loadAd(
+                                                              AppConstant
+                                                                  .FIRST_AD_UNIT,
+                                                              controller
+                                                                  .assessmentModel
+                                                                  .eclassData[
+                                                                      index]
+                                                                  .link
+                                                                  .toString());
+                                                          dialogController
+                                                              .startTimer();
+                                                          await showDialog(
+                                                              barrierDismissible:
+                                                                  false,
+                                                              context: context,
+                                                              builder:
+                                                                  (context) {
+                                                                return Dialog(
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              Dimension.height20)),
+                                                                  child:
+                                                                      TimerDialog(),
+                                                                );
+                                                              });
+                                                          if (adController
+                                                                  .rewardedAd ==
+                                                              null) {
+                                                            launch(controller
                                                                 .assessmentModel
                                                                 .eclassData[
                                                                     index]
                                                                 .link
                                                                 .toString());
-                                                        dialogController
-                                                            .startTimer();
-                                                        await showDialog(
-                                                            barrierDismissible:
-                                                                false,
-                                                            context: context,
-                                                            builder: (context) {
-                                                              return Dialog(
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            Dimension.height20)),
-                                                                child:
-                                                                    TimerDialog(),
-                                                              );
-                                                            });
-                                                        if (adController
-                                                                .rewardedAd ==
-                                                            null) {
-                                                          launch(controller
-                                                              .assessmentModel
-                                                              .eclassData[index]
-                                                              .link
-                                                              .toString());
+                                                          } else {
+                                                            await adController
+                                                                .showAds(AppConstant
+                                                                    .FIRST_AD_UNIT);
+                                                          }
                                                         } else {
-                                                          await adController
-                                                              .showAds(AppConstant
-                                                                  .FIRST_AD_UNIT);
+                                                          Get.snackbar(
+                                                              'No data!',
+                                                              'No data for this Lesson',
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .lightBlue,
+                                                              colorText:
+                                                                  Colors.white);
                                                         }
-                                                      } else {
-                                                        Get.snackbar('No data!',
-                                                            'No data for this Lesson',
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .lightBlue,
-                                                            colorText:
-                                                                Colors.white);
-                                                      }
-                                                    }),
+                                                      }),
+                                                ),
                                               ),
                                               SizedBox(
                                                 width: Dimension.height5,
                                               ),
                                               Container(
-                                                width: Dimension.height60,
                                                 height: Dimension.height35 -
                                                     Dimension.height5,
                                                 decoration: BoxDecoration(
@@ -348,7 +353,7 @@ class _AssessmentState extends State<Assessment> {
                                                             );
                                                           });
                                                     }),
-                                              )
+                                              ),
                                             ])
                                       ],
                                     ),

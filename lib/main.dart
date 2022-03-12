@@ -47,6 +47,7 @@ Future<void> main() async {
   MobileAds.instance.initialize();
   await init();
   await _checkConnectivityState();
+  await Get.find<AdController>().loadAd(AppConstant.FIRST_AD_UNIT, null);
   runApp(const MyApp());
 }
 
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.find<DataController>().getData();
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MM School',

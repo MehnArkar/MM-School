@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:mm_school/controller/ad_controller.dart';
+import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/controller/identity_controller.dart';
 import 'package:mm_school/model/identity_model.dart';
+import 'package:mm_school/page/widgets/timer_dialog.dart';
+import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:io';
@@ -10,6 +14,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:external_path/external_path.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class IdentityCard extends StatefulWidget {
   static const routeName = '/ideneityCardScreen';
@@ -20,6 +25,8 @@ class IdentityCard extends StatefulWidget {
 }
 
 class _IdentityCardState extends State<IdentityCard> {
+  DialogController dialogController = Get.find();
+  AdController adController = Get.find();
   final GlobalKey genKey = GlobalKey();
 
   Future<void> takePicture() async {
@@ -36,7 +43,7 @@ class _IdentityCardState extends State<IdentityCard> {
       await Permission.storage.request();
     }
 
-    if (!status.isGranted) {
+    if (status.isGranted) {
       imgFile.writeAsBytes(pngBytes);
       Get.snackbar('Student ID Card saved to photo', '$directory/ID-card.png',
           backgroundColor: Colors.blue[400], colorText: Colors.white);
@@ -46,12 +53,33 @@ class _IdentityCardState extends State<IdentityCard> {
     }
   }
 
+  void _showAds(link) async {
+    dialogController.setTime();
+    adController.loadAd(AppConstant.FOURTH_AD_UNIT, link);
+    dialogController.startTimer();
+    await showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(Dimension.height20)),
+            child: TimerDialog(),
+          );
+        });
+    if (adController.rewardedAd == null) {
+      launch('https://sway.office.com/s4otQu5yIzJBoDTy?ref=Link&loc=play');
+    } else {
+      await adController.showAds(AppConstant.FOURTH_AD_UNIT);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[400],
-        title: const Text('Check Identity',
+        title: const Text('Student Identity',
             style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           Container(
@@ -89,6 +117,18 @@ class _IdentityCardState extends State<IdentityCard> {
                             decoration: BoxDecoration(
                                 borderRadius:
                                     BorderRadius.circular(Dimension.height5),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.blue.withOpacity(0.5),
+                                    offset: const Offset(0, 7),
+                                    blurRadius: 4,
+                                  ),
+                                  BoxShadow(
+                                    color: Colors.blue.withOpacity(0.5),
+                                    offset: const Offset(0, 2),
+                                    blurRadius: 3,
+                                  ),
+                                ],
                                 border:
                                     Border.all(color: Colors.blue, width: 1.5),
                                 color: Colors.blue),
@@ -117,20 +157,41 @@ class _IdentityCardState extends State<IdentityCard> {
                           SizedBox(
                             height: Dimension.height10,
                           ),
-                          //User Guide btn
-                          button('User Guide', () {
-                            print('Pressed User Guide');
-                          }),
-                          SizedBox(
-                            height: Dimension.height10,
+
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              //User Guide btn
+                              Expanded(
+                                child: buttonWidget('User Guide', () {
+                                  _showAds(AppConstant.USER_GUIDE);
+                                }),
+                              ),
+
+                              SizedBox(
+                                width: Dimension.height5,
+                              ),
+                              //Get outlook Btn
+                              Expanded(
+                                child: buttonWidget('Get Outlook', () {
+                                  _showAds(AppConstant.GET_OUTLOOK);
+                                }),
+                              ),
+                              SizedBox(
+                                width: Dimension.height5,
+                              ),
+                              //Join Group btn
+                              Expanded(
+                                child: buttonWidget('Join Group', () {
+                                  _showAds(controller
+                                      .identityModel.identity[0].fbLink
+                                      .toString());
+                                }),
+                              ),
+                            ],
                           ),
-                          //Get outlook Btn
-                          button('Get Outlook', () {}),
-                          SizedBox(
-                            height: Dimension.height10,
-                          ),
-                          //Join Group btn
-                          button('Join Group', () {}),
+
                           SizedBox(
                             height: Dimension.height20,
                           ),
@@ -157,6 +218,18 @@ class _IdentityCardState extends State<IdentityCard> {
       padding: EdgeInsets.all(Dimension.height20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Dimension.height10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.7),
+            offset: const Offset(0, 7),
+            blurRadius: 4,
+          ),
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.7),
+            offset: const Offset(0, 2),
+            blurRadius: 3,
+          ),
+        ],
         image: const DecorationImage(
             image: AssetImage('assets/img/cardBg.PNG'), fit: BoxFit.fill),
       ),
@@ -288,6 +361,18 @@ class _IdentityCardState extends State<IdentityCard> {
       padding: EdgeInsets.all(Dimension.height20),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimension.height10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.7),
+              offset: const Offset(0, 7),
+              blurRadius: 4,
+            ),
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.7),
+              offset: const Offset(0, 2),
+              blurRadius: 3,
+            ),
+          ],
           image: const DecorationImage(
               image: AssetImage('assets/img/cardBg.PNG'), fit: BoxFit.fill)),
       child: Column(
@@ -314,7 +399,9 @@ class _IdentityCardState extends State<IdentityCard> {
           SizedBox(
             height: Dimension.height20,
           ),
+
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               //Help Btn
               Expanded(
@@ -324,7 +411,9 @@ class _IdentityCardState extends State<IdentityCard> {
                       borderRadius: BorderRadius.circular(Dimension.height5),
                       border: Border.all(width: 1.5, color: Colors.blue)),
                   child: MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _showAds(AppConstant.HELP_URL);
+                    },
                     child: const FittedBox(
                       fit: BoxFit.fitWidth,
                       child: Text(
@@ -348,7 +437,9 @@ class _IdentityCardState extends State<IdentityCard> {
                       borderRadius: BorderRadius.circular(Dimension.height5),
                       border: Border.all(width: 1.5, color: Colors.blue)),
                   child: MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _showAds(AppConstant.MESSAGE_URL);
+                    },
                     child: const FittedBox(
                       fit: BoxFit.fitWidth,
                       child: Text(
@@ -369,18 +460,22 @@ class _IdentityCardState extends State<IdentityCard> {
     );
   }
 
-  Widget button(String title, onTap) {
+  Widget buttonWidget(String title, onTap) {
     return Container(
-        width: double.maxFinite,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimension.height5),
           border: Border.all(color: Colors.blue, width: 1.5),
         ),
         child: MaterialButton(
-          child: Text(
-            title,
-            style: const TextStyle(
-                color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 16),
+          child: FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(
+              title,
+              style: const TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
+            ),
           ),
           onPressed: onTap,
         ));

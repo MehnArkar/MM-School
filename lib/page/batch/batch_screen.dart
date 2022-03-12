@@ -159,6 +159,7 @@ class _BatchScreenState extends State<BatchScreen> {
                   child: TimerDialog(),
                 );
               });
+          await Get.find<AdController>().showAds(AppConstant.THIRTH_AD_UNIT);
           await Get.toNamed(CheckIdentityScreen.routeName);
         },
         child: Container(
