@@ -173,7 +173,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         return GestureDetector(
                                           onTap: () async {
                                             dialogController.setTime();
-
+                                            await Get.find<AdController>()
+                                                .loadAd(
+                                                    AppConstant.FIRST_AD_UNIT,
+                                                    null);
                                             dialogController.startTimer();
                                             await showDialog(
                                                 barrierDismissible: false,

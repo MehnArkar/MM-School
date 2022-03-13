@@ -47,7 +47,7 @@ Future<void> main() async {
   MobileAds.instance.initialize();
   await init();
   await _checkConnectivityState();
-  await Get.find<AdController>().loadAd(AppConstant.FIRST_AD_UNIT, null);
+  Get.find<AdController>().loadAd(AppConstant.FIRST_AD_UNIT, null);
   runApp(const MyApp());
 }
 

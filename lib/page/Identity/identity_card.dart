@@ -37,19 +37,25 @@ class _IdentityCardState extends State<IdentityCard> {
         ExternalPath.DIRECTORY_PICTURES);
     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData!.buffer.asUint8List();
-    File imgFile = File('$directory/ID-card.png');
+    File imgFile = File('$directory/studentID.png');
     var status = await Permission.storage.status;
     if (!status.isGranted) {
-      await Permission.storage.request();
-    }
-
-    if (status.isGranted) {
-      imgFile.writeAsBytes(pngBytes);
+      await Permission.storage.request().then((value) async {
+        if (value.isGranted) {
+          await imgFile.writeAsBytes(pngBytes);
+          Get.snackbar(
+              'Student ID Card saved to photo', '$directory/ID-card.png',
+              backgroundColor: Colors.white, colorText: Colors.blue);
+        } else if (value.isDenied) {
+          Get.snackbar(
+              'Permission not allow', 'Please allow storage permission',
+              backgroundColor: Colors.red, colorText: Colors.white);
+        }
+      });
+    } else if (status.isGranted) {
+      await imgFile.writeAsBytes(pngBytes);
       Get.snackbar('Student ID Card saved to photo', '$directory/ID-card.png',
-          backgroundColor: Colors.blue[400], colorText: Colors.white);
-    } else {
-      Get.snackbar('Permission not allow', 'Please allow storage permission',
-          backgroundColor: Colors.red, colorText: Colors.white);
+          backgroundColor: Colors.white, colorText: Colors.blue);
     }
   }
 
@@ -184,9 +190,19 @@ class _IdentityCardState extends State<IdentityCard> {
                               //Join Group btn
                               Expanded(
                                 child: buttonWidget('Join Group', () {
-                                  _showAds(controller
-                                      .identityModel.identity[0].fbLink
-                                      .toString());
+                                  if (controller
+                                          .identityModel.identity[0].fbLink
+                                          .toString() !=
+                                      '#') {
+                                    _showAds(controller
+                                        .identityModel.identity[0].fbLink
+                                        .toString());
+                                  } else {
+                                    Get.snackbar('Can\'t join group!',
+                                        'Group can only be join at the first time',
+                                        colorText: Colors.white,
+                                        backgroundColor: Colors.red);
+                                  }
                                 }),
                               ),
                             ],
@@ -202,7 +218,7 @@ class _IdentityCardState extends State<IdentityCard> {
                       child: unRegister(),
                     )
               : Center(
-                  child: Container(
+                  child: SizedBox(
                       width: Dimension.height35,
                       height: Dimension.height35,
                       child: const CircularProgressIndicator()),

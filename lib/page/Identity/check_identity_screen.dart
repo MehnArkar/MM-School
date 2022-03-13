@@ -23,20 +23,20 @@ class _CheckIdentityScreenState extends State<CheckIdentityScreen> {
 
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
-      DropdownMenuItem(
+      const DropdownMenuItem(
           child: Text("Choose Your Grade Here"), value: "unselect"),
-      DropdownMenuItem(child: Text("Grade - 1"), value: "1"),
-      DropdownMenuItem(child: Text("Grade - 2"), value: "2"),
-      DropdownMenuItem(child: Text("Grade - 3"), value: "3"),
-      DropdownMenuItem(child: Text("Grade - 4"), value: "4"),
-      DropdownMenuItem(child: Text("Grade - 6"), value: "6"),
-      DropdownMenuItem(child: Text("Grade - 7"), value: "7"),
-      DropdownMenuItem(child: Text("Grade - 8"), value: "8"),
-      DropdownMenuItem(child: Text("Grade - 9"), value: "9"),
-      DropdownMenuItem(child: Text("Grade - 10 (Bio)"), value: "10B"),
-      DropdownMenuItem(child: Text("Grade - 10 (Eco)"), value: "10E"),
-      DropdownMenuItem(child: Text("Grade - 11 (Bio)"), value: "11B"),
-      DropdownMenuItem(child: Text("Grade - 11 (Eco)"), value: "11E")
+      const DropdownMenuItem(child: Text("Grade - 1"), value: "1"),
+      const DropdownMenuItem(child: Text("Grade - 2"), value: "2"),
+      const DropdownMenuItem(child: Text("Grade - 3"), value: "3"),
+      const DropdownMenuItem(child: Text("Grade - 4"), value: "4"),
+      const DropdownMenuItem(child: Text("Grade - 6"), value: "6"),
+      const DropdownMenuItem(child: Text("Grade - 7"), value: "7"),
+      const DropdownMenuItem(child: Text("Grade - 8"), value: "8"),
+      const DropdownMenuItem(child: Text("Grade - 9"), value: "9"),
+      const DropdownMenuItem(child: Text("Grade - 10 (Bio)"), value: "10B"),
+      const DropdownMenuItem(child: Text("Grade - 10 (Eco)"), value: "10E"),
+      const DropdownMenuItem(child: Text("Grade - 11 (Bio)"), value: "11B"),
+      const DropdownMenuItem(child: Text("Grade - 11 (Eco)"), value: "11E")
     ];
     return menuItems;
   }
@@ -100,7 +100,7 @@ class _CheckIdentityScreenState extends State<CheckIdentityScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   //Image
-                  Container(
+                  SizedBox(
                     width: Dimension.height175 - Dimension.height25,
                     height: Dimension.height175 - Dimension.height25,
                     child: Image.asset('assets/img/blurFOEIM.png'),
