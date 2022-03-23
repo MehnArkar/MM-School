@@ -1,20 +1,13 @@
-import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
-class EClassApiClient extends GetConnect implements GetxService {
+class EClassApiClient {
   final String appBaseUrl;
-  EClassApiClient({required this.appBaseUrl}) {
-    baseUrl = appBaseUrl;
-    timeout = const Duration(seconds: 30);
-  }
+  EClassApiClient({required this.appBaseUrl});
 
-  Future<Response> getEclassData(
+  Future<http.Response> getEclassData(
       String grade, String batch, String lesson) async {
-    try {
-      Response response = await get(
-          '/classdata.php?gdata=Grade-$grade&les=$lesson&sec=$batch&fbclid=IwAR2z5voAzptaaf37C7KYMWI0gBrLN36KV896HgEWGUH7kODqz4pkSw_yKI0');
-      return response;
-    } catch (error) {
-      return Response(statusCode: 1, statusText: error.toString());
-    }
+    http.Response response = await http.get(Uri.parse(
+        '${appBaseUrl}/classdata.php?gdata=Grade-$grade&les=$lesson&sec=$batch&fbclid=IwAR2z5voAzptaaf37C7KYMWI0gBrLN36KV896HgEWGUH7kODqz4pkSw_yKI0'));
+    return response;
   }
 }

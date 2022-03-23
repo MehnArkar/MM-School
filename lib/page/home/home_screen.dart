@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/controller/ad_controller.dart';
@@ -7,6 +9,8 @@ import 'package:mm_school/controller/data_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/main.dart';
 import 'package:mm_school/model/data_model.dart';
+import 'package:mm_school/page/Identity/check_identity_screen.dart';
+import 'package:mm_school/page/batch/batch_screen.dart';
 import 'package:mm_school/page/level/level_screen.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/colors.dart';
@@ -26,6 +30,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   DialogController dialogController = Get.find();
   late StreamSubscription _connectivitySubscription;
+  double dotIndicatorIndex = 0;
 
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -54,7 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
     _connectivitySubscription = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) {
@@ -88,220 +92,389 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List imgList = [
+      'assets/img/Eacademy.jpg',
+      'assets/img/StuidentID.jpg',
+      'assets/img/Ecertificate.jpg',
+      'assets/img/Education.jpg',
+      'assets/img/Foemie.jpg',
+    ];
+
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blue[400],
-          title: const Text('MM School',
-              style: TextStyle(fontWeight: FontWeight.bold)),
-          actions: [
-            Container(
-                margin: EdgeInsets.only(right: Dimension.height10),
-                padding: const EdgeInsets.all(8),
-                child: Image.asset(
-                  'assets/img/circle.png',
-                  fit: BoxFit.fill,
-                ))
-          ],
-        ),
-        backgroundColor: AppColors.backgroundColor,
-        body: isInternet
-            ? GetBuilder<DataController>(builder: (dataController) {
-                return Container(
-                  width: double.maxFinite,
-                  height: double.maxFinite,
-                  child: Stack(children: [
-                    Positioned(
-                        left: 0,
-                        top: 0,
-                        right: 0,
-                        child: Container(
-                          width: double.maxFinite,
-                          height: Dimension.height200,
-                          child: Image.asset(
-                            'assets/img/banner.jpg',
-                            fit: BoxFit.fill,
-                          ),
-                        )),
-                    Positioned(
-                        left: 0,
-                        right: 0,
-                        top: Dimension.height175,
-                        bottom: 0,
-                        child: Container(
-                            padding: EdgeInsets.only(top: Dimension.height25),
-                            width: double.maxFinite,
-                            height: double.maxFinite,
-                            decoration: BoxDecoration(
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.purpleAccent,
-                                    offset: Offset(0, -2),
-                                    blurRadius: 7,
-                                  )
-                                ],
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topLeft:
-                                        Radius.circular(Dimension.height25),
-                                    topRight:
-                                        Radius.circular(Dimension.height25))),
-                            child: dataController.isLoaded.value
-                                ? SmartRefresher(
-                                    enablePullDown: true,
-                                    enablePullUp: false,
-                                    header: const WaterDropHeader(
-                                      waterDropColor: Colors.blue,
-                                    ),
-                                    controller: _refreshController,
-                                    onRefresh: _onRefresh,
-                                    onLoading: _onLoading,
-                                    child: GridView.count(
-                                      childAspectRatio: (4 / 3),
-                                      primary: false,
-                                      crossAxisSpacing: Dimension.height20,
-                                      mainAxisSpacing: Dimension.height20,
-                                      padding: EdgeInsets.only(
-                                        left: Dimension.height10,
-                                        right: Dimension.height10,
-                                        bottom: Dimension.height5,
-                                        top: Dimension.height5,
-                                      ),
-                                      crossAxisCount: 2,
-                                      children: List.generate(
-                                          dataController.datamodel.state!
-                                              .length, (index) {
-                                        return GestureDetector(
-                                          onTap: () async {
-                                            dialogController.setTime();
-                                            await Get.find<AdController>()
-                                                .loadAd(
-                                                    AppConstant.FIRST_AD_UNIT,
-                                                    null);
-                                            dialogController.startTimer();
-                                            await showDialog(
-                                                barrierDismissible: false,
-                                                context: context,
-                                                builder: (context) {
-                                                  return Dialog(
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                Dimension
-                                                                    .height20)),
-                                                    child: TimerDialog(),
-                                                  );
-                                                });
-                                            await Get.find<AdController>()
-                                                .showAds(
-                                                    AppConstant.FIRST_AD_UNIT);
-                                            await Get.toNamed(
-                                                LevelScreen.routeName,
-                                                arguments: dataController
-                                                    .datamodel.level);
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.all(
-                                                Dimension.height15),
-                                            decoration: BoxDecoration(
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.7),
-                                                  offset: const Offset(0, 5),
-                                                  blurRadius: 3,
-                                                ),
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.7),
-                                                  offset: const Offset(0, 1),
-                                                  blurRadius: 3,
-                                                ),
-                                              ],
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                            child: Center(
-                                              child: Container(
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                      width: Dimension.height35,
-                                                      height:
-                                                          Dimension.height35,
-                                                      child: Image.asset(
-                                                        'assets/img/location.png',
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height:
-                                                          Dimension.height10,
-                                                    ),
-                                                    FittedBox(
-                                                      fit: BoxFit.fitWidth,
-                                                      child: Text(
-                                                        dataController.datamodel
-                                                            .state![index]
-                                                            .toString(),
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: const TextStyle(
-                                                            fontFamily:
-                                                                'RobotoCondensed',
-                                                            color: Colors.black,
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      }),
-                                    ),
-                                  )
-                                : Center(
-                                    child: Container(
-                                      width: Dimension.height35,
-                                      height: Dimension.height35,
-                                      child: const CircularProgressIndicator(
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                  )))
-                  ]),
-                );
-              })
-            : Container(
-                width: double.maxFinite,
-                height: double.maxFinite,
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
+      appBar: AppBar(
+        backgroundColor: Colors.blue[400],
+        title: const Text('MM School',
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        actions: [
+          Container(
+              margin: EdgeInsets.only(right: Dimension.height10),
+              padding: const EdgeInsets.all(8),
+              child: Image.asset(
+                'assets/img/circle.png',
+                fit: BoxFit.fill,
+              ))
+        ],
+      ),
+      backgroundColor: AppColors.backgroundColor,
+      body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                //Auto Image Slider
+                Container(
+                  margin: EdgeInsets.only(top: Dimension.height10),
+                  child: CarouselSlider.builder(
+                    itemCount: imgList.length,
+                    itemBuilder: (context, index, realIndex) {
+                      return Container(
+                        height: Dimension.height100 + Dimension.height20,
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(Dimension.height15),
+                            image: DecorationImage(
+                                image: AssetImage(
+                                  imgList[index],
+                                ),
+                                fit: BoxFit.fill)),
+                      );
+                    },
+                    options: CarouselOptions(
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          dotIndicatorIndex = double.parse(index.toString());
+                        });
+                      },
+                      aspectRatio: 16 / 9,
+                      height: Dimension.height100 + Dimension.height50,
+                      enlargeCenterPage: true,
+                      autoPlay: true,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: Dimension.height10,
+                ),
+                //Dots indicator
+                DotsIndicator(
+                  dotsCount: imgList.length,
+                  position: dotIndicatorIndex,
+                  decorator: DotsDecorator(
+                    activeColor: Colors.blue[400],
+                    size: const Size.square(9.0),
+                    activeSize: const Size(18.0, 9.0),
+                    activeShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0)),
+                  ),
+                ),
+                SizedBox(
+                  height: Dimension.height10,
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: Dimension.height10, right: Dimension.height10),
+                  child: Row(
                     children: [
-                      Container(
-                          width: Dimension.height100,
-                          height: Dimension.height100,
-                          child: Image.asset('assets/img/no-signal.png')),
-                      const SizedBox(
-                        height: 20,
+                      //Academy
+                      classWidget("Academy", () {
+                        onClick(AppConstant.FIRST_AD_UNIT, null,
+                            LevelScreen.routeName, null);
+                      }),
+                      SizedBox(
+                        width: Dimension.height20,
                       ),
-                      const Text(
-                        'No internet connection!',
-                        style: TextStyle(color: Colors.grey, fontSize: 20),
+                      //E-classes
+                      classWidget("E-classes", () {
+                        onClick(AppConstant.FIRST_AD_UNIT, null,
+                            BatchScreen.routeName, null);
+                      }),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: Dimension.height20,
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: Dimension.height10, right: Dimension.height10),
+                  child: Row(
+                    children: [
+                      //Lu Htu College
+                      classWidget("Lu Htu College", () {
+                        Get.snackbar("Coming soon...",
+                            "This feature will be available in coming upgrade",
+                            colorText: Colors.blue[400],
+                            backgroundColor: Colors.white);
+                      }),
+                      SizedBox(
+                        width: Dimension.height20,
+                      ),
+                      //Exam Room
+                      classWidget('Exam Room', () {
+                        Get.snackbar("Coming soon...",
+                            "This feature will be available in coming upgrade",
+                            colorText: Colors.blue[400],
+                            backgroundColor: Colors.white);
+                      })
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: Dimension.height20,
+                ),
+                //Check Student Identity
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: Dimension.height10, right: Dimension.height10),
+                  child: GestureDetector(
+                    onTap: () {
+                      onClick(AppConstant.FIRST_AD_UNIT, null,
+                          CheckIdentityScreen.routeName, null);
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: Dimension.height50,
+                      decoration: BoxDecoration(
+                        color: Colors.blue[400],
+                        borderRadius:
+                            BorderRadius.circular(Dimension.height50 / 2),
+                        border: Border.all(width: 1.5, color: Colors.lightBlue),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blue.withOpacity(0.3),
+                            offset: const Offset(0, 5),
+                            blurRadius: 3,
+                          ),
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.7),
+                            offset: const Offset(0, 1),
+                            blurRadius: 3,
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Row(
+                          children: [
+                            Expanded(child: Container()),
+                            const Icon(
+                              Icons.checklist_sharp,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: Dimension.height10,
+                            ),
+                            const Text(
+                              'Check Student Identity',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Expanded(child: Container()),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: Dimension.height20,
+                ),
+                //Generate Certificate
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: Dimension.height10, right: Dimension.height10),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.snackbar("Coming soon...",
+                          "This feature will be available in coming upgrade",
+                          colorText: Colors.blue[400],
+                          backgroundColor: Colors.white);
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: Dimension.height50,
+                      decoration: BoxDecoration(
+                        color: Colors.blue[400],
+                        borderRadius:
+                            BorderRadius.circular(Dimension.height50 / 2),
+                        border: Border.all(width: 1.5, color: Colors.lightBlue),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blue.withOpacity(0.3),
+                            offset: const Offset(0, 5),
+                            blurRadius: 3,
+                          ),
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.7),
+                            offset: const Offset(0, 1),
+                            blurRadius: 3,
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Row(
+                          children: [
+                            Expanded(child: Container()),
+                            const Icon(
+                              Icons.today_outlined,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: Dimension.height10,
+                            ),
+                            const Text(
+                              'Get Your Certificate',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Expanded(child: Container()),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: Dimension.height10,
+                )
+              ],
+            ),
+          )),
+    );
+  }
+
+  Widget classWidget(String className, Function onClick) {
+    return Expanded(
+      child: Container(
+        height: ((MediaQuery.of(context).size.width -
+                (Dimension.height35 + Dimension.height5)) /
+            2),
+        child: Stack(
+          children: [
+            Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: ((MediaQuery.of(context).size.width -
+                              (Dimension.height35 + Dimension.height5)) /
+                          2) -
+                      (Dimension.height35 / 2),
+                  padding: EdgeInsets.only(bottom: Dimension.height35 / 2),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(Dimension.height15),
+                    //border: Border.all(width: 1.5, color: Colors.lightBlue),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.7),
+                        offset: const Offset(0, 5),
+                        blurRadius: 3,
+                      ),
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.7),
+                        offset: const Offset(0, 1),
+                        blurRadius: 3,
                       ),
                     ],
                   ),
-                )));
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset(
+                          'assets/img/blurLogo.png',
+                          width: Dimension.height60,
+                          height: Dimension.height60,
+                          fit: BoxFit.cover,
+                        ),
+                        SizedBox(
+                          height: Dimension.height10,
+                        ),
+                        Text(
+                          className,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )),
+            Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: GestureDetector(
+                  onTap: () {
+                    onClick();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.circular(Dimension.height35 / 2),
+                      border: Border.all(width: 1.5, color: Colors.lightBlue),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blue.withOpacity(0.3),
+                          offset: const Offset(0, 5),
+                          blurRadius: 3,
+                        ),
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.7),
+                          offset: const Offset(0, 1),
+                          blurRadius: 3,
+                        ),
+                      ],
+                      color: Colors.white,
+                    ),
+                    height: Dimension.height35,
+                    margin: const EdgeInsets.only(left: 20, right: 20),
+                    child: Center(
+                      child: Text(
+                        'Start',
+                        style: TextStyle(
+                            color: Colors.blue[400],
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
+                    ),
+                  ),
+                ))
+          ],
+        ),
+      ),
+    );
+  }
+
+  void onClick(String adUnit, String? url, String routeName, var para) async {
+    if (isInternet) {
+      dialogController.setTime();
+      await Get.find<AdController>().loadAd(adUnit, url);
+      dialogController.startTimer();
+      await showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(Dimension.height20)),
+              child: TimerDialog(),
+            );
+          });
+      await Get.find<AdController>().showAds(adUnit);
+      await Get.toNamed(routeName, parameters: para);
+    } else {
+      Get.snackbar(
+          'No internet connection', 'Please check your internet connection');
+    }
   }
 }

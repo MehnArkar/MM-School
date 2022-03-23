@@ -42,7 +42,9 @@ dependencies:
   qr_flutter: ^4.0.0
   external_path: ^1.0.1
   permission_handler: ^9.2.0
-
+  http: ^0.13.4
+  carousel_slider: ^4.0.0
+  dots_indicator: ^2.1.0
 
 dev_dependencies:
   flutter_test:

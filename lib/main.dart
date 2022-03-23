@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,12 +44,21 @@ Future<void> _checkConnectivityState() async {
   }
 }
 
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
   await init();
   await _checkConnectivityState();
-  Get.find<AdController>().loadAd(AppConstant.FIRST_AD_UNIT, null);
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 
@@ -57,7 +68,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.find<DataController>().getData();
-
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MM School',

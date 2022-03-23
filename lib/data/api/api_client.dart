@@ -1,19 +1,15 @@
-import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:mm_school/utils/constant.dart';
 
-class ApiClient extends GetConnect implements GetxService {
+class ApiClient {
   final String appBaseUrl;
-  ApiClient({required this.appBaseUrl}) {
-    baseUrl = appBaseUrl;
-    timeout = const Duration(seconds: 30);
-  }
+  ApiClient({required this.appBaseUrl});
 
-  Future<Response> getData(String uri) async {
-    try {
-      Response response = await get(uri);
-      return response;
-    } catch (error) {
-      return Response(statusCode: 1, statusText: error.toString());
-    }
+  Future<http.Response> getHttpData() async {
+    http.Response response = await http
+        .get(Uri.parse(appBaseUrl + AppConstant.API_URL))
+        .timeout(Duration(seconds: 30));
+
+    return response;
   }
 }

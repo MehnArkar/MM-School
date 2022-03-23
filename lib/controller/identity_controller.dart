@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:mm_school/data/repository/identity_repository.dart';
 import 'package:mm_school/model/identity_model.dart';
+import 'package:http/http.dart' as http;
 
 class IdentityController extends GetxController {
   IdentityModel identityModel = IdentityModel(identity: []);
@@ -11,7 +12,8 @@ class IdentityController extends GetxController {
   bool isLoaded = false;
 
   Future<void> getIdentityData(String name, String email, String grade) async {
-    Response response = await identityRepo.getIdentityData(name, email, grade);
+    http.Response response =
+        await identityRepo.getIdentityData(name, email, grade);
     if (response.statusCode == 200) {
       identityModel = IdentityModel.fromJson(jsonDecode(response.body));
       await Future.delayed(const Duration(seconds: 1));

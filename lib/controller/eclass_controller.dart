@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:mm_school/data/repository/eclass_repository.dart';
 import 'package:mm_school/model/eclass_model.dart';
+import 'package:http/http.dart' as http;
 
 class EclassController extends GetxController {
   EclassModel lessonModel = EclassModel(eclassData: []);
@@ -14,7 +15,9 @@ class EclassController extends GetxController {
   String? grade;
 
   Future<void> getEclassData(String grade, String batch, String lesson) async {
-    Response response = await eClassRepo.getEclassData(grade, batch, lesson);
+    // Response response = await eClassRepo.getEclassData(grade, batch, lesson);
+    http.Response response =
+        await eClassRepo.getEclassData(grade, batch, lesson);
     if (response.statusCode == 200) {
       if (lesson == 'Lesson') {
         lessonModel = EclassModel.fromJson(jsonDecode(response.body));

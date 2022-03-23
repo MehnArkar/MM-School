@@ -101,18 +101,19 @@ class _CheckIdentityScreenState extends State<CheckIdentityScreen> {
                 children: [
                   //Image
                   SizedBox(
-                    width: Dimension.height175 - Dimension.height25,
-                    height: Dimension.height175 - Dimension.height25,
-                    child: Image.asset('assets/img/blurFOEIM.png'),
+                    width: Dimension.height175 - Dimension.height50,
+                    height: Dimension.height175 - Dimension.height50,
+                    child: Image.asset(
+                      'assets/img/blurFOEIM.png',
+                      fit: BoxFit.fill,
+                    ),
                   ),
-                  SizedBox(
-                    height: Dimension.height10,
-                  ),
+
                   Text(
                     'FOEIM E-CLASSES',
                     style: TextStyle(
                       color: AppColors.imageColor,
-                      fontSize: 25,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'RobotoCondensed',
                     ),

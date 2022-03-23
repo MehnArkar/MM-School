@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:mm_school/data/api/api_client.dart';
-import 'package:mm_school/utils/constant.dart';
+import 'package:http/http.dart' as http;
 
 class DataRepo extends GetxService {
   final ApiClient apiClient;
   DataRepo({required this.apiClient});
 
-  Future<Response> getData() async {
-    return await apiClient.getData(AppConstant.API_URL);
+  Future<http.Response> getHttpData() async {
+    return await apiClient.getHttpData();
   }
 }
