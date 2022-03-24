@@ -9,9 +9,11 @@ import 'package:mm_school/controller/data_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/main.dart';
 import 'package:mm_school/model/data_model.dart';
-import 'package:mm_school/page/Identity/check_identity_screen.dart';
+import 'package:mm_school/page/Identity/class_type.dart';
 import 'package:mm_school/page/batch/batch_screen.dart';
 import 'package:mm_school/page/level/level_screen.dart';
+import 'package:mm_school/page/widgets/comingsoon_dialog.dart';
+import 'package:mm_school/page/widgets/connection_dialog.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/colors.dart';
 import 'package:mm_school/utils/constant.dart';
@@ -205,20 +207,33 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       //Lu Htu College
                       classWidget("Lu Htu College", () {
-                        Get.snackbar("Coming soon...",
-                            "This feature will be available in coming upgrade",
-                            colorText: Colors.blue[400],
-                            backgroundColor: Colors.white);
+                        showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        Dimension.height20)),
+                                child: const ComingDialog(),
+                              );
+                            });
                       }),
                       SizedBox(
                         width: Dimension.height20,
                       ),
                       //Exam Room
                       classWidget('Exam Room', () {
-                        Get.snackbar("Coming soon...",
-                            "This feature will be available in coming upgrade",
-                            colorText: Colors.blue[400],
-                            backgroundColor: Colors.white);
+                        showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          Dimension.height20)),
+                                  child: const ComingDialog());
+                            });
                       })
                     ],
                   ),
@@ -233,13 +248,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: GestureDetector(
                     onTap: () {
                       onClick(AppConstant.FIRST_AD_UNIT, null,
-                          CheckIdentityScreen.routeName, null);
+                          ClassType.routeName, null);
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: Dimension.height50,
                       decoration: BoxDecoration(
-                        color: Colors.blue[400],
+                        color: Colors.white,
                         borderRadius:
                             BorderRadius.circular(Dimension.height50 / 2),
                         border: Border.all(width: 1.5, color: Colors.lightBlue),
@@ -260,17 +275,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Row(
                           children: [
                             Expanded(child: Container()),
-                            const Icon(
+                            Icon(
                               Icons.checklist_sharp,
-                              color: Colors.white,
+                              color: Colors.blue[400],
                             ),
                             SizedBox(
                               width: Dimension.height10,
                             ),
-                            const Text(
+                            Text(
                               'Check Student Identity',
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.blue[400],
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -290,16 +305,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       left: Dimension.height10, right: Dimension.height10),
                   child: GestureDetector(
                     onTap: () {
-                      Get.snackbar("Coming soon...",
-                          "This feature will be available in coming upgrade",
-                          colorText: Colors.blue[400],
-                          backgroundColor: Colors.white);
+                      showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) {
+                            return Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        Dimension.height20)),
+                                child: const ComingDialog());
+                          });
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: Dimension.height50,
                       decoration: BoxDecoration(
-                        color: Colors.blue[400],
+                        color: Colors.white,
                         borderRadius:
                             BorderRadius.circular(Dimension.height50 / 2),
                         border: Border.all(width: 1.5, color: Colors.lightBlue),
@@ -320,17 +341,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Row(
                           children: [
                             Expanded(child: Container()),
-                            const Icon(
-                              Icons.today_outlined,
-                              color: Colors.white,
+                            Icon(
+                              Icons.domain_verification_outlined,
+                              color: Colors.blue[400],
                             ),
                             SizedBox(
                               width: Dimension.height10,
                             ),
-                            const Text(
+                            Text(
                               'Get Your Certificate',
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.blue[400],
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -455,7 +476,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void onClick(String adUnit, String? url, String routeName, var para) async {
+  void onClick(String adUnit, String? url, String routeName, var argu) async {
     if (isInternet) {
       dialogController.setTime();
       await Get.find<AdController>().loadAd(adUnit, url);
@@ -471,10 +492,18 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           });
       await Get.find<AdController>().showAds(adUnit);
-      await Get.toNamed(routeName, parameters: para);
+      await Get.toNamed(routeName, arguments: argu);
     } else {
-      Get.snackbar(
-          'No internet connection', 'Please check your internet connection');
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(Dimension.height20)),
+              child: const ConnectionDialog(),
+            );
+          });
     }
   }
 }

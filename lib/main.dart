@@ -15,6 +15,7 @@ import 'package:mm_school/data/repository/data_repository.dart';
 import 'package:mm_school/data/repository/eclass_repository.dart';
 import 'package:mm_school/data/repository/identity_repository.dart';
 import 'package:mm_school/page/Identity/check_identity_screen.dart';
+import 'package:mm_school/page/Identity/class_type.dart';
 import 'package:mm_school/page/Identity/identity_card.dart';
 import 'package:mm_school/page/batch/batch_screen.dart';
 import 'package:mm_school/page/eclass_grade/eclass_grade.dart';
@@ -122,6 +123,11 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: IdentityCard.routeName,
           page: () => const IdentityCard(),
+          transition: Transition.fade,
+        ),
+        GetPage(
+          name: ClassType.routeName,
+          page: () => const ClassType(),
           transition: Transition.fade,
         ),
       ],

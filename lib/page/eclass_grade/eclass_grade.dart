@@ -7,6 +7,7 @@ import 'package:mm_school/page/lesson/lesson_screen.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
+import 'package:mm_school/utils/globleOnClick.dart';
 
 class EclassGrade extends StatefulWidget {
   static const routeName = '/eclassGradeScreen';
@@ -61,31 +62,13 @@ class _EclassGradeState extends State<EclassGrade> {
             }
             return GestureDetector(
               onTap: () async {
-                dialogController.setTime();
-                await Get.find<AdController>()
-                    .loadAd(AppConstant.FOURTH_AD_UNIT, null);
-                dialogController.startTimer();
-                await showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) {
-                      return Dialog(
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(Dimension.height20)),
-                        child: TimerDialog(),
-                      );
-                    });
-                await Get.find<AdController>()
-                    .showAds(AppConstant.FOURTH_AD_UNIT);
-
                 if (grade.length == 1) {
                   eclassController.setGrade("0$grade");
                 } else if (grade.length == 2) {
                   eclassController.setGrade(grade);
                 }
-
-                await Get.toNamed(LessonScreen.routeName, arguments: grade);
+                GlobleOnClick().onClick(AppConstant.FOURTH_AD_UNIT, null,
+                    LessonScreen.routeName, grade, context);
               },
               child: Container(
                 decoration: BoxDecoration(

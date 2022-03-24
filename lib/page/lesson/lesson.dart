@@ -7,6 +7,7 @@ import 'package:mm_school/model/eclass_model.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
+import 'package:mm_school/utils/globleOnClick.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -68,7 +69,7 @@ class _LessonState extends State<Lesson> {
                 controller: _refreshController,
                 onRefresh: _onRefresh,
                 onLoading: _onLoading,
-                child: controller.lessonModel.eclassData.isNotEmpty
+                child: controller.lessonModel.eclassData.length != 0
                     ? ListView.builder(
                         padding: EdgeInsets.only(bottom: Dimension.height10),
                         itemCount: controller.lessonModel.eclassData.length,
@@ -190,65 +191,15 @@ class _LessonState extends State<Lesson> {
                                                         ),
                                                       ),
                                                       onPressed: () async {
-                                                        dialogController
-                                                            .setTime();
-
-                                                        if (controller
+                                                        GlobleOnClick().onCliclUrl(
+                                                            AppConstant
+                                                                .FIRST_AD_UNIT,
+                                                            controller
                                                                 .lessonModel
                                                                 .eclassData[
                                                                     index]
-                                                                .link !=
-                                                            "") {
-                                                          adController.loadAd(
-                                                              AppConstant
-                                                                  .FIRST_AD_UNIT,
-                                                              controller
-                                                                  .lessonModel
-                                                                  .eclassData[
-                                                                      index]
-                                                                  .link
-                                                                  .toString());
-                                                          dialogController
-                                                              .startTimer();
-                                                          await showDialog(
-                                                              barrierDismissible:
-                                                                  false,
-                                                              context: context,
-                                                              builder:
-                                                                  (context) {
-                                                                return Dialog(
-                                                                  shape: RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              Dimension.height20)),
-                                                                  child:
-                                                                      TimerDialog(),
-                                                                );
-                                                              });
-                                                          if (adController
-                                                                  .rewardedAd ==
-                                                              null) {
-                                                            launch(controller
-                                                                .lessonModel
-                                                                .eclassData[
-                                                                    index]
-                                                                .link
-                                                                .toString());
-                                                          } else {
-                                                            await adController
-                                                                .showAds(AppConstant
-                                                                    .FIRST_AD_UNIT);
-                                                          }
-                                                        } else {
-                                                          Get.snackbar(
-                                                              'No data!',
-                                                              'No data for this Lesson',
-                                                              backgroundColor:
-                                                                  Colors
-                                                                      .lightBlue,
-                                                              colorText:
-                                                                  Colors.white);
-                                                        }
+                                                                .link,
+                                                            context);
                                                       }),
                                                 ),
                                               ),
@@ -345,6 +296,11 @@ class _LessonState extends State<Lesson> {
                                                                               index]
                                                                           .description
                                                                           .toString(),
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              16,
+                                                                          height:
+                                                                              1.5),
                                                                     )
                                                                   ],
                                                                 ),

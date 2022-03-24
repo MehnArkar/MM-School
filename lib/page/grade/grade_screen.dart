@@ -7,6 +7,7 @@ import 'package:mm_school/page/subject/subject_screen.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
+import 'package:mm_school/utils/globleOnClick.dart';
 
 class GradeScreen extends StatefulWidget {
   static const routeName = '/gradeScreen';
@@ -53,75 +54,111 @@ class _GradeScreenState extends State<GradeScreen> {
           ),
           crossAxisCount: 2,
           children: List.generate(gradeList.length, (index) {
-            return GestureDetector(
-              onTap: () async {
-                dialogController.setTime();
-                Get.find<AdController>()
-                    .loadAd(AppConstant.THIRTH_AD_UNIT, null);
-                dialogController.startTimer();
-                await showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) {
-                      return Dialog(
-                        shape: RoundedRectangleBorder(
+            return Container(
+              height: ((MediaQuery.of(context).size.width -
+                      (Dimension.height35 + Dimension.height5)) /
+                  2),
+              child: Stack(
+                children: [
+                  Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        height: ((MediaQuery.of(context).size.width -
+                                    (Dimension.height60)) /
+                                2) -
+                            (Dimension.height35 / 2),
+                        padding:
+                            EdgeInsets.only(bottom: Dimension.height35 / 2),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.circular(Dimension.height15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.7),
+                              offset: const Offset(0, 5),
+                              blurRadius: 3,
+                            ),
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.7),
+                              offset: const Offset(0, 1),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset(
+                                'assets/img/education.png',
+                                width: Dimension.height60,
+                                height: Dimension.height60,
+                                fit: BoxFit.cover,
+                              ),
+                              SizedBox(
+                                height: Dimension.height10,
+                              ),
+                              Text(
+                                gradeList[index].gradeName.toString(),
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )),
+                  Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: GestureDetector(
+                        onTap: () {
+                          GlobleOnClick().onClick(
+                              AppConstant.THIRTH_AD_UNIT,
+                              null,
+                              SubjectScreen.routeName,
+                              gradeList[index].sub,
+                              context);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
                             borderRadius:
-                                BorderRadius.circular(Dimension.height20)),
-                        child: TimerDialog(),
-                      );
-                    });
-
-                await Get.find<AdController>()
-                    .showAds(AppConstant.THIRTH_AD_UNIT);
-                await Get.toNamed(SubjectScreen.routeName,
-                    arguments: gradeList[index].sub);
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.7),
-                      offset: const Offset(0, 5),
-                      blurRadius: 3,
-                    ),
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.7),
-                      offset: const Offset(0, 1),
-                      blurRadius: 3,
-                    ),
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(Dimension.height15),
-                ),
-                child: Center(
-                  child: Container(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: Dimension.height50,
-                          height: Dimension.height50,
-                          child: Image.asset('assets/img/education.png',
-                              fit: BoxFit.cover),
+                                BorderRadius.circular(Dimension.height35 / 2),
+                            border:
+                                Border.all(width: 1.5, color: Colors.lightBlue),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.blue.withOpacity(0.3),
+                                offset: const Offset(0, 5),
+                                blurRadius: 3,
+                              ),
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.7),
+                                offset: const Offset(0, 1),
+                                blurRadius: 3,
+                              ),
+                            ],
+                            color: Colors.white,
+                          ),
+                          height: Dimension.height35,
+                          margin: const EdgeInsets.only(left: 20, right: 20),
+                          child: Center(
+                            child: Text(
+                              'Select',
+                              style: TextStyle(
+                                  color: Colors.blue[400],
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16),
+                            ),
+                          ),
                         ),
-                        SizedBox(
-                          height: Dimension.height10,
-                        ),
-                        Text(
-                          gradeList[index].gradeName.toString(),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontFamily: 'RobotoCondensed',
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                      ))
+                ],
               ),
             );
           }),

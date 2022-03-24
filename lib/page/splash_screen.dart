@@ -14,8 +14,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  DataController dataController = Get.find();
-
   @override
   void initState() {
     super.initState();

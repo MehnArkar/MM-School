@@ -7,6 +7,7 @@ import 'package:mm_school/model/eclass_model.dart';
 import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
+import 'package:mm_school/utils/globleOnClick.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -68,7 +69,7 @@ class _AssessmentState extends State<Assessment> {
                 controller: _refreshController,
                 onRefresh: _onRefresh,
                 onLoading: _onLoading,
-                child: controller.assessmentModel.eclassData.isNotEmpty
+                child: controller.assessmentModel.eclassData.length != 0
                     ? ListView.builder(
                         padding: EdgeInsets.only(bottom: Dimension.height10),
                         itemCount: controller.assessmentModel.eclassData.length,
@@ -191,65 +192,15 @@ class _AssessmentState extends State<Assessment> {
                                                         ),
                                                       ),
                                                       onPressed: () async {
-                                                        dialogController
-                                                            .setTime();
-
-                                                        if (controller
+                                                        GlobleOnClick().onCliclUrl(
+                                                            AppConstant
+                                                                .FIRST_AD_UNIT,
+                                                            controller
                                                                 .assessmentModel
                                                                 .eclassData[
                                                                     index]
-                                                                .link !=
-                                                            "") {
-                                                          adController.loadAd(
-                                                              AppConstant
-                                                                  .FIRST_AD_UNIT,
-                                                              controller
-                                                                  .assessmentModel
-                                                                  .eclassData[
-                                                                      index]
-                                                                  .link
-                                                                  .toString());
-                                                          dialogController
-                                                              .startTimer();
-                                                          await showDialog(
-                                                              barrierDismissible:
-                                                                  false,
-                                                              context: context,
-                                                              builder:
-                                                                  (context) {
-                                                                return Dialog(
-                                                                  shape: RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              Dimension.height20)),
-                                                                  child:
-                                                                      TimerDialog(),
-                                                                );
-                                                              });
-                                                          if (adController
-                                                                  .rewardedAd ==
-                                                              null) {
-                                                            launch(controller
-                                                                .assessmentModel
-                                                                .eclassData[
-                                                                    index]
-                                                                .link
-                                                                .toString());
-                                                          } else {
-                                                            await adController
-                                                                .showAds(AppConstant
-                                                                    .FIRST_AD_UNIT);
-                                                          }
-                                                        } else {
-                                                          Get.snackbar(
-                                                              'No data!',
-                                                              'No data for this Lesson',
-                                                              backgroundColor:
-                                                                  Colors
-                                                                      .lightBlue,
-                                                              colorText:
-                                                                  Colors.white);
-                                                        }
+                                                                .link,
+                                                            context);
                                                       }),
                                                 ),
                                               ),
@@ -346,6 +297,11 @@ class _AssessmentState extends State<Assessment> {
                                                                               index]
                                                                           .description
                                                                           .toString(),
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              16,
+                                                                          height:
+                                                                              1.5),
                                                                     )
                                                                   ],
                                                                 ),
