@@ -8,7 +8,6 @@ import 'package:mm_school/controller/ad_controller.dart';
 import 'package:mm_school/controller/data_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/main.dart';
-import 'package:mm_school/model/data_model.dart';
 import 'package:mm_school/page/Identity/class_type.dart';
 import 'package:mm_school/page/batch/batch_screen.dart';
 import 'package:mm_school/page/level/level_screen.dart';
@@ -18,7 +17,6 @@ import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/colors.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/';
@@ -33,30 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
   DialogController dialogController = Get.find();
   late StreamSubscription _connectivitySubscription;
   double dotIndicatorIndex = 0;
-
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
-
-  void _onRefresh() async {
-    // monitor network fetch
-    Get.find<DataController>().isLoaded.value = false;
-    Get.find<DataController>().datamodel = Datamodel();
-    await Get.find<DataController>().getData();
-    setState(() {});
-    // if failed,use refreshFailed()
-    _refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    // monitor network fetch
-    Get.find<DataController>().isLoaded.value = false;
-    Get.find<DataController>().datamodel = Datamodel();
-    await Get.find<DataController>().getData();
-    setState(() {});
-    // if failed,use loadFailed(),if no data return,use LoadNodata()
-
-    _refreshController.loadComplete();
-  }
 
   @override
   void initState() {
@@ -95,11 +69,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     List imgList = [
-      'assets/img/Eacademy.jpg',
-      'assets/img/StuidentID.jpg',
-      'assets/img/Ecertificate.jpg',
-      'assets/img/Education.jpg',
       'assets/img/Foemie.jpg',
+      'assets/img/Education.jpg',
+      'assets/img/Eacademy.jpg',
+      'assets/img/Ecertificate.jpg',
+      'assets/img/StuidentID.jpg',
     ];
 
     return Scaffold(
@@ -181,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     children: [
                       //Academy
-                      classWidget("Academy", () {
+                      classWidget("Academy", "assets/img/academy.png", () {
                         onClick(AppConstant.FIRST_AD_UNIT, null,
                             LevelScreen.routeName, null);
                       }),
@@ -189,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: Dimension.height20,
                       ),
                       //E-classes
-                      classWidget("E-classes", () {
+                      classWidget("E-classes", "assets/img/Eclasses.png", () {
                         onClick(AppConstant.FIRST_AD_UNIT, null,
                             BatchScreen.routeName, null);
                       }),
@@ -206,7 +180,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     children: [
                       //Lu Htu College
-                      classWidget("Lu Htu College", () {
+                      classWidget("Lu Htu College", "assets/img/college.png",
+                          () {
                         showDialog(
                             barrierDismissible: false,
                             context: context,
@@ -223,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: Dimension.height20,
                       ),
                       //Exam Room
-                      classWidget('Exam Room', () {
+                      classWidget('Exam Room', "assets/img/exam.png", () {
                         showDialog(
                             barrierDismissible: false,
                             context: context,
@@ -371,7 +346,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget classWidget(String className, Function onClick) {
+  Widget classWidget(String className, String imgPath, Function onClick) {
     return Expanded(
       child: Container(
         height: ((MediaQuery.of(context).size.width -
@@ -392,7 +367,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(Dimension.height15),
-                    //border: Border.all(width: 1.5, color: Colors.lightBlue),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.7),
@@ -411,9 +385,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Image.asset(
-                          'assets/img/blurLogo.png',
-                          width: Dimension.height60,
-                          height: Dimension.height60,
+                          imgPath,
+                          width: Dimension.height50,
+                          height: Dimension.height50,
                           fit: BoxFit.cover,
                         ),
                         SizedBox(

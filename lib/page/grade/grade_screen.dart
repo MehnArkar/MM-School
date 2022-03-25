@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mm_school/controller/ad_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/model/data_model.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/page/subject/subject_screen.dart';
-import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
 import 'package:mm_school/utils/globleOnClick.dart';
@@ -94,12 +92,12 @@ class _GradeScreenState extends State<GradeScreen> {
                             children: [
                               Image.asset(
                                 'assets/img/education.png',
-                                width: Dimension.height60,
-                                height: Dimension.height60,
+                                width: Dimension.height50,
+                                height: Dimension.height50,
                                 fit: BoxFit.cover,
                               ),
                               SizedBox(
-                                height: Dimension.height10,
+                                height: Dimension.height5,
                               ),
                               Text(
                                 gradeList[index].gradeName.toString(),

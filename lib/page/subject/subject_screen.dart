@@ -3,11 +3,9 @@ import 'package:get/get.dart';
 import 'package:mm_school/controller/ad_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/model/data_model.dart';
-import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
 import 'package:mm_school/utils/globleOnClick.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SubjectScreen extends StatefulWidget {
   static const routeName = '/subjectScreen';
@@ -95,12 +93,12 @@ class _SubjectScreenState extends State<SubjectScreen> {
                             children: [
                               Image.asset(
                                 'assets/img/books.png',
-                                width: Dimension.height60,
-                                height: Dimension.height60,
+                                width: Dimension.height50,
+                                height: Dimension.height50,
                                 fit: BoxFit.cover,
                               ),
                               SizedBox(
-                                height: Dimension.height10,
+                                height: Dimension.height5,
                               ),
                               Text(
                                 subList[index].subName.toString(),

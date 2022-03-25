@@ -15,7 +15,6 @@ class EclassController extends GetxController {
   String? grade;
 
   Future<void> getEclassData(String grade, String batch, String lesson) async {
-    // Response response = await eClassRepo.getEclassData(grade, batch, lesson);
     http.Response response =
         await eClassRepo.getEclassData(grade, batch, lesson);
     if (response.statusCode == 200) {

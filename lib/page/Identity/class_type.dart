@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:mm_school/page/Identity/check_identity_screen.dart';
 import 'package:mm_school/page/widgets/comingsoon_dialog.dart';
 import 'package:mm_school/utils/constant.dart';

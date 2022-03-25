@@ -74,7 +74,7 @@ class _IdentityCardState extends State<IdentityCard> {
           );
         });
     if (adController.rewardedAd == null) {
-      launch('https://sway.office.com/s4otQu5yIzJBoDTy?ref=Link&loc=play');
+      launch(link);
     } else {
       await adController.showAds(AppConstant.FOURTH_AD_UNIT);
     }

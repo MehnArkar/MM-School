@@ -15,17 +15,14 @@ class DataController extends GetxController {
   RxBool get isLoaded => _isLoaded;
 
   Future<void> getData() async {
-    //Response response = await dataRepo.getData();
     http.Response response = await dataRepo.getHttpData();
     if (response.statusCode == 200) {
       datamodel = Datamodel.fromJson(jsonDecode(response.body));
       _isLoaded.value = true;
       print('got data');
       update();
-    } else if (response.statusCode == 1) {
-      print("error code 1 ");
     } else {
-      print("error code not 1 = " + response.statusCode.toString());
+      print("error in fetching data");
     }
   }
 

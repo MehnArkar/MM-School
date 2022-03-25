@@ -53,7 +53,8 @@ class ConnectionDialog extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                   horizontal: Dimension.height20, vertical: Dimension.height10),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Dimension.height35 / 2),
+                  borderRadius: BorderRadius.circular(
+                      (Dimension.height35 + Dimension.height5) / 2),
                   color: Colors.red),
               child: const Text(
                 "Try again",

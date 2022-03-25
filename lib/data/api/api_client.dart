@@ -8,7 +8,7 @@ class ApiClient {
   Future<http.Response> getHttpData() async {
     http.Response response = await http
         .get(Uri.parse(appBaseUrl + AppConstant.API_URL))
-        .timeout(Duration(seconds: 30));
+        .timeout(const Duration(seconds: 30));
 
     return response;
   }

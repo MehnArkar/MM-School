@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mm_school/controller/ad_controller.dart';
 import 'package:mm_school/controller/data_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
-import 'package:mm_school/model/data_model.dart';
-import 'package:mm_school/page/batch/batch_screen.dart';
 import 'package:mm_school/page/grade/grade_screen.dart';
-import 'package:mm_school/page/widgets/timer_dialog.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
 import 'package:mm_school/utils/globleOnClick.dart';
@@ -101,7 +97,7 @@ class _LevelScreenState extends State<LevelScreen> {
                                                 fontSize: 20,
                                                 fontFamily: 'RobotoCondensed',
                                                 letterSpacing: 1,
-                                                fontWeight: FontWeight.w500),
+                                                fontWeight: FontWeight.w600),
                                           ),
                                           Expanded(child: Container()),
                                           //Select btn
