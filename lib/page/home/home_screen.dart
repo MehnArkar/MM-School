@@ -10,6 +10,7 @@ import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/main.dart';
 import 'package:mm_school/page/Identity/class_type.dart';
 import 'package:mm_school/page/batch/batch_screen.dart';
+import 'package:mm_school/page/certificate/certificate_classtype.dart';
 import 'package:mm_school/page/level/level_screen.dart';
 import 'package:mm_school/page/widgets/comingsoon_dialog.dart';
 import 'package:mm_school/page/widgets/connection_dialog.dart';
@@ -216,129 +217,34 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   height: Dimension.height20,
                 ),
-                //Check Student Identity
+
                 Padding(
                   padding: EdgeInsets.only(
                       left: Dimension.height10, right: Dimension.height10),
-                  child: GestureDetector(
-                    onTap: () {
-                      onClick(AppConstant.FIRST_AD_UNIT, null,
-                          ClassType.routeName, null);
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: Dimension.height50,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius:
-                            BorderRadius.circular(Dimension.height50 / 2),
-                        border: Border.all(width: 1.5, color: Colors.lightBlue),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.blue.withOpacity(0.3),
-                            offset: const Offset(0, 5),
-                            blurRadius: 3,
-                          ),
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.7),
-                            offset: const Offset(0, 1),
-                            blurRadius: 3,
-                          ),
-                        ],
+                  child: Row(
+                    children: [
+                      //Check Identity
+                      classWidget("Check Identity", "assets/img/identity.png",
+                          () {
+                        onClick(AppConstant.FIRST_AD_UNIT, null,
+                            ClassType.routeName, null);
+                      }),
+                      SizedBox(
+                        width: Dimension.height20,
                       ),
-                      child: Center(
-                        child: Row(
-                          children: [
-                            Expanded(child: Container()),
-                            Icon(
-                              Icons.checklist_sharp,
-                              color: Colors.blue[400],
-                            ),
-                            SizedBox(
-                              width: Dimension.height10,
-                            ),
-                            Text(
-                              'Check Student Identity',
-                              style: TextStyle(
-                                  color: Colors.blue[400],
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Expanded(child: Container()),
-                          ],
-                        ),
-                      ),
-                    ),
+                      //Get Certificate
+                      classWidget(
+                          'Get Certificate', "assets/img/certificate.png", () {
+                        // onClick(AppConstant.FIRST_AD_UNIT, null,
+                        //     CertificateClassType.routeName, null);
+                        Get.toNamed(CertificateClassType.routeName);
+                      })
+                    ],
                   ),
                 ),
+
                 SizedBox(
                   height: Dimension.height20,
-                ),
-                //Generate Certificate
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: Dimension.height10, right: Dimension.height10),
-                  child: GestureDetector(
-                    onTap: () {
-                      showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (context) {
-                            return Dialog(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        Dimension.height20)),
-                                child: const ComingDialog());
-                          });
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: Dimension.height50,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius:
-                            BorderRadius.circular(Dimension.height50 / 2),
-                        border: Border.all(width: 1.5, color: Colors.lightBlue),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.blue.withOpacity(0.3),
-                            offset: const Offset(0, 5),
-                            blurRadius: 3,
-                          ),
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.7),
-                            offset: const Offset(0, 1),
-                            blurRadius: 3,
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Row(
-                          children: [
-                            Expanded(child: Container()),
-                            Icon(
-                              Icons.domain_verification_outlined,
-                              color: Colors.blue[400],
-                            ),
-                            SizedBox(
-                              width: Dimension.height10,
-                            ),
-                            Text(
-                              'Get Your Certificate',
-                              style: TextStyle(
-                                  color: Colors.blue[400],
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Expanded(child: Container()),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: Dimension.height10,
                 )
               ],
             ),

@@ -7,6 +7,12 @@ class AppConstant {
   static const String IDENTITY_BASE_URL =
       'https://www.foeimacademy.org/stuidentity/source/scanner/api/';
 
+  static const String CHECK_ID_BASE_URL =
+      'https://foeimacademy.org/certifymeeclassapi.php';
+
+  static const String CERTIFICATE_BASE_URL =
+      'https://foeimacademy.org/certifymeapi.php?';
+
   //Ad unit
   static const String FIRST_AD_UNIT = 'ca-app-pub-1222451237037237/3497978458';
 

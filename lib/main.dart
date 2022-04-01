@@ -4,13 +4,19 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/controller/ad_controller.dart';
+import 'package:mm_school/controller/certificate_controller.dart';
+import 'package:mm_school/controller/checkid_controller.dart';
 import 'package:mm_school/controller/data_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/controller/eclass_controller.dart';
 import 'package:mm_school/controller/identity_controller.dart';
 import 'package:mm_school/data/api/api_client.dart';
+import 'package:mm_school/data/api/certificate_api.dart';
+import 'package:mm_school/data/api/checkID_api.dart';
 import 'package:mm_school/data/api/eclass_api_client.dart';
 import 'package:mm_school/data/api/identity_api.dart';
+import 'package:mm_school/data/repository/certificate_responsitory.dart';
+import 'package:mm_school/data/repository/checkID_repository.dart';
 import 'package:mm_school/data/repository/data_repository.dart';
 import 'package:mm_school/data/repository/eclass_repository.dart';
 import 'package:mm_school/data/repository/identity_repository.dart';
@@ -18,6 +24,11 @@ import 'package:mm_school/page/Identity/check_identity_screen.dart';
 import 'package:mm_school/page/Identity/class_type.dart';
 import 'package:mm_school/page/Identity/identity_card.dart';
 import 'package:mm_school/page/batch/batch_screen.dart';
+import 'package:mm_school/page/certificate/ZclassForm.dart';
+import 'package:mm_school/page/certificate/certificate_classtype.dart';
+import 'package:mm_school/page/certificate/download_certificate.dart';
+import 'package:mm_school/page/certificate/eclass_form.dart';
+import 'package:mm_school/page/certificate/webview.dart';
 import 'package:mm_school/page/eclass_grade/eclass_grade.dart';
 import 'package:mm_school/page/grade/grade_screen.dart';
 import 'package:mm_school/page/home/home_screen.dart';
@@ -130,6 +141,31 @@ class MyApp extends StatelessWidget {
           page: () => const ClassType(),
           transition: Transition.fade,
         ),
+        GetPage(
+          name: CertificateClassType.routeName,
+          page: () => const CertificateClassType(),
+          transition: Transition.fade,
+        ),
+        GetPage(
+          name: EclassForm.routeName,
+          page: () => const EclassForm(),
+          transition: Transition.fade,
+        ),
+        GetPage(
+          name: ZClassForm.routeName,
+          page: () => const ZClassForm(),
+          transition: Transition.fade,
+        ),
+        GetPage(
+          name: EclassWebView.routeName,
+          page: () => const EclassWebView(),
+          transition: Transition.fade,
+        ),
+        GetPage(
+          name: DownloadCertificate.routeName,
+          page: () => const DownloadCertificate(),
+          transition: Transition.fade,
+        ),
       ],
     );
   }
@@ -140,11 +176,15 @@ Future<void> init() async {
   Get.lazyPut(() => ApiClient(appBaseUrl: AppConstant.BASE_URL));
   Get.lazyPut(() => EClassApiClient(appBaseUrl: AppConstant.ECLASS_BASE_URL));
   Get.lazyPut(() => IdentityApi(appBaseUrl: AppConstant.IDENTITY_BASE_URL));
+  Get.lazyPut(() => CheckIdApi(baseUrl: AppConstant.CHECK_ID_BASE_URL));
+  Get.lazyPut(() => CertificateApi(baseUrl: AppConstant.CERTIFICATE_BASE_URL));
 
   //Put Repository
   Get.lazyPut(() => DataRepo(apiClient: Get.find()));
   Get.lazyPut(() => EClassRepo(apiClient: Get.find()));
   Get.lazyPut(() => IdentityRepo(apiClient: Get.find()));
+  Get.lazyPut(() => CheckIdRepo(apiClient: Get.find()));
+  Get.lazyPut(() => CertificateRepo(apiClient: Get.find()));
 
   //Put Controller
   Get.lazyPut(() => DataController(dataRepo: Get.find()));
@@ -152,4 +192,6 @@ Future<void> init() async {
   Get.put(AdController());
   Get.put(EclassController(eClassRepo: Get.find()));
   Get.put(IdentityController(identityRepo: Get.find()));
+  Get.put(CheckIdController(checkIdRepo: Get.find()));
+  Get.put(CertificateController(certificateRepo: Get.find()));
 }
