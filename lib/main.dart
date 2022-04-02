@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -38,6 +37,7 @@ import 'package:mm_school/page/splash_screen.dart';
 import 'package:mm_school/page/subject/subject_screen.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 
 bool isInternet = false;
 
@@ -69,6 +69,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
   await init();
+  await FlutterDownloader.initialize(debug: true);
   await _checkConnectivityState();
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());

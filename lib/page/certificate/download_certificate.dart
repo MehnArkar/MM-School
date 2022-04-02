@@ -1,7 +1,13 @@
+import 'dart:isolate';
+import 'dart:ui';
+import 'dart:io';
+import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/controller/certificate_controller.dart';
 import 'package:mm_school/utils/dimension.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class DownloadCertificate extends StatefulWidget {
   static const routeName = '/downloadCertificate';
@@ -12,6 +18,38 @@ class DownloadCertificate extends StatefulWidget {
 }
 
 class _DownloadCertificateState extends State<DownloadCertificate> {
+  ReceivePort _port = ReceivePort();
+
+  @override
+  void initState() {
+    super.initState();
+
+    IsolateNameServer.registerPortWithName(
+        _port.sendPort, 'downloader_send_port');
+    _port.listen((dynamic data) {
+      String id = data[0];
+      DownloadTaskStatus status = data[1];
+      int progress = data[2];
+      setState(() {});
+    });
+
+    FlutterDownloader.registerCallback(downloadCallback);
+  }
+
+  @override
+  void dispose() {
+    IsolateNameServer.removePortNameMapping('downloader_send_port');
+    super.dispose();
+  }
+
+  @pragma('vm:entry-point')
+  static void downloadCallback(
+      String id, DownloadTaskStatus status, int progress) {
+    final SendPort? send =
+        IsolateNameServer.lookupPortByName('downloader_send_port');
+    send?.send([id, status, progress]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,7 +172,65 @@ class _DownloadCertificateState extends State<DownloadCertificate> {
                                           ),
                                         ],
                                       ),
-                                      onPressed: () {}),
+                                      onPressed: () async {
+                                        Map<Permission, PermissionStatus>
+                                            statuses = await [
+                                          Permission.storage,
+                                        ].request();
+
+                                        if (statuses[Permission.storage]!
+                                            .isGranted) {
+                                          final dir = await ExternalPath
+                                              .getExternalStoragePublicDirectory(
+                                                  ExternalPath
+                                                      .DIRECTORY_DOWNLOADS);
+                                          if (dir != null) {
+                                            var isExist = await File(dir +
+                                                    '/${controller.studentModel.student[0].iD}.pdf')
+                                                .exists();
+
+                                            print(isExist);
+                                            if (isExist) {
+                                              Get.snackbar(
+                                                  'File already exist!',
+                                                  'You had been downloaded your certificate.',
+                                                  colorText: Colors.lightBlue,
+                                                  backgroundColor: Colors.white
+                                                      .withOpacity(0.8));
+                                            } else {
+                                              Get.snackbar(
+                                                  'Downloading Certificate file',
+                                                  'Your certificate file store at Internal Storage/Download.',
+                                                  colorText: Colors.lightBlue,
+                                                  backgroundColor:
+                                                      Colors.white);
+
+                                              try {
+                                                final taskId =
+                                                    await FlutterDownloader
+                                                        .enqueue(
+                                                  url:
+                                                      'https://foeimacademy.org/aca20212022/${controller.studentModel.student[0].iD}.pdf',
+                                                  savedDir: dir,
+                                                  showNotification: true,
+                                                  openFileFromNotification:
+                                                      true,
+                                                );
+                                              } catch (e) {
+                                                Get.snackbar('Something wrong!',
+                                                    'Can\'t download your certificate.',
+                                                    backgroundColor: Colors.red,
+                                                    colorText: Colors.white);
+                                              }
+                                            }
+                                          }
+                                        } else {
+                                          Get.snackbar('Permission not allow!',
+                                              'Please allow storage permission.',
+                                              backgroundColor: Colors.red,
+                                              colorText: Colors.white);
+                                        }
+                                      }),
                                 ),
                               ],
                             )

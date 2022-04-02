@@ -90,7 +90,7 @@ class _ZClassFormState extends State<ZClassForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[400],
-        title: const Text('Certify Student',
+        title: const Text('Verify Identity',
             style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           Container(
@@ -124,10 +124,10 @@ class _ZClassFormState extends State<ZClassForm> {
                   ),
 
                   Text(
-                    'Certifyme By FOEIM Academy',
+                    'FOEIM Academy',
                     style: TextStyle(
                       color: AppColors.imageColor,
-                      fontSize: 20,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'RobotoCondensed',
                     ),
