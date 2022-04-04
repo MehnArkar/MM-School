@@ -103,13 +103,18 @@ class _LevelScreenState extends State<LevelScreen> {
                                           //Select btn
                                           GestureDetector(
                                             onTap: () {
-                                              GlobleOnClick().onClick(
-                                                  AppConstant.SECOND_AD_UNIT,
-                                                  null,
-                                                  GradeScreen.routeName,
-                                                  controller.datamodel
-                                                      .level![index].grade,
-                                                  context);
+                                              // GlobleOnClick().onClick(
+                                              //     AppConstant.SECOND_AD_UNIT,
+                                              //     null,
+                                              //     GradeScreen.routeName,
+                                              //     controller.datamodel
+                                              //         .level![index].grade,
+                                              //     context);
+                                              Get.toNamed(GradeScreen.routeName,
+                                                  arguments: controller
+                                                      .datamodel
+                                                      .level![index]
+                                                      .grade);
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(

@@ -50,6 +50,36 @@ class _DownloadCertificateState extends State<DownloadCertificate> {
     send?.send([id, status, progress]);
   }
 
+  bool _checkDate() {
+    var currentDate = DateTime.now();
+    //check year
+    if (currentDate.year >= 2022) {
+      if (currentDate.year == 2022) {
+        if (currentDate.month >= 4) {
+          if (currentDate.month == 4) {
+            if (currentDate.day >= 25) {
+              return true;
+            } else {
+              return false;
+            }
+          } else if (currentDate.month > 4) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else if (currentDate.year > 2022) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +109,7 @@ class _DownloadCertificateState extends State<DownloadCertificate> {
                       ? SizedBox(
                           width: Dimension.height35,
                           height: Dimension.height35,
-                          child: CircularProgressIndicator())
+                          child: const CircularProgressIndicator())
                       : controller.studentModel.student.isNotEmpty
                           ?
                           //Correct
@@ -173,62 +203,76 @@ class _DownloadCertificateState extends State<DownloadCertificate> {
                                         ],
                                       ),
                                       onPressed: () async {
-                                        Map<Permission, PermissionStatus>
-                                            statuses = await [
-                                          Permission.storage,
-                                        ].request();
+                                        //Check current date greather than 25.4.2022
+                                        if (_checkDate()) {
+                                          Map<Permission, PermissionStatus>
+                                              statuses = await [
+                                            Permission.storage,
+                                          ].request();
 
-                                        if (statuses[Permission.storage]!
-                                            .isGranted) {
-                                          final dir = await ExternalPath
-                                              .getExternalStoragePublicDirectory(
-                                                  ExternalPath
-                                                      .DIRECTORY_DOWNLOADS);
-                                          if (dir != null) {
-                                            var isExist = await File(dir +
-                                                    '/${controller.studentModel.student[0].iD}.pdf')
-                                                .exists();
+                                          if (statuses[Permission.storage]!
+                                              .isGranted) {
+                                            final dir = await ExternalPath
+                                                .getExternalStoragePublicDirectory(
+                                                    ExternalPath
+                                                        .DIRECTORY_DOWNLOADS);
+                                            if (dir != null) {
+                                              var isExist = await File(dir +
+                                                      '/${controller.studentModel.student[0].iD}.pdf')
+                                                  .exists();
 
-                                            print(isExist);
-                                            if (isExist) {
-                                              Get.snackbar(
-                                                  'File already exist!',
-                                                  'You had been downloaded your certificate.',
-                                                  colorText: Colors.lightBlue,
-                                                  backgroundColor: Colors.white
-                                                      .withOpacity(0.8));
-                                            } else {
-                                              Get.snackbar(
-                                                  'Downloading Certificate file',
-                                                  'Your certificate file store at Internal Storage/Download.',
-                                                  colorText: Colors.lightBlue,
-                                                  backgroundColor:
-                                                      Colors.white);
+                                              if (isExist) {
+                                                Get.snackbar(
+                                                    'File already exist!',
+                                                    'You had been downloaded your certificate.',
+                                                    colorText: Colors.lightBlue,
+                                                    backgroundColor: Colors
+                                                        .white
+                                                        .withOpacity(0.8));
+                                              } else {
+                                                Get.snackbar(
+                                                    'Downloading Certificate file',
+                                                    'Your certificate file store at Internal Storage/Download.',
+                                                    colorText: Colors.lightBlue,
+                                                    backgroundColor: Colors
+                                                        .white
+                                                        .withOpacity(0.8));
 
-                                              try {
-                                                final taskId =
-                                                    await FlutterDownloader
-                                                        .enqueue(
-                                                  url:
-                                                      'https://foeimacademy.org/aca20212022/${controller.studentModel.student[0].iD}.pdf',
-                                                  savedDir: dir,
-                                                  showNotification: true,
-                                                  openFileFromNotification:
-                                                      true,
-                                                );
-                                              } catch (e) {
-                                                Get.snackbar('Something wrong!',
-                                                    'Can\'t download your certificate.',
-                                                    backgroundColor: Colors.red,
-                                                    colorText: Colors.white);
+                                                try {
+                                                  final taskId =
+                                                      await FlutterDownloader
+                                                          .enqueue(
+                                                    url:
+                                                        'https://foeimacademy.org/aca20212022/${controller.studentModel.student[0].iD}.pdf',
+                                                    savedDir: dir,
+                                                    showNotification: true,
+                                                    openFileFromNotification:
+                                                        true,
+                                                  );
+                                                } catch (e) {
+                                                  Get.snackbar(
+                                                      'Something wrong!',
+                                                      'Can\'t download your certificate.',
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      colorText: Colors.white);
+                                                }
                                               }
                                             }
+                                          } else {
+                                            Get.snackbar(
+                                                'Permission not allow!',
+                                                'Please allow storage permission.',
+                                                backgroundColor: Colors.red,
+                                                colorText: Colors.white);
                                           }
                                         } else {
-                                          Get.snackbar('Permission not allow!',
-                                              'Please allow storage permission.',
-                                              backgroundColor: Colors.red,
-                                              colorText: Colors.white);
+                                          Get.snackbar(
+                                              'Sorry, can\'t download right now!',
+                                              'Comeback here to download your Graduation Certificate at 04/25/2022.',
+                                              colorText: Colors.white,
+                                              backgroundColor:
+                                                  Colors.red.withOpacity(0.8));
                                         }
                                       }),
                                 ),
@@ -263,7 +307,7 @@ class _DownloadCertificateState extends State<DownloadCertificate> {
                                   height: Dimension.height20,
                                 ),
                                 const Text(
-                                    "It look like, you are not eligible for Academic Year 2021-2022 Graduation Ceremony OR you need to enter correct information.",
+                                    "It look like, you are not eligible to attend Academic Year 2021-2022 Graduation Ceremony OR you need to enter correct information.",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 16,

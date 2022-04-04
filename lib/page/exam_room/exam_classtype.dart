@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:mm_school/page/Identity/check_identity_screen.dart';
-import 'package:mm_school/page/widgets/comingsoon_dialog.dart';
+import 'package:mm_school/page/exam_room/exam_eclass.dart';
+import 'package:mm_school/page/exam_room/exam_zclass.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
 import 'package:mm_school/utils/globleOnClick.dart';
 
-class ClassType extends StatelessWidget {
-  static const routeName = '/classType';
-  const ClassType({Key? key}) : super(key: key);
+class ExamClassType extends StatelessWidget {
+  static const routeName = '/examClassType';
+  const ExamClassType({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -88,9 +88,9 @@ class ClassType extends StatelessWidget {
                             GestureDetector(
                               onTap: () {
                                 GlobleOnClick().onClick(
-                                    AppConstant.FIRST_AD_UNIT,
+                                    AppConstant.SECOND_AD_UNIT,
                                     null,
-                                    CheckIdentityScreen.routeName,
+                                    ExamEclass.routeName,
                                     null,
                                     context);
                               },
@@ -191,17 +191,12 @@ class ClassType extends StatelessWidget {
                             //Select btn
                             GestureDetector(
                               onTap: () {
-                                showDialog(
-                                    barrierDismissible: false,
-                                    context: context,
-                                    builder: (context) {
-                                      return Dialog(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                Dimension.height20)),
-                                        child: const ComingDialog(),
-                                      );
-                                    });
+                                GlobleOnClick().onClick(
+                                    AppConstant.SECOND_AD_UNIT,
+                                    null,
+                                    ExamZclass.routeName,
+                                    null,
+                                    context);
                               },
                               child: Container(
                                 decoration: BoxDecoration(

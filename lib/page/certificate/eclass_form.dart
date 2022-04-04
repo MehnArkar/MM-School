@@ -158,7 +158,7 @@ class _EclassFormState extends State<EclassForm> {
                                     color: AppColors.imageColor, width: 1.5)),
                             child: MaterialButton(
                                 child: Text(
-                                  'Verify Now',
+                                  'Check Now',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.imageColor,

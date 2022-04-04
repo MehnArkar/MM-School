@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:mm_school/controller/certificate_controller.dart';
-import 'package:mm_school/page/certificate/download_certificate.dart';
+import 'package:mm_school/controller/examroom_controller.dart';
+import 'package:mm_school/page/exam_room/zclass_info.dart';
 import 'package:mm_school/utils/colors.dart';
 import 'package:mm_school/utils/dimension.dart';
 import 'package:get/get.dart';
 
-class ZClassForm extends StatefulWidget {
-  static const routeName = '/zClassFormScreen';
-  const ZClassForm({Key? key}) : super(key: key);
+class ExamZclass extends StatefulWidget {
+  static const routeName = '/ExamZclass';
+  const ExamZclass({Key? key}) : super(key: key);
 
   @override
-  State<ZClassForm> createState() => _ZClassFormState();
+  State<ExamZclass> createState() => _ExamZclassState();
 }
 
-class _ZClassFormState extends State<ZClassForm> {
+class _ExamZclassState extends State<ExamZclass> {
   bool isComplete = true;
   TextEditingController nameController = TextEditingController();
 
@@ -108,7 +108,7 @@ class _ZClassFormState extends State<ZClassForm> {
       const DropdownMenuItem(child: Text("Grade - 8"), value: "08"),
       const DropdownMenuItem(child: Text("Grade - 9"), value: "09"),
       const DropdownMenuItem(child: Text("Grade - 10"), value: "10"),
-      const DropdownMenuItem(child: Text("Grade - 11"), value: "11"),
+      const DropdownMenuItem(child: Text("Grade - 11"), value: "11")
     ];
     return menuItems;
   }
@@ -331,13 +331,13 @@ class _ZClassFormState extends State<ZClassForm> {
                             setState(() {
                               isComplete = true;
                             });
-                            Get.find<CertificateController>().getCertifyStudent(
+                            Get.find<ExamRoomController>().getZoomStudent(
                                 yearValue,
                                 nameController.text,
                                 sectionNameValue,
                                 sectionNumberValue,
                                 gradeValue);
-                            Get.toNamed(DownloadCertificate.routeName);
+                            Get.toNamed(ZclassInfo.routeName);
                           } else {
                             setState(() {
                               isComplete = false;

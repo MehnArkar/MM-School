@@ -11,6 +11,7 @@ import 'package:mm_school/main.dart';
 import 'package:mm_school/page/Identity/class_type.dart';
 import 'package:mm_school/page/batch/batch_screen.dart';
 import 'package:mm_school/page/certificate/certificate_classtype.dart';
+import 'package:mm_school/page/exam_room/exam_classtype.dart';
 import 'package:mm_school/page/level/level_screen.dart';
 import 'package:mm_school/page/widgets/comingsoon_dialog.dart';
 import 'package:mm_school/page/widgets/connection_dialog.dart';
@@ -36,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
     _connectivitySubscription = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) {
@@ -200,16 +202,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       //Exam Room
                       classWidget('Exam Room', "assets/img/exam.png", () {
-                        showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (context) {
-                              return Dialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          Dimension.height20)),
-                                  child: const ComingDialog());
-                            });
+                        onClick(AppConstant.FIRST_AD_UNIT, null,
+                            ExamClassType.routeName, null);
                       })
                     ],
                   ),
@@ -235,9 +229,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       //Get Certificate
                       classWidget(
                           'Get Certificate', "assets/img/certificate.png", () {
-                        // onClick(AppConstant.FIRST_AD_UNIT, null,
-                        //     CertificateClassType.routeName, null);
-                        Get.toNamed(CertificateClassType.routeName);
+                        onClick(AppConstant.FIRST_AD_UNIT, null,
+                            CertificateClassType.routeName, null);
                       })
                     ],
                   ),

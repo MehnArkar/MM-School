@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:mm_school/page/Identity/check_identity_screen.dart';
 import 'package:mm_school/page/certificate/ZclassForm.dart';
 import 'package:mm_school/page/certificate/eclass_form.dart';
-import 'package:mm_school/page/widgets/comingsoon_dialog.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
 import 'package:mm_school/utils/globleOnClick.dart';
@@ -90,9 +87,12 @@ class CertificateClassType extends StatelessWidget {
                             //Select btn
                             GestureDetector(
                               onTap: () {
-                                //      GlobleOnClick().onClick(AppConstant.FIRST_AD_UNIT, null,
-                                // CheckIdentityScreen.routeName, null, context);
-                                Get.toNamed(EclassForm.routeName);
+                                GlobleOnClick().onClick(
+                                    AppConstant.SECOND_AD_UNIT,
+                                    null,
+                                    EclassForm.routeName,
+                                    null,
+                                    context);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -191,7 +191,12 @@ class CertificateClassType extends StatelessWidget {
                             //Select btn
                             GestureDetector(
                               onTap: () {
-                                Get.toNamed(ZClassForm.routeName);
+                                GlobleOnClick().onClick(
+                                    AppConstant.SECOND_AD_UNIT,
+                                    null,
+                                    ZClassForm.routeName,
+                                    null,
+                                    context);
                               },
                               child: Container(
                                 decoration: BoxDecoration(

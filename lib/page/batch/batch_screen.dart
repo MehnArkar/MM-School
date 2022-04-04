@@ -65,8 +65,9 @@ class _BatchScreenState extends State<BatchScreen> {
                       onTap: () async {
                         eclassController.setBatch('b' +
                             controller.datamodel.batch![index].toString());
-                        GlobleOnClick().onClick(AppConstant.THIRTH_AD_UNIT,
-                            null, EclassGrade.routeName, null, context);
+                        // GlobleOnClick().onClick(AppConstant.THIRTH_AD_UNIT,
+                        //     null, EclassGrade.routeName, null, context);
+                        Get.toNamed(EclassGrade.routeName);
                       },
                       child: Container(
                         decoration: BoxDecoration(

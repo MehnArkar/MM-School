@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:mm_school/data/api/certificate_api.dart';
-import 'package:mm_school/data/api/checkID_api.dart';
 import 'package:http/http.dart' as http;
 
 class CertificateRepo extends GetxService {

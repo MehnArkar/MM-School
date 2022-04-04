@@ -8,16 +8,19 @@ import 'package:mm_school/controller/checkid_controller.dart';
 import 'package:mm_school/controller/data_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/controller/eclass_controller.dart';
+import 'package:mm_school/controller/examroom_controller.dart';
 import 'package:mm_school/controller/identity_controller.dart';
 import 'package:mm_school/data/api/api_client.dart';
 import 'package:mm_school/data/api/certificate_api.dart';
 import 'package:mm_school/data/api/checkID_api.dart';
 import 'package:mm_school/data/api/eclass_api_client.dart';
+import 'package:mm_school/data/api/exam_api.dart';
 import 'package:mm_school/data/api/identity_api.dart';
 import 'package:mm_school/data/repository/certificate_responsitory.dart';
 import 'package:mm_school/data/repository/checkID_repository.dart';
 import 'package:mm_school/data/repository/data_repository.dart';
 import 'package:mm_school/data/repository/eclass_repository.dart';
+import 'package:mm_school/data/repository/exam_repository.dart';
 import 'package:mm_school/data/repository/identity_repository.dart';
 import 'package:mm_school/page/Identity/check_identity_screen.dart';
 import 'package:mm_school/page/Identity/class_type.dart';
@@ -29,6 +32,11 @@ import 'package:mm_school/page/certificate/download_certificate.dart';
 import 'package:mm_school/page/certificate/eclass_form.dart';
 import 'package:mm_school/page/certificate/webview.dart';
 import 'package:mm_school/page/eclass_grade/eclass_grade.dart';
+import 'package:mm_school/page/exam_room/eclass_info.dart';
+import 'package:mm_school/page/exam_room/exam_classtype.dart';
+import 'package:mm_school/page/exam_room/exam_eclass.dart';
+import 'package:mm_school/page/exam_room/exam_zclass.dart';
+import 'package:mm_school/page/exam_room/zclass_info.dart';
 import 'package:mm_school/page/grade/grade_screen.dart';
 import 'package:mm_school/page/home/home_screen.dart';
 import 'package:mm_school/page/lesson/lesson_screen.dart';
@@ -167,6 +175,31 @@ class MyApp extends StatelessWidget {
           page: () => const DownloadCertificate(),
           transition: Transition.fade,
         ),
+        GetPage(
+          name: ExamClassType.routeName,
+          page: () => const ExamClassType(),
+          transition: Transition.fade,
+        ),
+        GetPage(
+          name: ExamZclass.routeName,
+          page: () => const ExamZclass(),
+          transition: Transition.fade,
+        ),
+        GetPage(
+          name: ExamEclass.routeName,
+          page: () => const ExamEclass(),
+          transition: Transition.fade,
+        ),
+        GetPage(
+          name: EclassInfo.routeName,
+          page: () => const EclassInfo(),
+          transition: Transition.fade,
+        ),
+        GetPage(
+          name: ZclassInfo.routeName,
+          page: () => const ZclassInfo(),
+          transition: Transition.fade,
+        ),
       ],
     );
   }
@@ -179,6 +212,7 @@ Future<void> init() async {
   Get.lazyPut(() => IdentityApi(appBaseUrl: AppConstant.IDENTITY_BASE_URL));
   Get.lazyPut(() => CheckIdApi(baseUrl: AppConstant.CHECK_ID_BASE_URL));
   Get.lazyPut(() => CertificateApi(baseUrl: AppConstant.CERTIFICATE_BASE_URL));
+  Get.lazyPut(() => ExamApi(baseUrl: AppConstant.EXAM_BASE_URL));
 
   //Put Repository
   Get.lazyPut(() => DataRepo(apiClient: Get.find()));
@@ -186,6 +220,7 @@ Future<void> init() async {
   Get.lazyPut(() => IdentityRepo(apiClient: Get.find()));
   Get.lazyPut(() => CheckIdRepo(apiClient: Get.find()));
   Get.lazyPut(() => CertificateRepo(apiClient: Get.find()));
+  Get.lazyPut(() => ExamRepo(apiClient: Get.find()));
 
   //Put Controller
   Get.lazyPut(() => DataController(dataRepo: Get.find()));
@@ -195,4 +230,5 @@ Future<void> init() async {
   Get.put(IdentityController(identityRepo: Get.find()));
   Get.put(CheckIdController(checkIdRepo: Get.find()));
   Get.put(CertificateController(certificateRepo: Get.find()));
+  Get.put(ExamRoomController(examRepo: Get.find()));
 }

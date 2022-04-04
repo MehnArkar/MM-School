@@ -21,11 +21,6 @@ class CertificateController extends GetxController {
       studentModel = StudentModel.fromJson(jsonDecode(response.body));
       await Future.delayed(const Duration(seconds: 1));
       isLoaded = false;
-      if (studentModel.student.isNotEmpty) {
-        print('Certify Student');
-      } else {
-        print('Not Certify Student');
-      }
     } else {
       print(response.statusCode);
     }

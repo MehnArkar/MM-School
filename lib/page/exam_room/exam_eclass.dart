@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:mm_school/controller/certificate_controller.dart';
-import 'package:mm_school/page/certificate/download_certificate.dart';
+import 'package:mm_school/controller/examroom_controller.dart';
+import 'package:mm_school/page/exam_room/eclass_info.dart';
 import 'package:mm_school/utils/colors.dart';
 import 'package:mm_school/utils/dimension.dart';
 import 'package:get/get.dart';
 
-class ZClassForm extends StatefulWidget {
-  static const routeName = '/zClassFormScreen';
-  const ZClassForm({Key? key}) : super(key: key);
+class ExamEclass extends StatefulWidget {
+  static const routeName = '/ExamEclass';
+  const ExamEclass({Key? key}) : super(key: key);
 
   @override
-  State<ZClassForm> createState() => _ZClassFormState();
+  State<ExamEclass> createState() => _ExamEclassState();
 }
 
-class _ZClassFormState extends State<ZClassForm> {
+class _ExamEclassState extends State<ExamEclass> {
   bool isComplete = true;
-  TextEditingController nameController = TextEditingController();
+  TextEditingController mailController = TextEditingController();
 
   String yearValue = "unselect";
-  String sectionNameValue = "unselect";
-  String sectionNumberValue = "unselect";
   String gradeValue = "unselect";
 
   //Year dropdown
@@ -31,67 +29,6 @@ class _ZClassFormState extends State<ZClassForm> {
       const DropdownMenuItem(child: Text("2025 - 2026"), value: "20252026"),
       const DropdownMenuItem(child: Text("2027 - 2028"), value: "20272028"),
       const DropdownMenuItem(child: Text("2029 - 2030"), value: "20292030"),
-    ];
-    return menuItems;
-  }
-
-  //Section Name dropdown
-  List<DropdownMenuItem<String>> get sectionNamedropdownItems {
-    List<DropdownMenuItem<String>> menuItems = [
-      const DropdownMenuItem(child: Text("Section Name"), value: "unselect"),
-      const DropdownMenuItem(child: Text("Section -"), value: ""),
-      const DropdownMenuItem(child: Text("Section - A"), value: "A"),
-      const DropdownMenuItem(child: Text("Section - B"), value: "B"),
-      const DropdownMenuItem(child: Text("Section - C"), value: "C"),
-      const DropdownMenuItem(child: Text("Section - D"), value: "D"),
-    ];
-    return menuItems;
-  }
-
-  //Section Name dropdown
-  List<DropdownMenuItem<String>> get sectionNumberdropdownItems {
-    List<DropdownMenuItem<String>> menuItems = [
-      const DropdownMenuItem(child: Text("Section Number"), value: "unselect"),
-      const DropdownMenuItem(child: Text("1"), value: "1"),
-      const DropdownMenuItem(child: Text("2"), value: "2"),
-      const DropdownMenuItem(child: Text("3"), value: "3"),
-      const DropdownMenuItem(child: Text("4"), value: "4"),
-      const DropdownMenuItem(child: Text("5"), value: "5"),
-      const DropdownMenuItem(child: Text("6"), value: "6"),
-      const DropdownMenuItem(child: Text("7"), value: "7"),
-      const DropdownMenuItem(child: Text("8"), value: "8"),
-      const DropdownMenuItem(child: Text("9"), value: "9"),
-      const DropdownMenuItem(child: Text("10"), value: "10"),
-      const DropdownMenuItem(child: Text("11"), value: "11"),
-      const DropdownMenuItem(child: Text("12"), value: "12"),
-      const DropdownMenuItem(child: Text("13"), value: "13"),
-      const DropdownMenuItem(child: Text("14"), value: "14"),
-      const DropdownMenuItem(child: Text("15"), value: "15"),
-      const DropdownMenuItem(child: Text("16"), value: "16"),
-      const DropdownMenuItem(child: Text("17"), value: "17"),
-      const DropdownMenuItem(child: Text("18"), value: "18"),
-      const DropdownMenuItem(child: Text("19"), value: "19"),
-      const DropdownMenuItem(child: Text("20"), value: "20"),
-      const DropdownMenuItem(child: Text("21"), value: "21"),
-      const DropdownMenuItem(child: Text("22"), value: "22"),
-      const DropdownMenuItem(child: Text("23"), value: "23"),
-      const DropdownMenuItem(child: Text("24"), value: "24"),
-      const DropdownMenuItem(child: Text("25"), value: "25"),
-      const DropdownMenuItem(child: Text("26"), value: "26"),
-      const DropdownMenuItem(child: Text("27"), value: "27"),
-      const DropdownMenuItem(child: Text("28"), value: "28"),
-      const DropdownMenuItem(child: Text("29"), value: "29"),
-      const DropdownMenuItem(child: Text("30"), value: "30"),
-      const DropdownMenuItem(child: Text("31"), value: "31"),
-      const DropdownMenuItem(child: Text("32"), value: "32"),
-      const DropdownMenuItem(child: Text("33"), value: "33"),
-      const DropdownMenuItem(child: Text("34"), value: "34"),
-      const DropdownMenuItem(child: Text("35"), value: "35"),
-      const DropdownMenuItem(child: Text("36"), value: "36"),
-      const DropdownMenuItem(child: Text("37"), value: "37"),
-      const DropdownMenuItem(child: Text("38"), value: "38"),
-      const DropdownMenuItem(child: Text("39"), value: "39"),
-      const DropdownMenuItem(child: Text("40"), value: "40"),
     ];
     return menuItems;
   }
@@ -108,7 +45,7 @@ class _ZClassFormState extends State<ZClassForm> {
       const DropdownMenuItem(child: Text("Grade - 8"), value: "08"),
       const DropdownMenuItem(child: Text("Grade - 9"), value: "09"),
       const DropdownMenuItem(child: Text("Grade - 10"), value: "10"),
-      const DropdownMenuItem(child: Text("Grade - 11"), value: "11"),
+      const DropdownMenuItem(child: Text("Grade - 11"), value: "11")
     ];
     return menuItems;
   }
@@ -146,13 +83,13 @@ class _ZClassFormState extends State<ZClassForm> {
                     width: Dimension.height175 - Dimension.height50,
                     height: Dimension.height175 - Dimension.height50,
                     child: Image.asset(
-                      'assets/img/FOEIM.jpg',
+                      'assets/img/blurFOEIM.png',
                       fit: BoxFit.fill,
                     ),
                   ),
 
                   Text(
-                    'FOEIM ZOOM-CLASSES',
+                    'FOEIM E-CLASSES',
                     style: TextStyle(
                       color: AppColors.imageColor,
                       fontSize: 22,
@@ -200,7 +137,7 @@ class _ZClassFormState extends State<ZClassForm> {
                   SizedBox(
                     height: Dimension.height20,
                   ),
-                  //Student Name Textfield
+                  //Student Mail Textfield
                   Container(
                     height: Dimension.height50,
                     decoration: BoxDecoration(
@@ -210,9 +147,9 @@ class _ZClassFormState extends State<ZClassForm> {
                             Border.all(color: AppColors.imageColor, width: 1)),
                     child: Center(
                       child: TextField(
-                          controller: nameController,
+                          controller: mailController,
                           decoration: InputDecoration(
-                              hintText: 'Student Name',
+                              hintText: 'Student Mail',
                               focusedBorder: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.circular(Dimension.height35),
@@ -231,60 +168,7 @@ class _ZClassFormState extends State<ZClassForm> {
                   SizedBox(
                     height: Dimension.height20,
                   ),
-                  //Section Name
 
-                  Container(
-                    padding: EdgeInsets.only(
-                        left: Dimension.height10, right: Dimension.height10),
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Dimension.height5),
-                        border:
-                            Border.all(color: AppColors.imageColor, width: 1)),
-                    child: Center(
-                      child: DropdownButton(
-                          underline: Container(),
-                          isExpanded: true,
-                          value: sectionNameValue,
-                          items: sectionNamedropdownItems,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              sectionNameValue = newValue!;
-                            });
-                          }),
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: Dimension.height20,
-                  ),
-                  //Section Number
-
-                  Container(
-                    padding: EdgeInsets.only(
-                        left: Dimension.height10, right: Dimension.height10),
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Dimension.height5),
-                        border:
-                            Border.all(color: AppColors.imageColor, width: 1)),
-                    child: Center(
-                      child: DropdownButton(
-                          underline: Container(),
-                          isExpanded: true,
-                          value: sectionNumberValue,
-                          items: sectionNumberdropdownItems,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              sectionNumberValue = newValue!;
-                            });
-                          }),
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: Dimension.height20,
-                  ),
                   //Grade
                   Container(
                     padding: EdgeInsets.only(
@@ -324,20 +208,14 @@ class _ZClassFormState extends State<ZClassForm> {
                         ),
                         onPressed: () {
                           if (yearValue != 'unselect' &&
-                              nameController.text.isNotEmpty &&
-                              sectionNameValue != 'unselect' &&
-                              sectionNumberValue != 'unselect' &&
+                              mailController.text.isNotEmpty &&
                               gradeValue != 'unselect') {
                             setState(() {
                               isComplete = true;
                             });
-                            Get.find<CertificateController>().getCertifyStudent(
-                                yearValue,
-                                nameController.text,
-                                sectionNameValue,
-                                sectionNumberValue,
-                                gradeValue);
-                            Get.toNamed(DownloadCertificate.routeName);
+                            Get.find<ExamRoomController>().getEclassStudent(
+                                yearValue, mailController.text, gradeValue);
+                            Get.toNamed(EclassInfo.routeName);
                           } else {
                             setState(() {
                               isComplete = false;
