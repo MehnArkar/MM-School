@@ -11,6 +11,7 @@ class CertificateController extends GetxController {
 
   bool isLoaded = false;
 
+  //Get Zoom class certifite
   Future<void> getCertifyStudent(String year, String name, String sectionName,
       String sectionNumber, String grade) async {
     isLoaded = true;
@@ -20,6 +21,21 @@ class CertificateController extends GetxController {
     if (response.statusCode == 200) {
       studentModel = StudentModel.fromJson(jsonDecode(response.body));
       await Future.delayed(const Duration(seconds: 1));
+      isLoaded = false;
+    } else {
+      print(response.statusCode);
+    }
+    update();
+  }
+
+  //Get E-classes certificate
+
+  Future<void> getEClassCertifyStudent(String id) async {
+    isLoaded = true;
+    update();
+    http.Response response = await certificateRepo.getEClassCertifyStudent(id);
+    if (response.statusCode == 200) {
+      studentModel = StudentModel.fromJson(jsonDecode(response.body));
       isLoaded = false;
     } else {
       print(response.statusCode);

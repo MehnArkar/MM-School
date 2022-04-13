@@ -116,6 +116,7 @@ class _ZClassFormState extends State<ZClassForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.blue[400],
         title: const Text('Verify Identity',

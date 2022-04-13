@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mm_school/controller/checkid_controller.dart';
-import 'package:mm_school/page/certificate/webview.dart';
+import 'package:mm_school/controller/certificate_controller.dart';
+import 'package:mm_school/page/certificate/download_certificate.dart';
 import 'package:mm_school/utils/colors.dart';
 import 'package:mm_school/utils/dimension.dart';
 
@@ -145,50 +145,37 @@ class _EclassFormState extends State<EclassForm> {
 
                   SizedBox(height: Dimension.height35),
                   //Check Button
-                  GetBuilder<CheckIdController>(builder: (controller) {
-                    return controller.isLoaded
-                        ? CircularProgressIndicator(
-                            color: AppColors.imageColor,
-                          )
-                        : Container(
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.circular(Dimension.height5),
-                                border: Border.all(
-                                    color: AppColors.imageColor, width: 1.5)),
-                            child: MaterialButton(
-                                child: Text(
-                                  'Check Now',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.imageColor,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  if (idController.text.isNotEmpty) {
-                                    setState(() {
-                                      isComplete = true;
-                                    });
+                  GetBuilder<CertificateController>(builder: (controller) {
+                    return Container(
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.circular(Dimension.height5),
+                          border: Border.all(
+                              color: AppColors.imageColor, width: 1.5)),
+                      child: MaterialButton(
+                          child: Text(
+                            'Check Now',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.imageColor,
+                            ),
+                          ),
+                          onPressed: () {
+                            if (idController.text.isNotEmpty) {
+                              setState(() {
+                                isComplete = true;
+                              });
 
-                                    controller
-                                        .getIdentity(idController.text)
-                                        .then((value) {
-                                      if (controller.idModel.id.isNotEmpty) {
-                                        Get.toNamed(EclassWebView.routeName);
-                                      } else {
-                                        Get.snackbar("Can't verify your ID!",
-                                            "Contact your school administrator.",
-                                            backgroundColor: Colors.red,
-                                            colorText: Colors.white);
-                                      }
-                                    });
-                                  } else {
-                                    setState(() {
-                                      isComplete = false;
-                                    });
-                                  }
-                                }),
-                          );
+                              controller
+                                  .getEClassCertifyStudent(idController.text);
+                              Get.toNamed(DownloadCertificate.routeName);
+                            } else {
+                              setState(() {
+                                isComplete = false;
+                              });
+                            }
+                          }),
+                    );
                   }),
 
                   SizedBox(height: Dimension.height10),

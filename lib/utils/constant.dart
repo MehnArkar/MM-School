@@ -10,8 +10,7 @@ class AppConstant {
   static const String CHECK_ID_BASE_URL =
       'https://foeimacademy.org/certifymeeclassapi.php';
 
-  static const String CERTIFICATE_BASE_URL =
-      'https://foeimacademy.org/certifymeapi.php?';
+  static const String CERTIFICATE_BASE_URL = 'https://foeimacademy.org/';
 
   static const String EXAM_BASE_URL = 'https://foeimacademy.org/';
 

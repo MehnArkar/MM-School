@@ -11,4 +11,8 @@ class CertificateRepo extends GetxService {
     return await apiClient.getCertifyStudent(
         year, name, sectionName, sectionNumber, grade);
   }
+
+  Future<http.Response> getEClassCertifyStudent(String id) async {
+    return await apiClient.getEClassCertifyStudent(id);
+  }
 }

@@ -4,6 +4,7 @@ import 'package:mm_school/controller/ad_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
 import 'package:mm_school/controller/eclass_controller.dart';
 import 'package:mm_school/model/eclass_model.dart';
+import 'package:mm_school/page/lesson/lesson_web_view.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
 import 'package:mm_school/utils/globleOnClick.dart';
@@ -188,16 +189,29 @@ class _LessonState extends State<Lesson> {
                                                                       .bold),
                                                         ),
                                                       ),
-                                                      onPressed: () async {
-                                                        GlobleOnClick().onCliclUrl(
+                                                      onPressed: () {
+                                                        GlobleOnClick().onClick(
                                                             AppConstant
                                                                 .FIRST_AD_UNIT,
+                                                            null,
+                                                            LessonWebView
+                                                                .routeName,
                                                             controller
                                                                 .lessonModel
                                                                 .eclassData[
                                                                     index]
                                                                 .link,
                                                             context);
+
+                                                        // GlobleOnClick().onCliclUrl(
+                                                        //     AppConstant
+                                                        //         .FIRST_AD_UNIT,
+                                                        //     controller
+                                                        //         .lessonModel
+                                                        //         .eclassData[
+                                                        //             index]
+                                                        //         .link,
+                                                        //     context);
                                                       }),
                                                 ),
                                               ),

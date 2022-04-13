@@ -224,7 +224,7 @@ class _DownloadCertificateState extends State<DownloadCertificate> {
                                               if (isExist) {
                                                 Get.snackbar(
                                                     'File already exist!',
-                                                    'You had been downloaded your certificate.',
+                                                    'You already downloaded your certificate.',
                                                     colorText: Colors.lightBlue,
                                                     backgroundColor: Colors
                                                         .white
