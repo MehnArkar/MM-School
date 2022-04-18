@@ -9,4 +9,16 @@ class DataRepo extends GetxService {
   Future<http.Response> getHttpData() async {
     return await apiClient.getHttpData();
   }
+
+  //Sign up
+  Future<http.Response> signUpUser(
+      name, nName, email, accType, password, deviceID) async {
+    return await apiClient.signUpUser(
+        name, nName, email, accType, password, deviceID);
+  }
+
+  //Verify OTP
+  Future<http.Response> verifyOTP(email, pin) async {
+    return await apiClient.verifyOTP(email, pin);
+  }
 }

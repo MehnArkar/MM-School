@@ -147,7 +147,7 @@ class _ZClassFormState extends State<ZClassForm> {
                     width: Dimension.height175 - Dimension.height50,
                     height: Dimension.height175 - Dimension.height50,
                     child: Image.asset(
-                      'assets/img/FOEIM.jpg',
+                      'assets/img/FOEIM.png',
                       fit: BoxFit.fill,
                     ),
                   ),

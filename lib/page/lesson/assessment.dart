@@ -203,16 +203,6 @@ class _AssessmentState extends State<Assessment> {
                                                                     index]
                                                                 .link,
                                                             context);
-
-                                                        // GlobleOnClick().onCliclUrl(
-                                                        //     AppConstant
-                                                        //         .FIRST_AD_UNIT,
-                                                        //     controller
-                                                        //         .assessmentModel
-                                                        //         .eclassData[
-                                                        //             index]
-                                                        //         .link,
-                                                        //     context);
                                                       }),
                                                 ),
                                               ),

@@ -202,16 +202,6 @@ class _LessonState extends State<Lesson> {
                                                                     index]
                                                                 .link,
                                                             context);
-
-                                                        // GlobleOnClick().onCliclUrl(
-                                                        //     AppConstant
-                                                        //         .FIRST_AD_UNIT,
-                                                        //     controller
-                                                        //         .lessonModel
-                                                        //         .eclassData[
-                                                        //             index]
-                                                        //         .link,
-                                                        //     context);
                                                       }),
                                                 ),
                                               ),

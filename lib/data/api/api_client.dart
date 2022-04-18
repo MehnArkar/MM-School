@@ -12,4 +12,24 @@ class ApiClient {
 
     return response;
   }
+
+  //Sign up
+  Future<http.Response> signUpUser(String name, String nName, String email,
+      String accType, String password, String deviceID) async {
+    http.Response response = await http
+        .get(Uri.parse(AppConstant.SIGN_UP_BASE_URL +
+            'register.php?fname=$name&nname=$nName&email=$email&password=$password&acctype=$accType&devid=$deviceID'))
+        .timeout(const Duration(seconds: 30));
+
+    return response;
+  }
+
+  //Verify OTP
+  Future<http.Response> verifyOTP(String email, String pin) async {
+    http.Response response = await http
+        .get(Uri.parse(
+            AppConstant.SIGN_UP_BASE_URL + "otp.php?mail=$email&pin=$pin"))
+        .timeout(const Duration(seconds: 30));
+    return response;
+  }
 }

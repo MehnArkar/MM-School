@@ -13,6 +13,8 @@ class AppConstant {
   static const String CERTIFICATE_BASE_URL = 'https://foeimacademy.org/';
 
   static const String EXAM_BASE_URL = 'https://foeimacademy.org/';
+  static const String SIGN_UP_BASE_URL =
+      'https://mmrevoschool.com/usermanagement/';
 
   //Ad unit
   static const String FIRST_AD_UNIT = 'ca-app-pub-1222451237037237/3497978458';

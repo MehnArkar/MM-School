@@ -3,6 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mm_school/controller/ad_controller.dart';
+import 'package:mm_school/controller/auth_controller.dart';
 import 'package:mm_school/controller/certificate_controller.dart';
 import 'package:mm_school/controller/data_controller.dart';
 import 'package:mm_school/controller/dialog_controller.dart';
@@ -22,6 +23,9 @@ import 'package:mm_school/data/repository/identity_repository.dart';
 import 'package:mm_school/page/Identity/check_identity_screen.dart';
 import 'package:mm_school/page/Identity/class_type.dart';
 import 'package:mm_school/page/Identity/identity_card.dart';
+import 'package:mm_school/page/auth/otp_screen.dart';
+import 'package:mm_school/page/auth/sign_in.dart';
+import 'package:mm_school/page/auth/sign_up.dart';
 import 'package:mm_school/page/batch/batch_screen.dart';
 import 'package:mm_school/page/certificate/ZclassForm.dart';
 import 'package:mm_school/page/certificate/certificate_classtype.dart';
@@ -92,123 +96,109 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'MM School',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightBlue,
         fontFamily: 'Raleway',
       ),
-      home: const HomeScreen(),
+      home: const SignIn(),
       initialRoute: SplashScreen.routeName,
       getPages: [
         GetPage(name: SplashScreen.routeName, page: () => const SplashScreen()),
         GetPage(
           name: HomeScreen.routeName,
           page: () => const HomeScreen(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: LevelScreen.routeName,
           page: () => const LevelScreen(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: GradeScreen.routeName,
           page: () => const GradeScreen(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: SubjectScreen.routeName,
           page: () => const SubjectScreen(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: BatchScreen.routeName,
           page: () => const BatchScreen(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: EclassGrade.routeName,
           page: () => const EclassGrade(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: LessonScreen.routeName,
           page: () => const LessonScreen(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: CheckIdentityScreen.routeName,
           page: () => const CheckIdentityScreen(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: IdentityCard.routeName,
           page: () => const IdentityCard(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: ClassType.routeName,
           page: () => const ClassType(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: CertificateClassType.routeName,
           page: () => const CertificateClassType(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: EclassForm.routeName,
           page: () => const EclassForm(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: ZClassForm.routeName,
           page: () => const ZClassForm(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: EclassWebView.routeName,
           page: () => const EclassWebView(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: DownloadCertificate.routeName,
           page: () => const DownloadCertificate(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: ExamClassType.routeName,
           page: () => const ExamClassType(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: ExamZclass.routeName,
           page: () => const ExamZclass(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: ExamEclass.routeName,
           page: () => const ExamEclass(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: EclassInfo.routeName,
           page: () => const EclassInfo(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: ZclassInfo.routeName,
           page: () => const ZclassInfo(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: LessonWebView.routeName,
           page: () => const LessonWebView(),
-          transition: Transition.fade,
         ),
         GetPage(
           name: AssessmentWebView.routeName,
           page: () => const AssessmentWebView(),
-          transition: Transition.fade,
         ),
+        GetPage(
+            name: SignUp.routeName,
+            page: () => const SignUp(),
+            transition: Transition.rightToLeft),
+        GetPage(
+            name: OtpScreen.routeName,
+            page: () => const OtpScreen(),
+            transition: Transition.rightToLeft),
       ],
     );
   }
@@ -237,4 +227,5 @@ Future<void> init() async {
   Get.put(IdentityController(identityRepo: Get.find()));
   Get.put(CertificateController(certificateRepo: Get.find()));
   Get.put(ExamRoomController(examRepo: Get.find()));
+  Get.put(AuthController(dataRepo: Get.find()));
 }
