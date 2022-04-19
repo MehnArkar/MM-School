@@ -1,7 +1,14 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mm_school/main.dart';
+import 'package:mm_school/page/auth/sign_in.dart';
+import 'package:mm_school/page/auth/sign_up.dart';
+import 'package:mm_school/page/home/home_screen.dart';
 import 'package:mm_school/utils/dimension.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   static const routeName = '/splashScreen';
@@ -13,10 +20,19 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-  void initState() {
+  initState() {
     super.initState();
+    // bool? loginStatus = sharedPreferences?.getBool("loginStatus");
+    // print(loginStatus);
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pop();
+      // if (loginStatus == null) {
+      //   Get.offNamed(SignIn.routeName);
+      // } else if (loginStatus) {
+      //   Navigator.of(context).pop();
+      // } else {
+      //   Get.offNamed(SignIn.routeName);
+      // }
     });
   }
 

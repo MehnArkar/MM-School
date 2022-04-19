@@ -9,6 +9,7 @@ import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
 import 'package:mm_school/utils/globleOnClick.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Assessment extends StatefulWidget {
   String grade;
@@ -191,18 +192,11 @@ class _AssessmentState extends State<Assessment> {
                                                         ),
                                                       ),
                                                       onPressed: () async {
-                                                        GlobleOnClick().onClick(
-                                                            AppConstant
-                                                                .FIRST_AD_UNIT,
-                                                            null,
-                                                            AssessmentWebView
-                                                                .routeName,
-                                                            controller
-                                                                .assessmentModel
-                                                                .eclassData[
-                                                                    index]
-                                                                .link,
-                                                            context);
+                                                        launch(controller
+                                                            .assessmentModel
+                                                            .eclassData[index]
+                                                            .link
+                                                            .toString());
                                                       }),
                                                 ),
                                               ),

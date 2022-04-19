@@ -1,9 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mm_school/controller/auth_controller.dart';
 import 'package:mm_school/page/auth/sign_up.dart';
+import 'package:mm_school/page/home/home_screen.dart';
 import 'package:mm_school/page/widgets/app_text_field.dart';
 import 'package:mm_school/utils/dimension.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignIn extends StatefulWidget {
   static const routeName = '/SignInScreen';
@@ -16,6 +19,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
+    AuthController authController = Get.find();
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
 
@@ -85,10 +89,24 @@ class _SignInState extends State<SignIn> {
 
             //Sign In btn
             GestureDetector(
-              onTap: () {
+              onTap: () async {
                 String email = emailController.text.trim();
                 String pw = passwordController.text.trim();
                 if (email.isNotEmpty & pw.isNotEmpty) {
+                  authController.logIn(email, pw).then((value) async {
+                    if (authController.userModel.user.isNotEmpty) {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.setBool("loginStatus", true);
+                      prefs.setString("email", email);
+                      prefs.setString("pw", pw);
+                      Get.offAllNamed(HomeScreen.routeName);
+                    } else {
+                      Get.snackbar(
+                          'Fail to Sign In!', 'Incorrect email or password',
+                          backgroundColor: Colors.red, colorText: Colors.white);
+                    }
+                  });
                 } else {
                   Get.snackbar('Enter email and password!',
                       'Please enter your email and password.',
@@ -96,23 +114,33 @@ class _SignInState extends State<SignIn> {
                 }
               },
               child: Container(
-                width: Dimension.screenWidth / 2,
-                height: Dimension.screenHeight / 13,
-                decoration: BoxDecoration(
-                  color: Colors.blue[400],
-                  borderRadius: BorderRadius.circular(Dimension.height35),
-                ),
-                child: Center(
-                  child: Text(
-                    "SIGN IN",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: Dimension.fontsize20 + Dimension.fontsize20 / 2,
-                    ),
+                  width: Dimension.screenWidth / 2,
+                  height: Dimension.screenHeight / 13,
+                  decoration: BoxDecoration(
+                    color: Colors.blue[400],
+                    borderRadius: BorderRadius.circular(Dimension.height35),
                   ),
-                ),
-              ),
+                  child: Obx(() {
+                    return Center(
+                      child: authController.isLoaded.value
+                          ? SizedBox(
+                              width: Dimension.height30,
+                              height: Dimension.height30,
+                              child: const CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              "SIGN IN",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: Dimension.fontsize20 +
+                                    Dimension.fontsize20 / 2,
+                              ),
+                            ),
+                    );
+                  })),
             ),
 
             SizedBox(

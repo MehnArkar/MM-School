@@ -17,7 +17,7 @@ class ApiClient {
   Future<http.Response> signUpUser(String name, String nName, String email,
       String accType, String password, String deviceID) async {
     http.Response response = await http
-        .get(Uri.parse(AppConstant.SIGN_UP_BASE_URL +
+        .get(Uri.parse(AppConstant.AUTH_BASE_URL +
             'register.php?fname=$name&nname=$nName&email=$email&password=$password&acctype=$accType&devid=$deviceID'))
         .timeout(const Duration(seconds: 30));
 
@@ -28,7 +28,15 @@ class ApiClient {
   Future<http.Response> verifyOTP(String email, String pin) async {
     http.Response response = await http
         .get(Uri.parse(
-            AppConstant.SIGN_UP_BASE_URL + "otp.php?mail=$email&pin=$pin"))
+            AppConstant.AUTH_BASE_URL + "otp.php?mail=$email&pin=$pin"))
+        .timeout(const Duration(seconds: 30));
+    return response;
+  }
+
+  Future<http.Response> logIn(String email, String pw) async {
+    http.Response response = await http
+        .get(Uri.parse(
+            AppConstant.AUTH_BASE_URL + "profile.php?mail=$email&pw=$pw"))
         .timeout(const Duration(seconds: 30));
     return response;
   }

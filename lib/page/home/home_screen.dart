@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Colors.blue[400],
         title: const Text('MM School',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
         actions: [
           Container(
               margin: EdgeInsets.only(right: Dimension.height10),

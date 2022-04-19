@@ -21,4 +21,8 @@ class DataRepo extends GetxService {
   Future<http.Response> verifyOTP(email, pin) async {
     return await apiClient.verifyOTP(email, pin);
   }
+
+  Future<http.Response> logIn(String email, String pw) async {
+    return await apiClient.logIn(email, pw);
+  }
 }

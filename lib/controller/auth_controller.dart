@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:mm_school/data/repository/data_repository.dart';
 import 'package:http/http.dart' as http;
+import 'package:mm_school/model/user_model.dart';
 
 class AuthController extends GetxController {
   final DataRepo dataRepo;
+  UserModel userModel = UserModel(user: []);
   AuthController({required this.dataRepo});
+
   RxBool _isLoaded = false.obs;
   RxBool get isLoaded => _isLoaded;
 
@@ -49,7 +52,15 @@ class AuthController extends GetxController {
       return 'error';
     }
   }
-}
 
-//We sent OTP verification code to testing1@gmail.com
-//testing1@gmail.com is already exist!
+  Future<void> logIn(String email, String pw) async {
+    _isLoaded.value = true;
+    http.Response response = await dataRepo.logIn(email, pw);
+    if (response.statusCode == 200) {
+      userModel = UserModel.fromJson(jsonDecode(response.body));
+      _isLoaded.value = false;
+    } else {
+      _isLoaded.value = false;
+    }
+  }
+}

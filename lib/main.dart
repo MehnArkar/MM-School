@@ -49,8 +49,10 @@ import 'package:mm_school/page/subject/subject_screen.dart';
 import 'package:mm_school/utils/constant.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 bool isInternet = false;
+// SharedPreferences? sharedPreferences;
 
 Future<void> _checkConnectivityState() async {
   final ConnectivityResult result = await Connectivity().checkConnectivity();
@@ -83,6 +85,7 @@ Future<void> main() async {
   await FlutterDownloader.initialize(debug: true);
   await _checkConnectivityState();
   HttpOverrides.global = MyHttpOverrides();
+  // sharedPreferences = await SharedPreferences.getInstance();
   runApp(const MyApp());
 }
 
@@ -99,7 +102,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.lightBlue,
         fontFamily: 'Raleway',
       ),
-      home: const SignIn(),
+      home: const HomeScreen(),
       initialRoute: SplashScreen.routeName,
       getPages: [
         GetPage(name: SplashScreen.routeName, page: () => const SplashScreen()),
@@ -198,6 +201,10 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: OtpScreen.routeName,
             page: () => const OtpScreen(),
+            transition: Transition.rightToLeft),
+        GetPage(
+            name: SignIn.routeName,
+            page: () => const SignIn(),
             transition: Transition.rightToLeft),
       ],
     );

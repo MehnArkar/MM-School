@@ -9,6 +9,7 @@ import 'package:mm_school/utils/constant.dart';
 import 'package:mm_school/utils/dimension.dart';
 import 'package:mm_school/utils/globleOnClick.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Lesson extends StatefulWidget {
   String grade;
@@ -190,18 +191,11 @@ class _LessonState extends State<Lesson> {
                                                         ),
                                                       ),
                                                       onPressed: () {
-                                                        GlobleOnClick().onClick(
-                                                            AppConstant
-                                                                .FIRST_AD_UNIT,
-                                                            null,
-                                                            LessonWebView
-                                                                .routeName,
-                                                            controller
-                                                                .lessonModel
-                                                                .eclassData[
-                                                                    index]
-                                                                .link,
-                                                            context);
+                                                        launch(controller
+                                                            .lessonModel
+                                                            .eclassData[index]
+                                                            .link
+                                                            .toString());
                                                       }),
                                                 ),
                                               ),
